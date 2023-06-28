@@ -1,0 +1,12 @@
+{
+    "city": "string",
+    "company": "string",
+    "country": "string",
+    "email": "string",
+    "firstName": "Doan",
+    "id": 4,
+    "lastName": "Pham",
+    "phone": "string",
+    "postalCode": "string",
+    "state": "string"
+}

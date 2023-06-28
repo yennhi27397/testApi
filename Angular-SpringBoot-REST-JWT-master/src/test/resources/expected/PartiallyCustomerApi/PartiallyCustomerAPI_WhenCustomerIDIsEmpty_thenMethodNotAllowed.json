@@ -1,0 +1,8 @@
+{
+    "timestamp": 1687925347129,
+    "status": 405,
+    "error": "Method Not Allowed",
+    "exception": "org.springframework.web.HttpRequestMethodNotSupportedException",
+    "message": "Request method 'PATCH' not supported",
+    "path": "/api/customers/"
+}

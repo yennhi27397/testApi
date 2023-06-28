@@ -1,0 +1,14 @@
+{
+    "address1": "string",
+    "address2": "string",
+    "city": "string",
+    "company": "string",
+    "country": "string",
+    "email": "string",
+    "firstName": "string",
+    "id": 1,
+    "lastName": "string",
+    "phone": "string",
+    "postalCode": "string",
+    "state": "string"
+}

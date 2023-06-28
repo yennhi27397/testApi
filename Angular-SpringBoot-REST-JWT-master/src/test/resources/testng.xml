@@ -1,0 +1,34 @@
+<!DOCTYPE suite SYSTEM "http://testng.org/testng-1.0.dtd" >
+<suite name="NorthWindAPI" parallel="false">
+
+    <test name="AddCustomerApiTest">
+        <classes>
+            <class name="automation.api.AddCustomerApiTest"/>
+        </classes>
+    </test>
+
+
+    <test name="AddEmployeesApiTest">
+        <classes>
+            <class name="automation.api.AddEmployeesApiTest"/>
+        </classes>
+    </test>
+
+    <test name="GetListCustomerApiTest">
+        <classes>
+            <class name="automation.api.GetListCustomerApiTest"/>
+        </classes>
+    </test>
+
+    <test name="GetListEmployeesApiTest">
+        <classes>
+            <class name="automation.api.GetListEmployeesApiTest"/>
+        </classes>
+    </test>
+
+    <test name="GetListOderApiTest">
+        <classes>
+            <class name="automation.api.GetListOderApiTest"/>
+        </classes>
+    </test>
+</suite>

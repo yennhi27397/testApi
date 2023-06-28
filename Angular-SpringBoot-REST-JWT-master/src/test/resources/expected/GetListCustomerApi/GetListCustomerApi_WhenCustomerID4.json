@@ -1,0 +1,13 @@
+{
+    "operationStatus": "SUCCESS",
+    "operationMessage": "Page 1 of 0",
+    "first": true,
+    "last": true,
+    "currentPageNumber": 0,
+    "itemsInPage": 0,
+    "pageSize": 20,
+    "totalPages": 0,
+    "totalItems": 0,
+    "sort": null,
+    "items": []
+}

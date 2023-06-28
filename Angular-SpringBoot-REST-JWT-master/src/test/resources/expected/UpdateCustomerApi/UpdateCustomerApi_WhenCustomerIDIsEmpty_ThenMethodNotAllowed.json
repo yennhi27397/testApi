@@ -1,0 +1,8 @@
+{
+    "timestamp": 1687842586844,
+    "status": 405,
+    "error": "Method Not Allowed",
+    "exception": "org.springframework.web.HttpRequestMethodNotSupportedException",
+    "message": "Request method 'PUT' not supported",
+    "path": "/api/customers/"
+}
