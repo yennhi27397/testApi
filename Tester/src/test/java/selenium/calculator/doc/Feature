@@ -1,0 +1,7 @@
+Feature:
+ + Calculator:
+    + Addition(integer, double) , apply dc so am.
+    + Subtraction(integer, double) ,apply dc so am.
+    + Multiplication (integer, double) ,apply dc so am.
+    + Division(integer, double) , apply dc so am.
+
