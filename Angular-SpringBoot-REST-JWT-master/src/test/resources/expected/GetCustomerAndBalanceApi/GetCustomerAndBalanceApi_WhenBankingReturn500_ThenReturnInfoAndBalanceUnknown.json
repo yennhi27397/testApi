@@ -1,0 +1,32 @@
+{
+  "operationStatus": "SUCCESS",
+  "operationMessage": null,
+  "first": false,
+  "last": false,
+  "currentPageNumber": 0,
+  "itemsInPage": 0,
+  "pageSize": 0,
+  "totalPages": 0,
+  "totalItems": 0,
+  "sort": null,
+  "items": [
+    {
+      "id": 3,
+      "lastName": "Vy",
+      "firstName": "Pham",
+      "email": "ecooper1@macromedia.com",
+      "company": "Skippad",
+      "phone": "1-(251)614-5034",
+      "address1": "60 Forster Crossing",
+      "address2": null,
+      "city": "Mobile",
+      "state": "Alabama",
+      "postalCode": "36605",
+      "country": "United States",
+      \
+      n
+      "balance": null,
+      "balance": "UNKNOWN"
+    }
+  ]
+}

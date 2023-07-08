@@ -1,0 +1,32 @@
+    wireMockServer.stubFor(WireMock.get(WireMock.urlEqualTo("/api/order=1"))
+      .withHeader("Authentication", containing("1232131232131"))
+      .willReturn(WireMock.aResponse()
+        .withStatus(HttpStatus.SC_OK)
+        .withBodyFile("employee.sql")));
+
+    wireMockServer.stubFor(WireMock.post(WireMock.urlEqualTo("/api/order"))
+      .withHeader("Authentication", containing("1232131232131"))
+      .withRequestBody(equalToJson("{}"))
+      .willReturn(WireMock.aResponse()
+        .withStatus(HttpStatus.SC_OK)
+        .withBodyFile("employee.sql")));
+
+    wireMockServer.stubFor(WireMock.delete(WireMock.urlEqualTo("/api/order/1"))
+      .withHeader("Authentication", containing("1232131232131"))
+      .willReturn(WireMock.aResponse()
+        .withStatus(HttpStatus.SC_OK)
+        .withBodyFile("employee.sql")));
+
+    wireMockServer.stubFor(WireMock.put(WireMock.urlEqualTo("/api/order/1"))
+      .withHeader("Authentication", containing("1232131232131"))
+      .withRequestBody(equalToJson("{}"))
+      .willReturn(WireMock.aResponse()
+        .withStatus(HttpStatus.SC_OK)
+        .withBodyFile("employee.sql")));
+
+    wireMockServer.stubFor(WireMock.patch(WireMock.urlEqualTo("/api/order/1"))
+      .withHeader("Authentication", containing("1232131232131"))
+      .withRequestBody(equalToJson("{}"))
+      .willReturn(WireMock.aResponse()
+        .withStatus(HttpStatus.SC_OK)
+        .withBodyFile("employee.sql")));

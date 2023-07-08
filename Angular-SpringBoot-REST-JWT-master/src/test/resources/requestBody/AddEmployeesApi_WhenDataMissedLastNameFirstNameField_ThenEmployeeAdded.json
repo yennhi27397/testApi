@@ -1,15 +1,15 @@
 {
-    "address1": "string",
-    "address2": "string",
-    "avatar": "string",
-    "city": "string",
-    "country": "string",
-    "department": "string",
-    "email": "string",
-    "id": 2,
-    "jobTitle": "string",
-    "managerId": 0,
-    "phone": "string",
-    "postalCode": "string",
-    "state": "string"
+  "address1": "string",
+  "address2": "string",
+  "avatar": "string",
+  "city": "string",
+  "country": "string",
+  "department": "string",
+  "email": "string",
+  "id": 2,
+  "jobTitle": "string",
+  "managerId": 0,
+  "phone": "string",
+  "postalCode": "string",
+  "state": "string"
 }

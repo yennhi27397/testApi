@@ -1,0 +1,31 @@
+{
+  "operationStatus": "SUCCESS",
+  "operationMessage": "Page 1 of 1",
+  "first": true,
+  "last": true,
+  "currentPageNumber": 0,
+  "itemsInPage": 1,
+  "pageSize": 20,
+  "totalPages": 1,
+  "totalItems": 1,
+  "sort": null,
+  "items": [
+    {
+      "id": 202,
+      "lastName": "Hayes",
+      "firstName": "Rachel",
+      "email": "rhayes1@si.edu",
+      "avatar": "https://robohash.org/seddistinctiodolorem.jpg?size=50x50&set=set1",
+      "jobTitle": "Design Engineer",
+      "department": "Books",
+      "managerId": null,
+      "phone": "1-(971)797-2729",
+      "address1": "30 Anhalt Street",
+      "address2": null,
+      "city": "Portland",
+      "state": "Oregon",
+      "postalCode": "97232",
+      "country": "United States"
+    }
+  ]
+}

@@ -1,4 +1,4 @@
 {
-    "status": 400,
-    "error": "Bad request data"
+  "status": 400,
+  "error": "Bad request data"
 }

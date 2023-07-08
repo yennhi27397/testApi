@@ -1,28 +1,29 @@
 {
-    "operationStatus": "SUCCESS",
-    "operationMessage": "Page 1 of 1",
-    "first": true,
-    "last": true,
-    "currentPageNumber": 0,
-    "itemsInPage": 1,
-    "pageSize": 20,
-    "totalPages": 1,
-    "totalItems": 1,
-    "sort": null,
-    "items": [
-        {
-            "id": 1,
-            "lastName": "Nhi",
-            "firstName": "Pham",
-            "email": "cgray0@rambler.ru",
-            "company": "Jetpulse",
-            "phone": "1-(260)615-5114",
-            "address1": "02937 Merrick Avenue",
-            "address2": null,
-            "city": "Fort Wayne",
-            "state": "Indiana",
-            "postalCode": "46805",
-            "country": "United States"
-        }
-    ]
+  "operationStatus": "SUCCESS",
+  "operationMessage": "Page 1 of 1",
+  "first": true,
+  "last": true,
+  "currentPageNumber": 0,
+  "itemsInPage": 1,
+  "pageSize": 20,
+  "totalPages": 1,
+  "totalItems": 1,
+  "sort": null,
+  "items": [
+    {
+      "id": 1,
+      "lastName": "Nhi",
+      "firstName": "Pham",
+      "email": "cgray0@rambler.ru",
+      "company": "Jetpulse",
+      "phone": "1-(260)615-5114",
+      "address1": "02937 Merrick Avenue",
+      "address2": null,
+      "city": "Fort Wayne",
+      "state": "Indiana",
+      "postalCode": "46805",
+      "country": "United States",
+      "balance": null
+    }
+  ]
 }

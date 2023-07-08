@@ -1,28 +1,29 @@
 {
-    "operationStatus": "SUCCESS",
-    "operationMessage": "Page 2 of 2",
-    "first": false,
-    "last": true,
-    "currentPageNumber": 1,
-    "itemsInPage": 1,
-    "pageSize": 1,
-    "totalPages": 2,
-    "totalItems": 2,
-    "sort": null,
-    "items": [
-        {
-            "id": 2,
-            "lastName": "Doan",
-            "firstName": "Nguyen",
-            "email": "ecooper1@macromedia.com",
-            "company": "Skippad",
-            "phone": "1-(251)614-5034",
-            "address1": "60 Forster Crossing",
-            "address2": null,
-            "city": "Mobile",
-            "state": "Alabama",
-            "postalCode": "36605",
-            "country": "United States"
-        }
-    ]
+  "operationStatus": "SUCCESS",
+  "operationMessage": "Page 2 of 2",
+  "first": false,
+  "last": true,
+  "currentPageNumber": 1,
+  "itemsInPage": 1,
+  "pageSize": 1,
+  "totalPages": 2,
+  "totalItems": 2,
+  "sort": null,
+  "items": [
+    {
+      "id": 2,
+      "lastName": "Doan",
+      "firstName": "Nguyen",
+      "email": "ecooper1@macromedia.com",
+      "company": "Skippad",
+      "phone": "1-(251)614-5034",
+      "address1": "60 Forster Crossing",
+      "address2": null,
+      "city": "Mobile",
+      "state": "Alabama",
+      "postalCode": "36605",
+      "country": "United States",
+      "balance": null
+    }
+  ]
 }

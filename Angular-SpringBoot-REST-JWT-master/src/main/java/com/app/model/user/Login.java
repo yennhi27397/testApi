@@ -1,10 +1,10 @@
 package com.app.model.user;
 
-import io.swagger.annotations.*;
-import lombok.*;
+import io.swagger.annotations.ApiModelProperty;
+import lombok.Data;
 
 @Data
-public class Login  {
+public class Login {
 
   @ApiModelProperty(example = "demo", required = true)
   private String username = "";
