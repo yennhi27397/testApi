@@ -1,5 +1,6 @@
 package com.app.repo;
 
+import com.app.config.BankApiErrorHandler;
 import com.app.model.bank.Balance;
 import com.app.model.bank.Transaction;
 import org.springframework.beans.factory.annotation.Value;
@@ -31,11 +32,14 @@ public class BankRepo {
 
   public Transaction withdraw(String accountId, String amount) {
     RestTemplate restTemplate = new RestTemplate();
+    restTemplate.setErrorHandler(new BankApiErrorHandler());
+
     Map<String, String> requestBody = new HashMap<>();
     requestBody.put("amount", amount);
+
     return restTemplate.postForObject(
-      withdrawApi.replace("{accountId}", accountId)
-      , requestBody
-      , Transaction.class);
+      withdrawApi.replace("{accountId}", accountId),
+      requestBody,
+      Transaction.class);
   }
 }
