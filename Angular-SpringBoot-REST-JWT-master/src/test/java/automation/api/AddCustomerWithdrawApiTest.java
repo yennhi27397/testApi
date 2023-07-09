@@ -13,9 +13,6 @@ import org.testng.annotations.AfterTest;
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
 
-import java.util.List;
-import java.util.Map;
-
 public class AddCustomerWithdrawApiTest {
   private DatabaseUtil databaseUtil;
   private BankApiStub bankApiStub;
@@ -34,36 +31,35 @@ public class AddCustomerWithdrawApiTest {
   @AfterTest
   public void cleanUpData() {
   }
+
   @Test
-  public void AddCustomerApi_WhenDataIsValid_ThenAddedCustomer() throws Exception {
+  public void AddCustomerWithdrawApi_WhenCustomerIDIsValid_ThenWithdrawSuccessfully() throws Exception {
     // call API by POST method
     RequestSpecification request = RestAssured.given();
     request.contentType(ContentType.JSON);
-    request.baseUri("http://localhost:9119/api/customers");
-    request.body(CommonUtil.readBody("requestBody/AddCustomerApi_WhenDataIsValid_ThenAddedCustomer.json"));
+    request.baseUri("http://localhost:9119/api/customers/withdraw");
+    request.body(CommonUtil.readBody("requestBody/AddCustomerWithdrawApi_WhenCustomerIDIsValid_ThenWithdrawSuccessfully.json"));
     Response response = request.post();
     // test status
     Assert.assertEquals(response.getStatusCode(), HttpStatus.SC_OK);
     // response
     String responseString = response.body().asString();
-    Assert.assertTrue(CommonUtil.compare(responseString, "expected/AddCustomerApi/AddCustomerApi_WhenDataIsValid_ThenAddedCustomer.json"));
-    // list record.
-    List<Map<String, Object>> data = databaseUtil.getRecords("SELECT * FROM customers WHERE first_name='Doan' and last_name='Pham'");
-    // record
-    Map<String, Object> expectedRecord = data.get(0);
-    // data in column 'id'
-    Assert.assertEquals(expectedRecord.get("id"), 4);
-    Assert.assertEquals(expectedRecord.get("city"), "string");
-    Assert.assertEquals(expectedRecord.get("company"), "string");
-    Assert.assertEquals(expectedRecord.get("country"), "string");
-    Assert.assertEquals(expectedRecord.get("email"), "string");
-    Assert.assertEquals(expectedRecord.get("first_name"), "Doan");
-    Assert.assertEquals(expectedRecord.get("last_name"), "Pham");
-    Assert.assertEquals(expectedRecord.get("phone"), "string");
-    Assert.assertEquals(expectedRecord.get("postal_code"), "string");
-    Assert.assertEquals(expectedRecord.get("state"), "string");
+    Assert.assertTrue(CommonUtil.compare(responseString, "expected/AddCustomerWithdrawApi/AddCustomerWithdrawApi_WhenCustomerIDIsValid_ThenWithdrawSuccessfully.json"));
 
   }
 
-
+  @Test
+  public void AddCustomerWithdrawApi_WhenAccountInsufficient_ThenAccountCanNotWithdraw() throws Exception {
+    // call API by POST method
+    RequestSpecification request = RestAssured.given();
+    request.contentType(ContentType.JSON);
+    request.baseUri("http://localhost:9119/api/customers/withdraw");
+    request.body(CommonUtil.readBody("requestBody/AddCustomerWithdrawApi_WhenAccountInsufficient_ThenAccountCanNotWithdraw.json"));
+    Response response = request.post();
+    // test status
+    Assert.assertEquals(response.getStatusCode(), HttpStatus.SC_OK);
+    // response
+    String responseString = response.body().asString();
+    Assert.assertTrue(CommonUtil.compare(responseString, "expected/AddCustomerWithdrawApi/AddCustomerWithdrawApi_WhenAccountInsufficient_ThenAccountCanNotWithdraw.json"));
+  }
 }

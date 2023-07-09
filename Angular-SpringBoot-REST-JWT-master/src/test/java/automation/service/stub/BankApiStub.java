@@ -53,7 +53,7 @@ public class BankApiStub {
       .willReturn(WireMock.aResponse()
         .withHeader("content-type", "application/json")
         .withStatus(HttpStatus.SC_BAD_REQUEST)
-        .withBodyFile("Transaction400.json")));
+        .withBodyFile("Transaction400_Insufficient_Fund.json")));
 
     //POST Withdraw,400
     wireMockServer.stubFor(WireMock.post(WireMock.urlEqualTo("/api/2/withdraw"))
@@ -69,7 +69,7 @@ public class BankApiStub {
       .willReturn(WireMock.aResponse()
         .withHeader("content-type", "application/json")
         .withStatus(HttpStatus.SC_INTERNAL_SERVER_ERROR)
-        .withBodyFile("TransactionCanNotFindCustomerID.json")));
+        .withBodyFile("TransactionInternalServerError.json")));
 
   }
 

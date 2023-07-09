@@ -3,5 +3,6 @@
   "balance" : "1000$",
   "status" : "FAILED",
   "transactionId" : "1234567890",
+  "amount": "900",
   "errorCode" : "INSUFFICIENT_FUND"
 }
