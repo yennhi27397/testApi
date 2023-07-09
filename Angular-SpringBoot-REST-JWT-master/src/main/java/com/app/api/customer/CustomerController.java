@@ -2,12 +2,14 @@ package com.app.api.customer;
 
 import com.app.Common;
 import com.app.exception.BadRequestException;
+import com.app.model.bank.Transaction;
 import com.app.model.customer.Customer;
 import com.app.model.customer.CustomerResponse;
 import com.app.model.customer.WithdrawRequest;
 import com.app.model.response.OperationResponse;
 import com.app.repo.BankRepo;
 import com.app.repo.CustomerRepo;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiParam;
@@ -22,6 +24,7 @@ import org.springframework.util.ReflectionUtils;
 import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletRequest;
+import java.io.IOException;
 import java.lang.reflect.Field;
 import java.util.List;
 import java.util.Map;
@@ -165,7 +168,7 @@ public class CustomerController {
 
   @ApiOperation(value = "Withdraw money of Customer", response = CustomerResponse.class)
   @RequestMapping(value = "/customers/withdraw", method = RequestMethod.POST, produces = {"application/json"})
-  public Object withdrawCustomerMoney(@RequestBody WithdrawRequest withdrawRequest, HttpServletRequest req) {
+  public Object withdrawCustomerMoney(@RequestBody WithdrawRequest withdrawRequest, HttpServletRequest req) throws IOException {
     CustomerResponse resp = new CustomerResponse();
     if (Objects.isNull(withdrawRequest.getAccountId())) {
       throw new BadRequestException();
@@ -177,10 +180,8 @@ public class CustomerController {
       } else {
         return bankRepo.withdraw(withdrawRequest.getAccountId().toString(), withdrawRequest.getAmount());
       }
-    } catch (Exception e) {
-      System.out.println("========= MRIN GENERIC EXCEPTION ============");
-      resp.setOperationStatus(ResponseStatusEnum.ERROR);
-      resp.setOperationMessage(e.getMessage());
+    } catch (BadRequestException e) {
+      return new ObjectMapper().readValue(e.getErrorMsg(), Transaction.class);
     }
     return resp;
   }

@@ -41,7 +41,7 @@ public class BankApiStub {
 
     //POST Withdraw,200
     wireMockServer.stubFor(WireMock.post(WireMock.urlEqualTo("/api/1/withdraw"))
-      .withRequestBody(equalToJson(CommonUtil.readBody("__files/RequestBodyWithdraw.json")))
+      .withRequestBody(equalToJson(CommonUtil.readBody("__files/requestBodyWithdraw.json")))
       .willReturn(WireMock.aResponse()
         .withHeader("content-type", "application/json")
         .withStatus(HttpStatus.SC_OK)
