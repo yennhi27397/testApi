@@ -37,6 +37,7 @@ public class BankApiStub {
       .willReturn(WireMock.aResponse()
         .withStatus(HttpStatus.SC_INTERNAL_SERVER_ERROR)
         .withHeader("content-type", "application/json")
+        .withBody("__files/InternalServerError.json")));
 
     //POST Withdraw,200
     wireMockServer.stubFor(WireMock.post(WireMock.urlEqualTo("/api/1/withdraw"))
