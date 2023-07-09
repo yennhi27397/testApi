@@ -39,15 +39,42 @@ public class BankApiStub {
         .withHeader("content-type", "application/json")
         .withBodyFile("InternalServerError.json")));
 
+    //POST Withdraw,200
     wireMockServer.stubFor(WireMock.post(WireMock.urlEqualTo("/api/1/withdraw"))
-      .withRequestBody(equalToJson(CommonUtil.readBody("__files/requestBodyWithdraw.json")))
+      .withRequestBody(equalToJson(CommonUtil.readBody("__files/RequestBodyWithdraw.json")))
       .willReturn(WireMock.aResponse()
         .withHeader("content-type", "application/json")
         .withStatus(HttpStatus.SC_OK)
         .withBodyFile("Transaction.json")));
+
+    //POST Withdraw,400
+    wireMockServer.stubFor(WireMock.post(WireMock.urlEqualTo("/api/1/withdraw"))
+      .withRequestBody(equalToJson(CommonUtil.readBody("__files/RequestBodyCanNotWithdraw.json")))
+      .willReturn(WireMock.aResponse()
+        .withHeader("content-type", "application/json")
+        .withStatus(HttpStatus.SC_BAD_REQUEST)
+        .withBodyFile("Transaction400.json")));
+
+    //POST Withdraw,400
+    wireMockServer.stubFor(WireMock.post(WireMock.urlEqualTo("/api/2/withdraw"))
+      .withRequestBody(equalToJson(CommonUtil.readBody("__files/RequestBodyWithdraw.json")))
+      .willReturn(WireMock.aResponse()
+        .withHeader("content-type", "application/json")
+        .withStatus(HttpStatus.SC_BAD_REQUEST)
+        .withBodyFile("TransactionCanNotFindCustomerID.json")));
+
+    //POST Withdraw,500
+    wireMockServer.stubFor(WireMock.post(WireMock.urlEqualTo("/api/3/withdraw"))
+      .withRequestBody(equalToJson(CommonUtil.readBody("__files/RequestBodyWithdraw.json")))
+      .willReturn(WireMock.aResponse()
+        .withHeader("content-type", "application/json")
+        .withStatus(HttpStatus.SC_INTERNAL_SERVER_ERROR)
+        .withBodyFile("TransactionCanNotFindCustomerID.json")));
+
   }
 
   public void stop() {
     wireMockServer.stop();
   }
 }
+

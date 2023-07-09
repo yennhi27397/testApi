@@ -1,0 +1,7 @@
+{
+  "accountId" : "1",
+  "balance" : "1000$",
+  "status" : "FAILED",
+  "transactionId" : "1234567890",
+  "errorCode" : "INSUFFICIENT_FUND"
+}
