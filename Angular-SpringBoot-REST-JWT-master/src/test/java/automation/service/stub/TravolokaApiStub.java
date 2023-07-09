@@ -21,14 +21,14 @@ public class TravolokaApiStub {
       .willReturn(WireMock.aResponse()
         .withStatus(HttpStatus.SC_OK)
         .withHeader("content-type", "application/json")
-        .withBodyFile("balance.json")));
+        .withBody("__files/balance.json")));
 
     wireMockServer.stubFor(WireMock.post(WireMock.urlEqualTo("/api/1/balance"))
       .withRequestBody(equalToJson("{\"amount\":\"100\"}"))
       .willReturn(WireMock.aResponse()
         .withHeader("content-type", "application/json")
         .withStatus(HttpStatus.SC_OK)
-        .withBodyFile("BalanceAfterWithdraw.json")));
+        .withBody("__files/BalanceAfterWithdraw.json")));
 
 
     //----------------------------
@@ -37,34 +37,34 @@ public class TravolokaApiStub {
       .withHeader("Authentication", containing("1232131232131"))
       .willReturn(WireMock.aResponse()
         .withStatus(HttpStatus.SC_OK)
-        .withBodyFile("employee.sql")));
+        .withBody("__files/employee.sql")));
 
     wireMockServer.stubFor(WireMock.post(WireMock.urlEqualTo("/api/order"))
       .withHeader("Authentication", containing("1232131232131"))
       .withRequestBody(equalToJson("{}"))
       .willReturn(WireMock.aResponse()
         .withStatus(HttpStatus.SC_OK)
-        .withBodyFile("employee.sql")));
+        .withBody("__files/employee.sql")));
 
     wireMockServer.stubFor(WireMock.delete(WireMock.urlEqualTo("/api/order/1"))
       .withHeader("Authentication", containing("1232131232131"))
       .willReturn(WireMock.aResponse()
         .withStatus(HttpStatus.SC_OK)
-        .withBodyFile("employee.sql")));
+        .withBody("__files/employee.sql")));
 
     wireMockServer.stubFor(WireMock.put(WireMock.urlEqualTo("/api/order/1"))
       .withHeader("Authentication", containing("1232131232131"))
       .withRequestBody(equalToJson("{}"))
       .willReturn(WireMock.aResponse()
         .withStatus(HttpStatus.SC_OK)
-        .withBodyFile("employee.sql")));
+        .withBody("__files/employee.sql")));
 
     wireMockServer.stubFor(WireMock.patch(WireMock.urlEqualTo("/api/order/1"))
       .withHeader("Authentication", containing("1232131232131"))
       .withRequestBody(equalToJson("{}"))
       .willReturn(WireMock.aResponse()
         .withStatus(HttpStatus.SC_OK)
-        .withBodyFile("employee.sql")));
+        .withBody("__files/employee.sql")));
   }
 
   public void stop() {

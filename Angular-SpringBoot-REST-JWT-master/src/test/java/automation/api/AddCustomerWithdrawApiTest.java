@@ -11,7 +11,10 @@ import org.apache.http.HttpStatus;
 import org.testng.Assert;
 import org.testng.annotations.AfterTest;
 import org.testng.annotations.BeforeMethod;
+import org.testng.annotations.BeforeTest;
 import org.testng.annotations.Test;
+
+import java.sql.SQLException;
 
 public class AddCustomerWithdrawApiTest {
   private DatabaseUtil databaseUtil;
@@ -19,17 +22,23 @@ public class AddCustomerWithdrawApiTest {
 
   @BeforeMethod
   public void prepareData() throws Exception {
-    this.databaseUtil = new DatabaseUtil();
-    // start server
-    this.bankApiStub = new BankApiStub(9090);
     // clean up tables.
     databaseUtil.executeSQL("script/cleanUp.sql");
     // prepare data to test.
     databaseUtil.executeSQL("script/insert_customers.sql");
   }
 
+  @BeforeTest
+  public void beforeTest() throws Exception {
+    // start banking server
+    this.bankApiStub = new BankApiStub(9090);
+    this.databaseUtil = new DatabaseUtil();
+  }
+
   @AfterTest
-  public void cleanUpData() {
+  public void afterTest() throws SQLException {
+    this.bankApiStub.stop();
+    this.databaseUtil.stop();
   }
 
   @Test
@@ -44,7 +53,7 @@ public class AddCustomerWithdrawApiTest {
     Assert.assertEquals(response.getStatusCode(), HttpStatus.SC_OK);
     // response
     String responseString = response.body().asString();
-    Assert.assertTrue(CommonUtil.compare(responseString, "expected/AddCustomerWithdrawApi/AddCustomerWithdrawApi_WhenCustomerIDIsValid_ThenWithdrawSuccessfully.json"));
+    Assert.assertTrue(CommonUtil.compare(responseString, "expected/AddCustomerWithdrawApi/WhenCustomerIDIsValid_ThenWithdrawSuccessfully.json"));
 
   }
 
@@ -60,6 +69,6 @@ public class AddCustomerWithdrawApiTest {
     Assert.assertEquals(response.getStatusCode(), HttpStatus.SC_OK);
     // response
     String responseString = response.body().asString();
-    Assert.assertTrue(CommonUtil.compare(responseString, "expected/AddCustomerWithdrawApi/AddCustomerWithdrawApi_WhenAccountInsufficient_ThenAccountCanNotWithdraw.json"));
+    Assert.assertTrue(CommonUtil.compare(responseString, "expected/AddCustomerWithdrawApi/WhenAccountInsufficient_ThenAccountCanNotWithdraw.json"));
   }
 }

@@ -8,6 +8,7 @@ import java.io.FileInputStream;
 import java.nio.charset.StandardCharsets;
 import java.sql.Connection;
 import java.sql.DriverManager;
+import java.sql.SQLException;
 import java.util.List;
 import java.util.Map;
 
@@ -39,5 +40,9 @@ public class DatabaseUtil {
   private String getSQLFromFile(String filePath) throws Exception {
     FileInputStream fisTargetFile = new FileInputStream("src/test/resources/" + filePath);
     return IOUtils.toString(fisTargetFile, StandardCharsets.UTF_8);
+  }
+
+  public void stop() throws SQLException {
+    connection.close();
   }
 }
