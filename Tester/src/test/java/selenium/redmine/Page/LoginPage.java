@@ -1,4 +1,4 @@
-package selenium.redmine.Page;
+package selenium.redmine.page;
 
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
@@ -6,6 +6,7 @@ import org.openqa.selenium.WebDriver;
 public class LoginPage {
   private WebDriver driver = null;
 
+  // khoi tao driver trong login page
   public LoginPage(WebDriver driver) {
     this.driver = driver;
   }

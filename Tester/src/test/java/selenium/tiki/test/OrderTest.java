@@ -67,17 +67,15 @@ public class OrderTest {
     System.out.println(item.size());
     Assert.assertEquals(item.size(), 2);
 
-    List<String> Result = new ArrayList<>();
+    List<String> result = new ArrayList<>();
     for (WebElement products : item) {
       String productName = this.cartPage.getProductName(products);
       String price = this.cartPage.getProductPrice(products);
       String quantity = this.cartPage.getQuantityOfProduct(products);
       System.out.println(productName + "-" + price + "-"+ quantity);
-      Result.add(productName + "-" + price + "-"+ quantity);
+      result.add(productName + "-" + price + "-"+ quantity);
     }
-    Assert.assertListContainsObject(Result
+    Assert.assertListContainsObject(result
         , "Bình Giữ Nhiệt Bằng Thép Không Gỉ Lock&Lock Vacuum Bottle LHC6180SLV (800ML) - Màu Đen-369.000 ₫-1", "");
-
-
   }
 }

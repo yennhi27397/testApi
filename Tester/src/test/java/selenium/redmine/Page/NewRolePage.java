@@ -1,4 +1,4 @@
-package selenium.redmine.Page;
+package selenium.redmine.page;
 
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
@@ -12,14 +12,21 @@ public class NewRolePage {
     this.driver = driver;
   }
 
+  // call attribute enter NameTextBox and pass to String value param
   public void enterNameTextBox(String value) {
-    var nameTextBox = driver.findElement(By.cssSelector("input#role_name[type='text']"));
+    // get tag='input', id='role_name'
+    var nameTextBox = driver.findElement(By.cssSelector("input#role_name"));
+    // enter String value in Name textbox
     nameTextBox.sendKeys(value);
   }
 
+  // call attribute choose Issues Visibility CheckBox and pass to String value param
   public void chooseIssuesVisibilityCheckBox(String value) {
+    // get tag='select', id='role_issues_visibility'
     var issuesVisibility = driver.findElement(By.cssSelector("select#role_issues_visibility"));
+    // call object 'select' and pass to 'issuesVisibility' element
     Select select = new Select(issuesVisibility);
+    // pass to 'value' to choose Issues Visibility CheckBox
     select.selectByValue(value);
   }
 
@@ -29,6 +36,7 @@ public class NewRolePage {
     select.selectByValue(value);
   }
   public void clickCheckAllButton(){
+    // get tag='a', text= 'Check all'
     var checkAll = Common.getWebElement(driver,"a","Check all");
     checkAll.click();
   }

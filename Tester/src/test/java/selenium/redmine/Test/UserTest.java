@@ -1,11 +1,11 @@
-package selenium.redmine.Test;
+package selenium.redmine.test;
 
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.chrome.ChromeDriver;
 import org.testng.annotations.AfterTest;
 import org.testng.annotations.BeforeTest;
 import org.testng.annotations.Test;
-import selenium.redmine.Page.*;
+import selenium.redmine.page.*;
 
 public class UserTest {
   private WebDriver driver = null;
@@ -17,7 +17,7 @@ public class UserTest {
 
   @BeforeTest
   void prepareStub() {
-    System.setProperty("webdriver.chrome.driver", "C:\\Users\\Admin\\Downloads\\chromedriver_win32\\chromedriver.exe");
+    System.setProperty("webdriver.chrome.driver", "src/test/resources/chromedriver.exe");
     driver = new ChromeDriver();
     driver.manage().window().maximize();
     this.redmineHomePage = new RedmineHomePage(driver);

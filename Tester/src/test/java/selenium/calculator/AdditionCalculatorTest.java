@@ -20,7 +20,7 @@ public class AdditionCalculatorTest { // feature name
 
   @BeforeTest
   void prepareStub() {
-    System.setProperty("webdriver.chrome.driver", "C:\\Users\\Admin\\Downloads\\chromedriver_win32\\chromedriver.exe");
+    System.setProperty("webdriver.chrome.driver", "src/test/resources/chromedriver.exe");
     driver = new ChromeDriver(); //Open Chrome
     driver.manage().window().maximize(); // zoom to man hinh
     this.calculatorPage = new CalculatorPage(driver);
