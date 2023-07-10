@@ -1,27 +1,27 @@
 <!DOCTYPE suite SYSTEM "http://testng.org/testng-1.0.dtd" >
-<suite name="NorthWindAPI" parallel="false">
+<suite name="NorthWindAPI-Smoke" parallel="false">
 
   <test name="LoginTest">
     <classes>
-      <class name="selenium.redmine.test.LoginTest"/>
+      <class name="selenium.redmine.smoke.LoginTest"/>
     </classes>
   </test>
 
   <test name="ProjectTest">
     <classes>
-      <class name="selenium.redmine.test.ProjectTest"/>
+      <class name="selenium.redmine.smoke.ProjectTest"/>
     </classes>
   </test>
 
   <test name="RoleAndPermissionTest">
     <classes>
-      <class name="selenium.redmine.test.RoleAndPermissionTest"/>
+      <class name="selenium.redmine.smoke.RoleAndPermissionTest"/>
     </classes>
   </test>
 
   <test name="UserTest">
     <classes>
-      <class name="selenium.redmine.test.UserTest"/>
+      <class name="selenium.redmine.smoke.UserTest"/>
     </classes>
   </test>
 </suite>

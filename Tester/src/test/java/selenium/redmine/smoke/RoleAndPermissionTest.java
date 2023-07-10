@@ -106,10 +106,6 @@ public class RoleAndPermissionTest {
   @Test(priority = 2)
   void deleteNewRoleAndPermission_WhenWithAbc_ThenAbc() throws Exception {
     this.redmineHomePage.navigate();
-    this.redmineHomePage.clickSignInButton();
-    this.loginPage.enterLoginTextBox("admin");
-    this.loginPage.enterPassWordTextBox("123456789");
-    this.loginPage.clickLoginButton();
     this.redmineHomePage.clickAdministrationTab();
     this.administrationPage.clickRolesAndPermissionsTab();
     this.rolePage.clickDeleteButton();

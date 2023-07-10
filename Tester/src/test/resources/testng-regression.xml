@@ -1,0 +1,25 @@
+<!DOCTYPE suite SYSTEM "http://testng.org/testng-1.0.dtd" >
+<suite name="NorthWindAPI" parallel="false">
+  <test name="RoleAndPermissionTest">
+    <classes>
+      <class name="selenium.redmine.test.RoleAndPermissionTest"/>
+    </classes>
+  </test>
+  <test name="LoginTest">
+    <classes>
+      <class name="selenium.redmine.test.LoginTest"/>
+    </classes>
+  </test>
+
+  <test name="ProjectTest">
+    <classes>
+      <class name="selenium.redmine.test.ProjectTest"/>
+    </classes>
+  </test>
+
+  <test name="UserTest">
+    <classes>
+      <class name="selenium.redmine.test.UserTest"/>
+    </classes>
+  </test>
+</suite>

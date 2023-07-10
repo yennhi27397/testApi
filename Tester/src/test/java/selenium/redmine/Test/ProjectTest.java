@@ -73,6 +73,20 @@ public class ProjectTest {
     Assert.assertEquals(item, "Successful creation.");
   }
 
+  @Test
+  void DeleteProject_WhenWithAbc_ThenAbc() throws Exception {
+    this.redmineHomePage.navigate();
+    this.redmineHomePage.clickSignInButton();
+    this.loginPage.enterLoginTextBox("admin");
+    this.loginPage.enterPassWordTextBox("123456789");
+    this.loginPage.clickLoginButton();
+    this.redmineHomePage.clickAdministrationTab();
+    this.projectPage.clickNewProjectTab();
+
+
+
+  }
+
 
 }
 

@@ -16,4 +16,5 @@ public class ProjectPage {
     // click New Project Tab
     project.click();
   }
+  public void clickDeleteButton
 }
