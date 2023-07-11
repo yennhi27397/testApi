@@ -51,7 +51,9 @@ public class AddCustomerApiTest {
     // compare String actual response and String expected response
     Assert.assertTrue(CommonUtil.compare(responseString, "expected/AddCustomerApi/AddCustomerApi_WhenDataIsValid_ThenAddedCustomer.json"));
     // pass string query to get list record
-    List<Map<String, Object>> data = databaseUtil.getRecords("SELECT * FROM customers WHERE first_name='Doan' and last_name='Pham'");
+    List<Map<String, Object>> data = databaseUtil.getRecords(
+      "SELECT * FROM customers WHERE first_name='Doan' and last_name='Pham'"
+    );
     // todo:
     // get record
     Map<String, Object> expectedRecord = data.get(0);
@@ -87,6 +89,9 @@ public class AddCustomerApiTest {
     String responseString = response.body().asString();
     // compare String actual response and String expected response
     Assert.assertTrue(CommonUtil.compare(responseString, "expected/AddCustomerApi/AddCustomerApi_WhenDataIsInvalid_ThenCantAddCustomer.json"));
+    // test database = 3 records.
+    List<Map<String, Object>> data = databaseUtil.getRecords("SELECT * FROM customers");
+    Assert.assertEquals(data.size(),3);
   }
 
   @Test
