@@ -6,6 +6,7 @@ import org.openqa.selenium.WebElement;
 import org.openqa.selenium.chrome.ChromeDriver;
 import org.testng.Assert;
 import org.testng.annotations.AfterTest;
+import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.BeforeTest;
 import org.testng.annotations.Test;
 import selenium.redmine.page.*;
@@ -41,6 +42,12 @@ public class RoleAndPermissionTest {
   void clearStub() {
     // close driver after test
     driver.close();
+  }
+
+  @BeforeMethod
+  void cleanBrowser() {
+    // clean data on browser.
+    driver.manage().deleteAllCookies();
   }
 
   // thu tu uu chay truoc.

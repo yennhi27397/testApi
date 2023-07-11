@@ -27,4 +27,9 @@ public class AdministrationPage {
     rolesAndPermissions.click();
   }
 
+  public void clickUserTab(){
+    var clickUser = driver.findElement(By.cssSelector("a.icon.icon-user"));
+    clickUser.click();
+  }
+
 }

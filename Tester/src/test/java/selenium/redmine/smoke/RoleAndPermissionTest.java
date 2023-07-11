@@ -6,6 +6,7 @@ import org.openqa.selenium.WebElement;
 import org.openqa.selenium.chrome.ChromeDriver;
 import org.testng.Assert;
 import org.testng.annotations.AfterTest;
+import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.BeforeTest;
 import org.testng.annotations.Test;
 import selenium.redmine.page.*;
@@ -41,6 +42,11 @@ public class RoleAndPermissionTest {
   void clearStub() {
     // close driver after test
     driver.close();
+  }
+
+  @BeforeMethod
+  void cleanBrowser(){
+    driver.manage().deleteAllCookies();
   }
 
   // thu tu uu chay truoc.
@@ -106,6 +112,10 @@ public class RoleAndPermissionTest {
   @Test(priority = 2)
   void deleteNewRoleAndPermission_WhenWithAbc_ThenAbc() throws Exception {
     this.redmineHomePage.navigate();
+    this.redmineHomePage.clickSignInButton();
+    this.loginPage.enterLoginTextBox("admin");
+    this.loginPage.enterPassWordTextBox("123456789");
+    this.loginPage.clickLoginButton();
     this.redmineHomePage.clickAdministrationTab();
     this.administrationPage.clickRolesAndPermissionsTab();
     this.rolePage.clickDeleteButton();

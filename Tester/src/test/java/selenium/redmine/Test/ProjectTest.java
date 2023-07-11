@@ -1,12 +1,18 @@
 package selenium.redmine.test;
 
+import net.bytebuddy.build.Plugin;
 import org.openqa.selenium.WebDriver;
+import org.openqa.selenium.WebElement;
 import org.openqa.selenium.chrome.ChromeDriver;
 import org.testng.Assert;
 import org.testng.annotations.AfterTest;
+import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.BeforeTest;
 import org.testng.annotations.Test;
 import selenium.redmine.page.*;
+
+import java.util.ArrayList;
+import java.util.List;
 
 public class ProjectTest {
   // call attribute of WebDriver, RedmineHomePage, LoginPage...
@@ -16,6 +22,7 @@ public class ProjectTest {
   private AdministrationPage administrationPage = null;
   private ProjectPage projectPage = null;
   private NewProject newProject = null;
+  private DeleteProjectPage deleteProjectPage = null;
 
   @BeforeTest
   void prepareStub() {
@@ -31,6 +38,7 @@ public class ProjectTest {
     this.administrationPage = new AdministrationPage(driver);
     this.projectPage = new ProjectPage(driver);
     this.newProject = new NewProject(driver);
+    this.deleteProjectPage = new DeleteProjectPage(driver);
   }
 
   @AfterTest
@@ -39,7 +47,12 @@ public class ProjectTest {
     driver.close();
   }
 
-  @Test
+  @BeforeMethod
+  void cleanBrowser() {
+    driver.manage().deleteAllCookies();
+  }
+
+  @Test (priority = 1)
   void CreateNewProject_WhenWithAbc_ThenAbc() throws Exception {
     // navigate to redmine HomePage
     this.redmineHomePage.navigate();
@@ -73,7 +86,8 @@ public class ProjectTest {
     Assert.assertEquals(item, "Successful creation.");
   }
 
-  @Test
+
+  @Test (priority = 2)
   void DeleteProject_WhenWithAbc_ThenAbc() throws Exception {
     this.redmineHomePage.navigate();
     this.redmineHomePage.clickSignInButton();
@@ -81,13 +95,25 @@ public class ProjectTest {
     this.loginPage.enterPassWordTextBox("123456789");
     this.loginPage.clickLoginButton();
     this.redmineHomePage.clickAdministrationTab();
-    this.projectPage.clickNewProjectTab();
+    this.administrationPage.clickProjectsTab();
+    this.projectPage.clickDeleteButton();
+    this.deleteProjectPage.enterIdentifierTextBox("clound360");
+    this.deleteProjectPage.clickDeleteButton();
 
+    List<WebElement> project = this.projectPage.getProjectFromProjectTable();
+    System.out.println("Total of project is " + project.size());
+    Assert.assertEquals(project.size(), 2);
 
+    List<String> projectName = new ArrayList<>();
+    for (WebElement name : project) {
+      String item = this.projectPage.getProjectName(name);
+      System.out.println(item);
+      projectName.add(item);
+    }
+    Assert.assertListContainsObject(projectName, "ABC", "");
+    Assert.assertListContainsObject(projectName, "Clound365", "");
 
   }
-
-
 }
 
 
