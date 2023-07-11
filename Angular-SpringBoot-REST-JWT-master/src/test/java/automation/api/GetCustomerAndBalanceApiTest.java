@@ -7,6 +7,7 @@ import org.apache.http.HttpStatus;
 import org.testng.Assert;
 import org.testng.annotations.AfterTest;
 import org.testng.annotations.BeforeMethod;
+import org.testng.annotations.BeforeTest;
 import org.testng.annotations.Test;
 
 import static io.restassured.RestAssured.given;
@@ -15,11 +16,16 @@ public class GetCustomerAndBalanceApiTest {
   private DatabaseUtil databaseUtil;
   private BankApiStub bankApiStub;
 
-  @BeforeMethod
-  public void prepareData() throws Exception {
+  @BeforeTest
+  public void beforeTest() throws Exception {
     this.databaseUtil = new DatabaseUtil();
     // start server
     this.bankApiStub = new BankApiStub(9090);
+  }
+
+
+  @BeforeMethod
+  public void prepareData() throws Exception {
     // clean up tables.
     databaseUtil.executeSQL("script/cleanUp.sql");
     // prepare data to test.

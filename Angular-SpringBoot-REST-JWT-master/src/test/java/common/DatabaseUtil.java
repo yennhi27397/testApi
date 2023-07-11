@@ -16,10 +16,12 @@ public class DatabaseUtil {
   private Connection connection;
 
   //*******************************************//
+  // Information to connect DB (Ex: postgres => search 'connect db postgres jdbc java')
   private String className = "org.postgresql.Driver";
   private String connectionURL = "jdbc:postgresql://localhost:5432/postgres";
   private String USERNAME = "postgres";
   private String PASSWORD = "1234567890";
+  //*******************************************//
 
   public DatabaseUtil() throws Exception {
     Class.forName(className);
@@ -32,6 +34,7 @@ public class DatabaseUtil {
     return runner.query(connection, query, new MapListHandler());
   }
 
+  // run SQL
   public void executeSQL(String filePath) throws Exception {
     String sql = getSQLFromFile(filePath);
     QueryRunner runner = new QueryRunner();
@@ -39,11 +42,13 @@ public class DatabaseUtil {
   }
 
   private String getSQLFromFile(String filePath) throws Exception {
+    // read file return String.
     FileInputStream fisTargetFile = new FileInputStream("src/test/resources/" + filePath);
     return IOUtils.toString(fisTargetFile, StandardCharsets.UTF_8);
   }
 
   public void stop() throws SQLException {
+    // stop connecting to db
     connection.close();
   }
 }

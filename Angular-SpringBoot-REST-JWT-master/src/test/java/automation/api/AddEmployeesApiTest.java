@@ -9,6 +9,7 @@ import io.restassured.specification.RequestSpecification;
 import org.apache.http.HttpStatus;
 import org.testng.Assert;
 import org.testng.annotations.BeforeMethod;
+import org.testng.annotations.BeforeTest;
 import org.testng.annotations.Test;
 
 import java.util.List;
@@ -16,6 +17,11 @@ import java.util.Map;
 
 public class AddEmployeesApiTest {
   private DatabaseUtil databaseUtil;
+
+  @BeforeTest
+  public void beforeTest() throws Exception {
+    this.databaseUtil = new DatabaseUtil();
+  }
 
   @BeforeMethod
   public void prepareData() throws Exception {
@@ -29,7 +35,7 @@ public class AddEmployeesApiTest {
     RequestSpecification request = RestAssured.given();
     request.contentType(ContentType.JSON);
     request.baseUri("http://localhost:9119/api/employees");
-    request.body(CommonUtil.readBody("requestBody/AddEmployeesApi_WhenDataIsValid_ThenEmployeeAdded.json"));
+    request.body(CommonUtil.readFileContent("requestBody/AddEmployeesApi_WhenDataIsValid_ThenEmployeeAdded.json"));
     Response response = request.post();
 
     Assert.assertEquals(response.getStatusCode(), HttpStatus.SC_OK);
@@ -64,7 +70,7 @@ public class AddEmployeesApiTest {
     RequestSpecification request = RestAssured.given();
     request.contentType(ContentType.JSON);
     request.baseUri("http://localhost:9119/api/employees");
-    request.body(CommonUtil.readBody("requestBody/AddEmployeesApi_WhenEmployeeIDExisted_ThenUnableToAddEmployee.json"));
+    request.body(CommonUtil.readFileContent("requestBody/AddEmployeesApi_WhenEmployeeIDExisted_ThenUnableToAddEmployee.json"));
     Response response = request.post();
 
     Assert.assertEquals(response.getStatusCode(), HttpStatus.SC_OK);
@@ -82,7 +88,7 @@ public class AddEmployeesApiTest {
     RequestSpecification request = RestAssured.given();
     request.contentType(ContentType.JSON);
     request.baseUri("http://localhost:9119/api/employees");
-    request.body(CommonUtil.readBody("requestBody/AddEmployeesApi_WhenDataMissedIdField_ThenEmployeeDidNotAdd.json"));
+    request.body(CommonUtil.readFileContent("requestBody/AddEmployeesApi_WhenDataMissedIdField_ThenEmployeeDidNotAdd.json"));
     Response response = request.post();
 
     Assert.assertEquals(response.getStatusCode(), HttpStatus.SC_BAD_REQUEST);
@@ -99,7 +105,7 @@ public class AddEmployeesApiTest {
     RequestSpecification request = RestAssured.given();
     request.contentType(ContentType.JSON);
     request.baseUri("http://localhost:9119/api/employees");
-    request.body(CommonUtil.readBody("requestBody/AddEmployeesApi_WhenDataMissedLastNameFirstNameField_ThenEmployeeAdded.json"));
+    request.body(CommonUtil.readFileContent("requestBody/AddEmployeesApi_WhenDataMissedLastNameFirstNameField_ThenEmployeeAdded.json"));
     Response response = request.post();
     Assert.assertEquals(response.getStatusCode(), HttpStatus.SC_OK);
 
@@ -119,7 +125,7 @@ public class AddEmployeesApiTest {
     RequestSpecification request = RestAssured.given();
     request.contentType(ContentType.JSON);
     request.baseUri("http://localhost:9119/api/employees?employeeid=206");
-    request.body(CommonUtil.readBody("requestBody/AddEmployeeAPI_WhenRequiredBodyRequestIsEmpty_thenBadRequest.json"));
+    request.body(CommonUtil.readFileContent("requestBody/AddEmployeeAPI_WhenRequiredBodyRequestIsEmpty_thenBadRequest.json"));
     Response response = request.post();
     Assert.assertEquals(response.getStatusCode(), HttpStatus.SC_BAD_REQUEST);
 
@@ -135,7 +141,7 @@ public class AddEmployeesApiTest {
     RequestSpecification request = RestAssured.given();
     request.contentType(ContentType.JSON);
     request.baseUri("http://localhost:9119/api/employees");
-    request.body(CommonUtil.readBody("requestBody/AddEmployeeAPI_WhenRequiredBodyRequestIsMissing_thenBadRequest.json"));
+    request.body(CommonUtil.readFileContent("requestBody/AddEmployeeAPI_WhenRequiredBodyRequestIsMissing_thenBadRequest.json"));
     Response response = request.post();
     Assert.assertEquals(response.getStatusCode(), HttpStatus.SC_BAD_REQUEST);
 

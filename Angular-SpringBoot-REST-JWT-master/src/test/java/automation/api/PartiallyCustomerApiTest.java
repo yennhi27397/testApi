@@ -9,6 +9,7 @@ import io.restassured.specification.RequestSpecification;
 import org.apache.http.HttpStatus;
 import org.testng.Assert;
 import org.testng.annotations.BeforeMethod;
+import org.testng.annotations.BeforeTest;
 import org.testng.annotations.Test;
 
 import java.util.List;
@@ -16,6 +17,11 @@ import java.util.Map;
 
 public class PartiallyCustomerApiTest {
   private DatabaseUtil databaseUtil;
+
+  @BeforeTest
+  public void beforeTest() throws Exception {
+    this.databaseUtil = new DatabaseUtil();
+  }
 
   @BeforeMethod
   public void prepareData() throws Exception {
@@ -29,7 +35,7 @@ public class PartiallyCustomerApiTest {
     RequestSpecification request = RestAssured.given();
     request.contentType(ContentType.JSON);
     request.baseUri("http://localhost:9119/api/customers/3");
-    request.body(CommonUtil.readBody("requestBody/PartiallyCustomerAPI_WhenCustomerIDIsValid_thenReturnData.json"));
+    request.body(CommonUtil.readFileContent("requestBody/PartiallyCustomerAPI_WhenCustomerIDIsValid_thenReturnData.json"));
     Response response = request.patch();
     Assert.assertEquals(response.getStatusCode(), HttpStatus.SC_OK);
 
@@ -46,7 +52,7 @@ public class PartiallyCustomerApiTest {
     RequestSpecification request = RestAssured.given();
     request.contentType(ContentType.JSON);
     request.baseUri("http://localhost:9119/api/customers/5");
-    request.body(CommonUtil.readBody("requestBody/PartiallyEmployeesAPI_WhenEmployeesIDIsNotValid_thenUnableToUpdateResource.json"));
+    request.body(CommonUtil.readFileContent("requestBody/PartiallyEmployeesAPI_WhenEmployeesIDIsNotValid_thenUnableToUpdateResource.json"));
     Response response = request.patch();
     Assert.assertEquals(response.getStatusCode(), HttpStatus.SC_OK);
 
@@ -60,7 +66,7 @@ public class PartiallyCustomerApiTest {
     RequestSpecification request = RestAssured.given();
     request.contentType(ContentType.JSON);
     request.baseUri("http://localhost:9119/api/customers/");
-    request.body(CommonUtil.readBody("requestBody/PartiallyCustomerAPI_WhenCustomerIDIsEmpty_thenMethodNotAllowed.json"));
+    request.body(CommonUtil.readFileContent("requestBody/PartiallyCustomerAPI_WhenCustomerIDIsEmpty_thenMethodNotAllowed.json"));
     Response response = request.patch();
     Assert.assertEquals(response.getStatusCode(), HttpStatus.SC_METHOD_NOT_ALLOWED);
 
@@ -72,7 +78,7 @@ public class PartiallyCustomerApiTest {
     RequestSpecification request = RestAssured.given();
     request.contentType(ContentType.JSON);
     request.baseUri("http://localhost:9119/api/customers/3");
-    request.body(CommonUtil.readBody("requestBody/PartiallyCustomerAPI_WhenRequiredBodyRequestIsEmpty_thenBadRequest.json"));
+    request.body(CommonUtil.readFileContent("requestBody/PartiallyCustomerAPI_WhenRequiredBodyRequestIsEmpty_thenBadRequest.json"));
     Response response = request.patch();
     Assert.assertEquals(response.getStatusCode(), HttpStatus.SC_BAD_REQUEST);
 
@@ -83,7 +89,7 @@ public class PartiallyCustomerApiTest {
     RequestSpecification request = RestAssured.given();
     request.contentType(ContentType.JSON);
     request.baseUri("http://localhost:9119/api/customers/3");
-    request.body(CommonUtil.readBody("requestBody/PartiallyCustomerAPI_WhenRequiredBodyRequestIsMissing_thenBadRequest.json"));
+    request.body(CommonUtil.readFileContent("requestBody/PartiallyCustomerAPI_WhenRequiredBodyRequestIsMissing_thenBadRequest.json"));
     Response response = request.patch();
     Assert.assertEquals(response.getStatusCode(), HttpStatus.SC_BAD_REQUEST);
 

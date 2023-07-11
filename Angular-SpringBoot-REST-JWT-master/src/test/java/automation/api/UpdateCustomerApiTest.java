@@ -9,6 +9,7 @@ import io.restassured.specification.RequestSpecification;
 import org.apache.http.HttpStatus;
 import org.testng.Assert;
 import org.testng.annotations.BeforeMethod;
+import org.testng.annotations.BeforeTest;
 import org.testng.annotations.Test;
 
 import java.util.List;
@@ -16,6 +17,11 @@ import java.util.Map;
 
 public class UpdateCustomerApiTest {
   private DatabaseUtil databaseUtil;
+
+  @BeforeTest
+  public void beforeTest() throws Exception {
+    this.databaseUtil = new DatabaseUtil();
+  }
 
   @BeforeMethod
   public void prepareData() throws Exception {
@@ -29,7 +35,7 @@ public class UpdateCustomerApiTest {
     RequestSpecification request = RestAssured.given();
     request.contentType(ContentType.JSON);
     request.baseUri("http://localhost:9119/api/customers/1");
-    request.body(CommonUtil.readBody("requestBody/UpdateCustomerApi_WhenCustomerIDIsValid_ThenEditData.json"));
+    request.body(CommonUtil.readFileContent("requestBody/UpdateCustomerApi_WhenCustomerIDIsValid_ThenEditData.json"));
     Response response = request.put();
     Assert.assertEquals(response.getStatusCode(), HttpStatus.SC_OK);
 
@@ -47,7 +53,7 @@ public class UpdateCustomerApiTest {
     RequestSpecification request = RestAssured.given();
     request.contentType(ContentType.JSON);
     request.baseUri("http://localhost:9119/api/customers/4");
-    request.body(CommonUtil.readBody("requestBody/UpdateCustomerApi_WhenCustomerIDIsNotValid_ThenResourceIsNotExisted.json"));
+    request.body(CommonUtil.readFileContent("requestBody/UpdateCustomerApi_WhenCustomerIDIsNotValid_ThenResourceIsNotExisted.json"));
     Response response = request.put();
     Assert.assertEquals(response.getStatusCode(), HttpStatus.SC_OK);
 
@@ -60,7 +66,7 @@ public class UpdateCustomerApiTest {
     RequestSpecification request = RestAssured.given();
     request.contentType(ContentType.JSON);
     request.baseUri("http://localhost:9119/api/customers/");
-    request.body(CommonUtil.readBody("requestBody/UpdateCustomerApi_WhenCustomerIDIsEmpty_ThenMethodNotAllowed.json"));
+    request.body(CommonUtil.readFileContent("requestBody/UpdateCustomerApi_WhenCustomerIDIsEmpty_ThenMethodNotAllowed.json"));
     Response response = request.put();
     Assert.assertEquals(response.getStatusCode(), HttpStatus.SC_METHOD_NOT_ALLOWED);
 
@@ -72,7 +78,7 @@ public class UpdateCustomerApiTest {
     RequestSpecification request = RestAssured.given();
     request.contentType(ContentType.JSON);
     request.baseUri("http://localhost:9119/api/customers/3");
-    request.body(CommonUtil.readBody("requestBody/UpdateCustomerAPI_WhenRequiredBodyRequestIsEmpty_thenBadRequest.json"));
+    request.body(CommonUtil.readFileContent("requestBody/UpdateCustomerAPI_WhenRequiredBodyRequestIsEmpty_thenBadRequest.json"));
     Response response = request.put();
     Assert.assertEquals(response.getStatusCode(), HttpStatus.SC_BAD_REQUEST);
   }
@@ -82,7 +88,7 @@ public class UpdateCustomerApiTest {
     RequestSpecification request = RestAssured.given();
     request.contentType(ContentType.JSON);
     request.baseUri("http://localhost:9119/api/customers/3");
-    request.body(CommonUtil.readBody("requestBody/UpdateCustomerAPI_WhenRequiredBodyRequestIsMissing_thenBadRequest.json"));
+    request.body(CommonUtil.readFileContent("requestBody/UpdateCustomerAPI_WhenRequiredBodyRequestIsMissing_thenBadRequest.json"));
     Response response = request.put();
     Assert.assertEquals(response.getStatusCode(), HttpStatus.SC_BAD_REQUEST);
 

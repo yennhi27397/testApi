@@ -5,6 +5,7 @@ import common.DatabaseUtil;
 import org.apache.http.HttpStatus;
 import org.testng.Assert;
 import org.testng.annotations.BeforeMethod;
+import org.testng.annotations.BeforeTest;
 import org.testng.annotations.Test;
 
 import java.util.List;
@@ -14,6 +15,11 @@ import static io.restassured.RestAssured.given;
 
 public class DeleteEmployeesApiTest {
   private DatabaseUtil databaseUtil;
+
+  @BeforeTest
+  public void beforeTest() throws Exception {
+    this.databaseUtil = new DatabaseUtil();
+  }
 
   @BeforeMethod
   public void prepareData() throws Exception {

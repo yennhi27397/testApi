@@ -42,7 +42,7 @@ public class CommonUtil {
   }
 
   // pass file into param to read body
-  public static String readBody(String filePath) throws IOException {
+  public static String readFileContent(String filePath) throws IOException {
     FileInputStream fisTargetFile = new FileInputStream(SOURCE_PATH + filePath);
     return IOUtils.toString(fisTargetFile, StandardCharsets.UTF_8);
   }

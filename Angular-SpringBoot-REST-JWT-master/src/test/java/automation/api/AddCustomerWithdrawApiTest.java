@@ -18,21 +18,22 @@ import java.sql.SQLException;
 
 public class AddCustomerWithdrawApiTest {
   private DatabaseUtil databaseUtil;
+
   private BankApiStub bankApiStub;
 
-  @BeforeMethod
+  @BeforeTest
+  public void beforeTest() throws Exception {
+    this.databaseUtil = new DatabaseUtil();
+    // start banking server
+    this.bankApiStub = new BankApiStub(9090);
+  }
+
+    @BeforeMethod
   public void prepareData() throws Exception {
     // clean up tables.
     databaseUtil.executeSQL("script/cleanUp.sql");
     // prepare data to test.
     databaseUtil.executeSQL("script/insert_customers.sql");
-  }
-
-  @BeforeTest
-  public void beforeTest() throws Exception {
-    // start banking server
-    this.bankApiStub = new BankApiStub(9090);
-    this.databaseUtil = new DatabaseUtil();
   }
 
   @AfterTest
@@ -50,7 +51,7 @@ public class AddCustomerWithdrawApiTest {
     // call URL
     request.baseUri("http://localhost:9119/api/customers/withdraw");
     // read request body
-    request.body(CommonUtil.readBody("requestBody/AddCustomerWithdrawApi_WhenCustomerIDIsValid_ThenWithdrawSuccessfully.json"));
+    request.body(CommonUtil.readFileContent("requestBody/AddCustomerWithdrawApi_WhenCustomerIDIsValid_ThenWithdrawSuccessfully.json"));
     // call POST method
     Response response = request.post();
     // test status
@@ -68,7 +69,7 @@ public class AddCustomerWithdrawApiTest {
     RequestSpecification request = RestAssured.given();
     request.contentType(ContentType.JSON);
     request.baseUri("http://localhost:9119/api/customers/withdraw");
-    request.body(CommonUtil.readBody("requestBody/AddCustomerWithdrawApi_WhenAccountInsufficient_ThenAccountCanNotWithdraw.json"));
+    request.body(CommonUtil.readFileContent("requestBody/AddCustomerWithdrawApi_WhenAccountInsufficient_ThenAccountCanNotWithdraw.json"));
     Response response = request.post();
     // test status
     Assert.assertEquals(response.getStatusCode(), HttpStatus.SC_OK);

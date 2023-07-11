@@ -9,6 +9,7 @@ import java.io.IOException;
 
 import static com.github.tomakehurst.wiremock.client.WireMock.equalToJson;
 
+// WireMock
 public class BankApiStub {
   private int port;
   // support api pha ke.
@@ -52,7 +53,8 @@ public class BankApiStub {
 
     //POST Withdraw,200
     wireMockServer.stubFor(WireMock.post(WireMock.urlEqualTo("/api/1/withdraw"))
-      .withRequestBody(equalToJson(CommonUtil.readBody("__files/requestBodyWithdraw.json")))
+      // required requestBody.
+      .withRequestBody(equalToJson(CommonUtil.readFileContent("__files/RequestBodyWithdraw.json")))
       .willReturn(WireMock.aResponse()
         .withHeader("content-type", "application/json")
         .withStatus(HttpStatus.SC_OK)
@@ -60,15 +62,15 @@ public class BankApiStub {
 
     //POST Withdraw,400
     wireMockServer.stubFor(WireMock.post(WireMock.urlEqualTo("/api/1/withdraw"))
-      .withRequestBody(equalToJson(CommonUtil.readBody("__files/RequestBodyCanNotWithdraw.json")))
+      .withRequestBody(equalToJson(CommonUtil.readFileContent("__files/RequestBodyCanNotWithdraw.json")))
       .willReturn(WireMock.aResponse()
         .withHeader("content-type", "application/json")
         .withStatus(HttpStatus.SC_BAD_REQUEST)
-        .withBody(CommonUtil.readBody("__files/Transaction400_Insufficient_Fund.json"))));
+        .withBody(CommonUtil.readFileContent("__files/Transaction400_Insufficient_Fund.json"))));
 
     //POST Withdraw,400
     wireMockServer.stubFor(WireMock.post(WireMock.urlEqualTo("/api/2/withdraw"))
-      .withRequestBody(equalToJson(CommonUtil.readBody("__files/RequestBodyWithdraw.json")))
+      .withRequestBody(equalToJson(CommonUtil.readFileContent("__files/RequestBodyWithdraw.json")))
       .willReturn(WireMock.aResponse()
         .withHeader("content-type", "application/json")
         .withStatus(HttpStatus.SC_BAD_REQUEST)
@@ -76,7 +78,7 @@ public class BankApiStub {
 
     //POST Withdraw,500
     wireMockServer.stubFor(WireMock.post(WireMock.urlEqualTo("/api/3/withdraw"))
-      .withRequestBody(equalToJson(CommonUtil.readBody("__files/RequestBodyWithdraw.json")))
+      .withRequestBody(equalToJson(CommonUtil.readFileContent("__files/RequestBodyWithdraw.json")))
       .willReturn(WireMock.aResponse()
         .withHeader("content-type", "application/json")
         .withStatus(HttpStatus.SC_INTERNAL_SERVER_ERROR)

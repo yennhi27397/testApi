@@ -9,10 +9,16 @@ import io.restassured.specification.RequestSpecification;
 import org.apache.http.HttpStatus;
 import org.testng.Assert;
 import org.testng.annotations.BeforeMethod;
+import org.testng.annotations.BeforeTest;
 import org.testng.annotations.Test;
 
 public class UpdateOrderApiTest {
   private DatabaseUtil databaseUtil;
+
+  @BeforeTest
+  public void beforeTest() throws Exception {
+    this.databaseUtil = new DatabaseUtil();
+  }
 
   @BeforeMethod
   public void prepareStub() throws Exception {
@@ -26,7 +32,7 @@ public class UpdateOrderApiTest {
     RequestSpecification request = RestAssured.given();
     request.contentType(ContentType.JSON);
     request.baseUri("http://localhost:9119/api/orders/4004");
-    request.body(CommonUtil.readBody("requestBody/UpdateOrderApi_WhereOrderIDIsValid_ThenResourceUpdated.json"));
+    request.body(CommonUtil.readFileContent("requestBody/UpdateOrderApi_WhereOrderIDIsValid_ThenResourceUpdated.json"));
     Response response = request.put();
     Assert.assertEquals(response.getStatusCode(), HttpStatus.SC_OK);
 
@@ -42,7 +48,7 @@ public class UpdateOrderApiTest {
     RequestSpecification request = RestAssured.given();
     request.contentType(ContentType.JSON);
     request.baseUri("http://localhost:9119/api/orders/4006");
-    request.body(CommonUtil.readBody("requestBody/UpdateOrderApi_WhereOrderIDIsInvalid_ThenResourceUpdated.json"));
+    request.body(CommonUtil.readFileContent("requestBody/UpdateOrderApi_WhereOrderIDIsInvalid_ThenResourceUpdated.json"));
     Response response = request.put();
     Assert.assertEquals(response.getStatusCode(), HttpStatus.SC_OK);
 
@@ -58,7 +64,7 @@ public class UpdateOrderApiTest {
     RequestSpecification request = RestAssured.given();
     request.contentType(ContentType.JSON);
     request.baseUri("http://localhost:9119/api/orders/");
-    request.body(CommonUtil.readBody("requestBody/UpdateOrderApi_WhereOrderIDIsEmpty_ThenMethodNotAllowed.json"));
+    request.body(CommonUtil.readFileContent("requestBody/UpdateOrderApi_WhereOrderIDIsEmpty_ThenMethodNotAllowed.json"));
     Response response = request.put();
     Assert.assertEquals(response.getStatusCode(), HttpStatus.SC_METHOD_NOT_ALLOWED);
 
@@ -73,7 +79,7 @@ public class UpdateOrderApiTest {
     RequestSpecification request = RestAssured.given();
     request.contentType(ContentType.JSON);
     request.baseUri("http://localhost:9119/api/orders/4005");
-    request.body(CommonUtil.readBody("requestBody/UpdateOrderApi_WhereRequiredBodyRequestIsEmpty_ThenBadRequestData.json"));
+    request.body(CommonUtil.readFileContent("requestBody/UpdateOrderApi_WhereRequiredBodyRequestIsEmpty_ThenBadRequestData.json"));
     Response response = request.put();
     Assert.assertEquals(response.getStatusCode(), HttpStatus.SC_BAD_REQUEST);
 
@@ -88,7 +94,7 @@ public class UpdateOrderApiTest {
     RequestSpecification request = RestAssured.given();
     request.contentType(ContentType.JSON);
     request.baseUri("http://localhost:9119/api/orders/4005");
-    request.body(CommonUtil.readBody("requestBody/UpdateOrderApi_WhereRequiredBodyRequestIsMissing_ThenBadRequestData.json"));
+    request.body(CommonUtil.readFileContent("requestBody/UpdateOrderApi_WhereRequiredBodyRequestIsMissing_ThenBadRequestData.json"));
     Response response = request.put();
     Assert.assertEquals(response.getStatusCode(), HttpStatus.SC_BAD_REQUEST);
 
@@ -104,7 +110,7 @@ public class UpdateOrderApiTest {
     RequestSpecification request = RestAssured.given();
     request.contentType(ContentType.JSON);
     request.baseUri("http://localhost:9119/api/orders/4004");
-    request.body(CommonUtil.readBody("requestBody/UpdateOrderApi_WhereCustomerIDIsValid_ThenResourceUpdated.json"));
+    request.body(CommonUtil.readFileContent("requestBody/UpdateOrderApi_WhereCustomerIDIsValid_ThenResourceUpdated.json"));
     Response response = request.put();
     Assert.assertEquals(response.getStatusCode(), HttpStatus.SC_OK);
 
@@ -119,7 +125,7 @@ public class UpdateOrderApiTest {
     RequestSpecification request = RestAssured.given();
     request.contentType(ContentType.JSON);
     request.baseUri("http://localhost:9119/api/orders/4004");
-    request.body(CommonUtil.readBody("requestBody/UpdateOrderApi_WhereCustomerIDIsInvalid_ThenConstraintViolationOfResource.json"));
+    request.body(CommonUtil.readFileContent("requestBody/UpdateOrderApi_WhereCustomerIDIsInvalid_ThenConstraintViolationOfResource.json"));
     Response response = request.put();
     Assert.assertEquals(response.getStatusCode(), HttpStatus.SC_BAD_REQUEST);
 

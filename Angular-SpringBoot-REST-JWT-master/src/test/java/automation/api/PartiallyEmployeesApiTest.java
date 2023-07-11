@@ -9,6 +9,7 @@ import io.restassured.specification.RequestSpecification;
 import org.apache.http.HttpStatus;
 import org.testng.Assert;
 import org.testng.annotations.BeforeMethod;
+import org.testng.annotations.BeforeTest;
 import org.testng.annotations.Test;
 
 import java.util.List;
@@ -16,6 +17,11 @@ import java.util.Map;
 
 public class PartiallyEmployeesApiTest {
   private DatabaseUtil databaseUtil;
+
+  @BeforeTest
+  public void beforeTest() throws Exception {
+    this.databaseUtil = new DatabaseUtil();
+  }
 
   @BeforeMethod
   public void prepareData() throws Exception {
@@ -29,7 +35,7 @@ public class PartiallyEmployeesApiTest {
     RequestSpecification request = RestAssured.given();
     request.contentType(ContentType.JSON);
     request.baseUri("http://localhost:9119/api/Employee/202");
-    request.body(CommonUtil.readBody("requestBody/PartiallyEmployeesAPI_WhenEmployeesIDIsValid_thenReturnData.json"));
+    request.body(CommonUtil.readFileContent("requestBody/PartiallyEmployeesAPI_WhenEmployeesIDIsValid_thenReturnData.json"));
     Response response = request.patch();
     Assert.assertEquals(response.getStatusCode(), HttpStatus.SC_OK);
 
@@ -47,7 +53,7 @@ public class PartiallyEmployeesApiTest {
     RequestSpecification request = RestAssured.given();
     request.contentType(ContentType.JSON);
     request.baseUri("http://localhost:9119/api/Employee/205");
-    request.body(CommonUtil.readBody("requestBody/PartiallyEmployeesAPI_WhenEmployeesIDIsNotValid_thenUnableToUpdateResource.json"));
+    request.body(CommonUtil.readFileContent("requestBody/PartiallyEmployeesAPI_WhenEmployeesIDIsNotValid_thenUnableToUpdateResource.json"));
     Response response = request.patch();
     Assert.assertEquals(response.getStatusCode(), HttpStatus.SC_OK);
 
@@ -61,7 +67,7 @@ public class PartiallyEmployeesApiTest {
     RequestSpecification request = RestAssured.given();
     request.contentType(ContentType.JSON);
     request.baseUri("http://localhost:9119/api/Employee/");
-    request.body(CommonUtil.readBody("requestBody/PartiallyEmployeesAPI_WhenEmployeesIDIsEmpty_thenNotFound.json"));
+    request.body(CommonUtil.readFileContent("requestBody/PartiallyEmployeesAPI_WhenEmployeesIDIsEmpty_thenNotFound.json"));
     Response response = request.patch();
     Assert.assertEquals(response.getStatusCode(), HttpStatus.SC_NOT_FOUND);
   }
@@ -71,7 +77,7 @@ public class PartiallyEmployeesApiTest {
     RequestSpecification request = RestAssured.given();
     request.contentType(ContentType.JSON);
     request.baseUri("http://localhost:9119/api/Employee/201");
-    request.body(CommonUtil.readBody("requestBody/PartiallyEmployeesAPI_WhenRequiredBodyRequestIsEmpty_thenBadRequest.json"));
+    request.body(CommonUtil.readFileContent("requestBody/PartiallyEmployeesAPI_WhenRequiredBodyRequestIsEmpty_thenBadRequest.json"));
     Response response = request.patch();
     Assert.assertEquals(response.getStatusCode(), HttpStatus.SC_BAD_REQUEST);
 
@@ -85,7 +91,7 @@ public class PartiallyEmployeesApiTest {
     RequestSpecification request = RestAssured.given();
     request.contentType(ContentType.JSON);
     request.baseUri("http://localhost:9119/api/Employee/201");
-    request.body(CommonUtil.readBody("requestBody/PartiallyEmployeesAPI_WhenRequiredBodyRequestIsMissing_thenBadRequest.json"));
+    request.body(CommonUtil.readFileContent("requestBody/PartiallyEmployeesAPI_WhenRequiredBodyRequestIsMissing_thenBadRequest.json"));
     Response response = request.patch();
     Assert.assertEquals(response.getStatusCode(), HttpStatus.SC_BAD_REQUEST);
 

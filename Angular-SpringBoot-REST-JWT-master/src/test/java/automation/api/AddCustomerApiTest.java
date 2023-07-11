@@ -9,6 +9,7 @@ import io.restassured.specification.RequestSpecification;
 import org.apache.http.HttpStatus;
 import org.testng.Assert;
 import org.testng.annotations.BeforeMethod;
+import org.testng.annotations.BeforeTest;
 import org.testng.annotations.Test;
 
 import java.util.List;
@@ -17,9 +18,13 @@ import java.util.Map;
 public class AddCustomerApiTest {
   private DatabaseUtil databaseUtil;
 
+  @BeforeTest
+  public void beforeTest() throws Exception {
+    this.databaseUtil = new DatabaseUtil();
+  }
+
   @BeforeMethod
   public void prepareData() throws Exception {
-    this.databaseUtil = new DatabaseUtil();
     // clean up tables.
     databaseUtil.executeSQL("script/cleanUp.sql");
     // prepare data to test.
@@ -28,14 +33,14 @@ public class AddCustomerApiTest {
 
   @Test
   public void AddCustomerApi_WhenDataIsValid_ThenAddedCustomer() throws Exception {
-    // Call Rest Assued to send request and check response
+    // Call RestAssured to send request and check response
     RequestSpecification request = RestAssured.given();
     // Call Header (Content type)
     request.contentType(ContentType.JSON);
     // Call URL
     request.baseUri("http://localhost:9119/api/customers");
     // read request body
-    request.body(CommonUtil.readBody("requestBody/AddCustomerApi_WhenDataIsValid_ThenAddedCustomer.json"));
+    request.body(CommonUtil.readFileContent("requestBody/AddCustomerApi_WhenDataIsValid_ThenAddedCustomer.json"));
     // Call POST method
     Response response = request.post();
 
@@ -72,7 +77,7 @@ public class AddCustomerApiTest {
     // Call URL
     request.baseUri("http://localhost:9119/api/customers");
     // read request body
-    request.body(CommonUtil.readBody("requestBody/AddCustomerApi_WhenDataIsInvalid_ThenCantAddCustomer.json"));
+    request.body(CommonUtil.readFileContent("requestBody/AddCustomerApi_WhenDataIsInvalid_ThenCantAddCustomer.json"));
     // Call POST method
     Response response = request.post();
 
@@ -93,7 +98,7 @@ public class AddCustomerApiTest {
     // Call URL
     request.baseUri("http://localhost:9119/api/customers");
     // read request body
-    request.body(CommonUtil.readBody("requestBody/AddCustomerApi_WhenDataMissedIDField_ThenCantAddCustomer.json"));
+    request.body(CommonUtil.readFileContent("requestBody/AddCustomerApi_WhenDataMissedIDField_ThenCantAddCustomer.json"));
     // Call POST method
     Response response = request.post();
 
@@ -112,7 +117,7 @@ public class AddCustomerApiTest {
     RequestSpecification request = RestAssured.given();
     request.contentType(ContentType.JSON);
     request.baseUri("http://localhost:9119/api/customers");
-    request.body(CommonUtil.readBody("requestBody/AddCustomerApi_WhenDataMissedFirstNameLastNameField_ThenCustomerAdded.json"));
+    request.body(CommonUtil.readFileContent("requestBody/AddCustomerApi_WhenDataMissedFirstNameLastNameField_ThenCustomerAdded.json"));
     Response response = request.post();
     Assert.assertEquals(response.getStatusCode(), HttpStatus.SC_OK);
 
@@ -142,7 +147,7 @@ public class AddCustomerApiTest {
     RequestSpecification request = RestAssured.given();
     request.contentType(ContentType.JSON);
     request.baseUri("http://localhost:9119/api/customers");
-    request.body(CommonUtil.readBody("requestBody/AddCustomerApi_WhenRequiredRequestBodyIsEmpty_ThenBadRequestData.json"));
+    request.body(CommonUtil.readFileContent("requestBody/AddCustomerApi_WhenRequiredRequestBodyIsEmpty_ThenBadRequestData.json"));
     Response response = request.post();
     Assert.assertEquals(response.getStatusCode(), HttpStatus.SC_BAD_REQUEST);
 

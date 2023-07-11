@@ -9,6 +9,7 @@ import io.restassured.specification.RequestSpecification;
 import org.apache.http.HttpStatus;
 import org.testng.Assert;
 import org.testng.annotations.BeforeMethod;
+import org.testng.annotations.BeforeTest;
 import org.testng.annotations.Test;
 
 import java.util.List;
@@ -16,6 +17,11 @@ import java.util.Map;
 
 public class UpdateEmployeeApiTest {
   private DatabaseUtil databaseUtil;
+
+  @BeforeTest
+  public void beforeTest() throws Exception {
+    this.databaseUtil = new DatabaseUtil();
+  }
 
   @BeforeMethod
   public void prepareStub() throws Exception {
@@ -29,7 +35,7 @@ public class UpdateEmployeeApiTest {
     RequestSpecification request = RestAssured.given();
     request.contentType(ContentType.JSON);
     request.baseUri("http://localhost:9119/api/Employees/201");
-    request.body(CommonUtil.readBody("requestBody/UpdateEmployeeApi_WhenEmployeesIDIsValid_ThenUpdateData.json"));
+    request.body(CommonUtil.readFileContent("requestBody/UpdateEmployeeApi_WhenEmployeesIDIsValid_ThenUpdateData.json"));
     Response response = request.put();
     Assert.assertEquals(response.getStatusCode(), HttpStatus.SC_OK);
 
@@ -47,7 +53,7 @@ public class UpdateEmployeeApiTest {
     RequestSpecification request = RestAssured.given();
     request.contentType(ContentType.JSON);
     request.baseUri("http://localhost:9119/api/Employees/200");
-    request.body(CommonUtil.readBody("requestBody/UpdateEmployeesApi_WhenEmployeesIdIsInvalid_ThenUnableToUpdateResource.json"));
+    request.body(CommonUtil.readFileContent("requestBody/UpdateEmployeesApi_WhenEmployeesIdIsInvalid_ThenUnableToUpdateResource.json"));
     Response response = request.put();
     Assert.assertEquals(response.getStatusCode(), HttpStatus.SC_OK);
 
@@ -61,7 +67,7 @@ public class UpdateEmployeeApiTest {
     RequestSpecification request = RestAssured.given();
     request.contentType(ContentType.JSON);
     request.baseUri("http://localhost:9119/api/Employees/");
-    request.body(CommonUtil.readBody("requestBody/UpdateEmployeesApi_WhenEmployeesIdIsEmpty_ThenNotFound.json"));
+    request.body(CommonUtil.readFileContent("requestBody/UpdateEmployeesApi_WhenEmployeesIdIsEmpty_ThenNotFound.json"));
     Response response = request.put();
     Assert.assertEquals(response.getStatusCode(), HttpStatus.SC_NOT_FOUND);
   }
@@ -71,7 +77,7 @@ public class UpdateEmployeeApiTest {
     RequestSpecification request = RestAssured.given();
     request.contentType(ContentType.JSON);
     request.baseUri("http://localhost:9119/api/Employees/201");
-    request.body(CommonUtil.readBody("requestBody/UpdateEmployeesAPI_WhenRequiredBodyRequestIsEmpty_thenBadRequest.json"));
+    request.body(CommonUtil.readFileContent("requestBody/UpdateEmployeesAPI_WhenRequiredBodyRequestIsEmpty_thenBadRequest.json"));
     Response response = request.put();
     Assert.assertEquals(response.getStatusCode(), HttpStatus.SC_BAD_REQUEST);
 
@@ -85,7 +91,7 @@ public class UpdateEmployeeApiTest {
     RequestSpecification request = RestAssured.given();
     request.contentType(ContentType.JSON);
     request.baseUri("http://localhost:9119/api/Employees/201");
-    request.body(CommonUtil.readBody("requestBody/UpdateEmployeesAPI_WhenRequiredBodyRequestIsMissing_thenBadRequest.json"));
+    request.body(CommonUtil.readFileContent("requestBody/UpdateEmployeesAPI_WhenRequiredBodyRequestIsMissing_thenBadRequest.json"));
     Response response = request.put();
     Assert.assertEquals(response.getStatusCode(), HttpStatus.SC_BAD_REQUEST);
 
