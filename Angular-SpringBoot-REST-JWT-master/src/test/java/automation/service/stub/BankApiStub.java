@@ -15,21 +15,32 @@ public class BankApiStub {
   private WireMockServer wireMockServer;
 
   public BankApiStub(int port) throws IOException {
+    // call fake object API
     wireMockServer = new WireMockServer(port);
     wireMockServer.start();
 
     // GET Balance, 200
+    // call path param
     wireMockServer.stubFor(WireMock.get(WireMock.urlEqualTo("/api/1/balance"))
+      // return response
       .willReturn(WireMock.aResponse()
+        // test status
         .withStatus(HttpStatus.SC_OK)
+        // json content type
         .withHeader("content-type", "application/json")
+        // read response body
         .withBody("__files/balance.json")));
 
     // GET Balance, 400
+    // call path param
     wireMockServer.stubFor(WireMock.get(WireMock.urlEqualTo("/api/2/balance"))
+      // return response
       .willReturn(WireMock.aResponse()
+        // test status
         .withStatus(HttpStatus.SC_BAD_REQUEST)
+        // json content type
         .withHeader("content-type", "application/json")
+        // read response body
         .withBody("__files/NotFoundAccount.json")));
 
     // GET Balance, 500

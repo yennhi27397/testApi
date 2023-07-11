@@ -28,22 +28,29 @@ public class AddCustomerApiTest {
 
   @Test
   public void AddCustomerApi_WhenDataIsValid_ThenAddedCustomer() throws Exception {
-    // call API by POST method
+    // Call Rest Assued to send request and check response
     RequestSpecification request = RestAssured.given();
+    // Call Header (Content type)
     request.contentType(ContentType.JSON);
+    // Call URL
     request.baseUri("http://localhost:9119/api/customers");
+    // read request body
     request.body(CommonUtil.readBody("requestBody/AddCustomerApi_WhenDataIsValid_ThenAddedCustomer.json"));
+    // Call POST method
     Response response = request.post();
-    // test status
+
+    // compare status code
     Assert.assertEquals(response.getStatusCode(), HttpStatus.SC_OK);
-    // response
+    // get response body
     String responseString = response.body().asString();
+    // compare String actual response and String expected response
     Assert.assertTrue(CommonUtil.compare(responseString, "expected/AddCustomerApi/AddCustomerApi_WhenDataIsValid_ThenAddedCustomer.json"));
-    // list record.
+    // pass string query to get list record
     List<Map<String, Object>> data = databaseUtil.getRecords("SELECT * FROM customers WHERE first_name='Doan' and last_name='Pham'");
-    // record
+    // todo:
+    // get record
     Map<String, Object> expectedRecord = data.get(0);
-    // data in column 'id'
+    // check data in all column from record
     Assert.assertEquals(expectedRecord.get("id"), 4);
     Assert.assertEquals(expectedRecord.get("city"), "string");
     Assert.assertEquals(expectedRecord.get("company"), "string");
@@ -58,27 +65,43 @@ public class AddCustomerApiTest {
 
   @Test
   public void AddCustomerApi_WhenDataIsInvalid_ThenCantAddCustomer() throws Exception {
+    // Call Rest Assued to send request and check response
     RequestSpecification request = RestAssured.given();
+    // Call Header (Content type)
     request.contentType(ContentType.JSON);
+    // Call URL
     request.baseUri("http://localhost:9119/api/customers");
+    // read request body
     request.body(CommonUtil.readBody("requestBody/AddCustomerApi_WhenDataIsInvalid_ThenCantAddCustomer.json"));
+    // Call POST method
     Response response = request.post();
 
+    // compare status code
     Assert.assertEquals(response.getStatusCode(), HttpStatus.SC_OK);
+    // get response body
     String responseString = response.body().asString();
+    // compare String actual response and String expected response
     Assert.assertTrue(CommonUtil.compare(responseString, "expected/AddCustomerApi/AddCustomerApi_WhenDataIsInvalid_ThenCantAddCustomer.json"));
   }
 
   @Test
   public void AddCustomerApi_WhenDataMissedIDField_ThenCustomerDidNotAdd() throws Exception {
+    // Call Rest Assued to send request and check response
     RequestSpecification request = RestAssured.given();
+    // Call Header (Content type)
     request.contentType(ContentType.JSON);
+    // Call URL
     request.baseUri("http://localhost:9119/api/customers");
+    // read request body
     request.body(CommonUtil.readBody("requestBody/AddCustomerApi_WhenDataMissedIDField_ThenCantAddCustomer.json"));
+    // Call POST method
     Response response = request.post();
 
+    // compare status code
     Assert.assertEquals(response.getStatusCode(), HttpStatus.SC_BAD_REQUEST);
+    // get response body
     String responseString = response.body().asString();
+    // compare String actual response and String expected response but ignore some field unnecessary
     Assert.assertTrue(CommonUtil.compareIgnoreFields(responseString
       , "expected/AddCustomerApi/AddCustomerApi_WhenDataMissedIDField_ThenCantAddCustomer.json"
       , "message"));

@@ -45,14 +45,19 @@ public class AddCustomerWithdrawApiTest {
   public void AddCustomerWithdrawApi_WhenCustomerIDIsValid_ThenWithdrawSuccessfully() throws Exception {
     // call API by POST method
     RequestSpecification request = RestAssured.given();
+    // call header
     request.contentType(ContentType.JSON);
+    // call URL
     request.baseUri("http://localhost:9119/api/customers/withdraw");
+    // read request body
     request.body(CommonUtil.readBody("requestBody/AddCustomerWithdrawApi_WhenCustomerIDIsValid_ThenWithdrawSuccessfully.json"));
+    // call POST method
     Response response = request.post();
     // test status
     Assert.assertEquals(response.getStatusCode(), HttpStatus.SC_OK);
     // response
     String responseString = response.body().asString();
+    // compare actual and expected response
     Assert.assertTrue(CommonUtil.compare(responseString, "expected/AddCustomerWithdrawApi/WhenCustomerIDIsValid_ThenWithdrawSuccessfully.json"));
 
   }

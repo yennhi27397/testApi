@@ -14,10 +14,12 @@ public class CommonUtil {
   private final static String SOURCE_PATH = "src/test/resources/";
   private final static ObjectMapper mapper = new ObjectMapper();
 
+  // pass expected file into param to compare with string actual response
   public static boolean compare(String actual, String expectedFile) throws IOException {
     return convertJsonNode(actual).equals(getResultJsonNode(expectedFile));
   }
 
+  // pass expected file into param to compare with string actual response but ignore some fields unnecessary
   public static boolean compareIgnoreFields(String actual, String expectedFile, String... ignoredFields) throws IOException {
     FileInputStream fisTargetFile = new FileInputStream(SOURCE_PATH + expectedFile);
     Map<String, Object> actualResult = mapper.readValue(actual, Map.class);
@@ -39,6 +41,7 @@ public class CommonUtil {
     return convertJsonNode(data);
   }
 
+  // pass file into param to read body
   public static String readBody(String filePath) throws IOException {
     FileInputStream fisTargetFile = new FileInputStream(SOURCE_PATH + filePath);
     return IOUtils.toString(fisTargetFile, StandardCharsets.UTF_8);

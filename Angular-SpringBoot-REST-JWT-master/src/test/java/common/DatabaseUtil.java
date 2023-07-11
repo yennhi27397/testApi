@@ -26,6 +26,7 @@ public class DatabaseUtil {
     connection = DriverManager.getConnection(connectionURL, USERNAME, PASSWORD);
   }
 
+  // get list record from expected response
   public List<Map<String, Object>> getRecords(String query) throws Exception {
     QueryRunner runner = new QueryRunner();
     return runner.query(connection, query, new MapListHandler());

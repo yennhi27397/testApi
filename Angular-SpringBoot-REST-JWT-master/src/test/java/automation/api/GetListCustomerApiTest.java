@@ -35,17 +35,23 @@ public class GetListCustomerApiTest {
     databaseUtil.executeSQL("script/cleanUp.sql");
     // prepare data to test.
     databaseUtil.executeSQL("script/insert_customers_001.sql");
+    // call string response body
     String response =
       given()
+        // pass query param to search infor
         .queryParam("page", "0")
         .queryParam("size", "1")
+        // call URL
         .when().get("http://localhost:9119/api/customers")
+        // get data
         .then().log()
         .body()
         .assertThat()
+        // get status code
         .statusCode(HttpStatus.SC_OK)
+        // string body
         .extract().asString();
-
+    // compare String actual response with expected response
     Assert.assertTrue(CommonUtil.compare(response, "expected/GetListCustomerApi/GetListCustomerApi_WhenPageIs0AndSizeIs1.json"));
   }
 
@@ -55,17 +61,23 @@ public class GetListCustomerApiTest {
     databaseUtil.executeSQL("script/cleanUp.sql");
     // prepare data to test.
     databaseUtil.executeSQL("script/insert_customers_001.sql");
+    // call string response body
     String response =
       given()
+        // pass query param to search infor
         .queryParam("page", "1")
         .queryParam("size", "1")
+        // call URL
         .when().get("http://localhost:9119/api/customers")
+        // get data
         .then().log()
         .body()
         .assertThat()
+        // get status code
         .statusCode(HttpStatus.SC_OK)
+        // string body
         .extract().asString();
-
+    // compare String actual response with expected response
     Assert.assertTrue(CommonUtil.compare(response, "expected/GetListCustomerApi/GetListCustomerApi_WhenPageIs1AndSizeIs1.json"));
   }
 
