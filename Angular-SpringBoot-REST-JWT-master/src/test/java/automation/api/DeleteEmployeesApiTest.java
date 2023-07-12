@@ -41,8 +41,8 @@ public class DeleteEmployeesApiTest {
     Assert.assertTrue(CommonUtil.compare(respond,
       "expected/DeleteEmployeesApi/deleteEmployeeApi_WhenEmployeesIDIsExist_ThenDeleteData.json"));
 
-    List<Map<String, Object>> data = databaseUtil.getRecords("SELECT * FROM employees WHERE id =201");
-    Assert.assertEquals(data.size(), 0);
+    List<Map<String, Object>> data = databaseUtil.getRecords("SELECT * FROM employees");
+    Assert.assertEquals(data.size(),2);
   }
 
   @Test
@@ -57,6 +57,8 @@ public class DeleteEmployeesApiTest {
         .extract().asString();
     Assert.assertTrue(CommonUtil.compare(respond,
       "expected/DeleteEmployeesApi/deleteEmployeesApi_WhenEmployeeIDIsNotExist_ThenNoEmployeeExist.json"));
+    List<Map<String, Object>> data = databaseUtil.getRecords("SELECT * FROM employees");
+    Assert.assertEquals(data.size(),3);
   }
 
   @Test
@@ -69,6 +71,11 @@ public class DeleteEmployeesApiTest {
         .assertThat()
         .statusCode(HttpStatus.SC_NOT_FOUND)
         .extract().asString();
+
+    Assert.assertTrue(CommonUtil.compareIgnoreFields(respond,"expected/DeleteEmployeesApi/deleteEmployeeApi_WhenEmployeeIDIsEmpty_ThenRespondMethodNotAllowed.json"
+      ,"timestamp","message","path"));
+    List<Map<String, Object>> data = databaseUtil.getRecords("SELECT * FROM Employees");
+    Assert.assertEquals(data.size(),3);
   }
 
 }

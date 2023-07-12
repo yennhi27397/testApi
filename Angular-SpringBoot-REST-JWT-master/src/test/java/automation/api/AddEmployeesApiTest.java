@@ -47,8 +47,8 @@ public class AddEmployeesApiTest {
     Map<String, Object> expectedRecord = data.get(0);
     // field name lay trong table
     Assert.assertEquals(expectedRecord.get("id"), 3);
-    Assert.assertEquals(expectedRecord.get("last_Name"), "string");
-    Assert.assertEquals(expectedRecord.get("first_Name"), "string");
+    Assert.assertEquals(expectedRecord.get("last_name"), "string");
+    Assert.assertEquals(expectedRecord.get("first_name"), "string");
     Assert.assertEquals(expectedRecord.get("email"), "string");
     Assert.assertEquals(expectedRecord.get("avatar"), "string");
     Assert.assertEquals(expectedRecord.get("job_title"), "string");
@@ -78,8 +78,8 @@ public class AddEmployeesApiTest {
     String responseString = response.body().asString();
     Assert.assertTrue(CommonUtil.compare(responseString, "expected/AddEmployeesApi/AddEmployeesApi_WhenEmployeeIDExisted_ThenUnableToAddEmployee.json"));
 
-    List<Map<String, Object>> data = databaseUtil.getRecords("SELECT * FROM employees WHERE id = 203");
-    Map<String, Object> expectedRecord = data.get(0);
+    List<Map<String, Object>> data = databaseUtil.getRecords("SELECT * FROM employees");
+    Assert.assertEquals(data.size(),3);
 
   }
 
@@ -96,8 +96,10 @@ public class AddEmployeesApiTest {
     String responseString = response.body().asString();
     Assert.assertTrue(CommonUtil.compareIgnoreFields(responseString
       , "expected/AddEmployeesApi/AddEmployeesApi_WhenDataMissedIdField_ThenEmployeeDidNotAdd.json"
-      , "message"
-    ));
+      , "message"));
+
+    List<Map<String, Object>> data = databaseUtil.getRecords("SELECT * FROM employees");
+    Assert.assertEquals(data.size(),3);
   }
 
   @Test
@@ -114,10 +116,19 @@ public class AddEmployeesApiTest {
 
     List<Map<String, Object>> data = databaseUtil.getRecords("SELECT * FROM Employees WHERE id=2");
     Map<String, Object> expectedRecord = data.get(0);
-
     Assert.assertEquals(expectedRecord.get("id"), 2);
-
-
+    Assert.assertEquals(expectedRecord.get("email"), "string");
+    Assert.assertEquals(expectedRecord.get("avatar"), "string");
+    Assert.assertEquals(expectedRecord.get("job_title"), "string");
+    Assert.assertEquals(expectedRecord.get("department"), "string");
+    Assert.assertEquals(expectedRecord.get("manager_id"), 0);
+    Assert.assertEquals(expectedRecord.get("phone"), "string");
+    Assert.assertEquals(expectedRecord.get("address1"), "string");
+    Assert.assertEquals(expectedRecord.get("address2"), "string");
+    Assert.assertEquals(expectedRecord.get("city"), "string");
+    Assert.assertEquals(expectedRecord.get("state"), "string");
+    Assert.assertEquals(expectedRecord.get("postal_code"), "string");
+    Assert.assertEquals(expectedRecord.get("country"), "string");
   }
 
   @Test
@@ -134,6 +145,9 @@ public class AddEmployeesApiTest {
       , "expected/AddEmployeesApi/AddEmployeeAPI_WhenRequiredBodyRequestIsEmpty_thenBadRequest.json"
       , "message"));
 
+    List<Map<String, Object>> data = databaseUtil.getRecords("SELECT * FROM employees");
+    Assert.assertEquals(data.size(),3);
+
   }
 
   @Test
@@ -149,6 +163,8 @@ public class AddEmployeesApiTest {
     Assert.assertTrue(CommonUtil.compareIgnoreFields(responseString
       , "expected/AddEmployeesApi/AddEmployeeAPI_WhenRequiredBodyRequestIsMissing_thenBadRequest.json"
       , "message"));
+    List<Map<String, Object>> data = databaseUtil.getRecords("SELECT * FROM employees");
+    Assert.assertEquals(data.size(),3);
 
 
   }

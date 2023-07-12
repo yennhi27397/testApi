@@ -1,13 +1,16 @@
 {
   "address1": "string",
   "address2": "string",
+  "avatar": "string",
   "city": "string",
-  "company": "string",
   "country": "string",
+  "department": "string",
   "email": "string",
   "firstName": "Yen",
   "id": 201,
+  "jobTitle": "string",
   "lastName": "Nhi",
+  "managerId": 0,
   "phone": "string",
   "postalCode": "string",
   "state": "string"

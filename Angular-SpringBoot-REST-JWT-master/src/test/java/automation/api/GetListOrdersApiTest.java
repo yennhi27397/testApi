@@ -21,8 +21,8 @@ public class GetListOrdersApiTest {
   @BeforeMethod
   public void prepareStub() throws Exception {
     this.databaseUtil = new DatabaseUtil();
-    databaseUtil.executeSQL("script/cleanUpOrders.sql");
-    databaseUtil.executeSQL("script/insert_orders.sql");
+    databaseUtil.executeSQL("stubdata/cleanUp.sql");
+    databaseUtil.executeSQL("stubdata/insert_orders.sql");
   }
 
   @Test

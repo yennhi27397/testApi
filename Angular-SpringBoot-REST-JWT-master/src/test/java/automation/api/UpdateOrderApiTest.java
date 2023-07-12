@@ -23,8 +23,8 @@ public class UpdateOrderApiTest {
   @BeforeMethod
   public void prepareStub() throws Exception {
     this.databaseUtil = new DatabaseUtil();
-    databaseUtil.executeSQL("script/cleanUpOrders.sql");
-    databaseUtil.executeSQL("script/insert_orders.sql");
+    databaseUtil.executeSQL("stubdata/cleanUp.sql");
+    databaseUtil.executeSQL("stubdata/insert_orders.sql");
   }
 
   @Test
@@ -66,8 +66,8 @@ public class UpdateOrderApiTest {
     request.baseUri("http://localhost:9119/api/orders/");
     request.body(CommonUtil.readFileContent("requestBody/UpdateOrderApi_WhereOrderIDIsEmpty_ThenMethodNotAllowed.json"));
     Response response = request.put();
-    Assert.assertEquals(response.getStatusCode(), HttpStatus.SC_METHOD_NOT_ALLOWED);
 
+    Assert.assertEquals(response.getStatusCode(), HttpStatus.SC_METHOD_NOT_ALLOWED);
     String responseString = response.body().asString();
     Assert.assertTrue(CommonUtil.compareIgnoreFields(responseString,
       "expected/UpdateOrderApi/UpdateOrderApi_WhereOrderIDIsEmpty_ThenMethodNotAllowed.json"
@@ -81,8 +81,8 @@ public class UpdateOrderApiTest {
     request.baseUri("http://localhost:9119/api/orders/4005");
     request.body(CommonUtil.readFileContent("requestBody/UpdateOrderApi_WhereRequiredBodyRequestIsEmpty_ThenBadRequestData.json"));
     Response response = request.put();
-    Assert.assertEquals(response.getStatusCode(), HttpStatus.SC_BAD_REQUEST);
 
+    Assert.assertEquals(response.getStatusCode(), HttpStatus.SC_BAD_REQUEST);
     String responseString = response.body().asString();
     Assert.assertTrue(CommonUtil.compareIgnoreFields(responseString,
       "expected/UpdateOrderApi/UpdateOrderApi_WhereRequiredBodyRequestIsEmpty_ThenBadRequestData.json"
@@ -96,8 +96,8 @@ public class UpdateOrderApiTest {
     request.baseUri("http://localhost:9119/api/orders/4005");
     request.body(CommonUtil.readFileContent("requestBody/UpdateOrderApi_WhereRequiredBodyRequestIsMissing_ThenBadRequestData.json"));
     Response response = request.put();
-    Assert.assertEquals(response.getStatusCode(), HttpStatus.SC_BAD_REQUEST);
 
+    Assert.assertEquals(response.getStatusCode(), HttpStatus.SC_BAD_REQUEST);
     String responseString = response.body().asString();
     Assert.assertTrue(CommonUtil.compareIgnoreFields(responseString,
       "expected/UpdateOrderApi/UpdateOrderApi_WhereRequiredBodyRequestIsMissing_ThenBadRequestData.json"
@@ -112,8 +112,8 @@ public class UpdateOrderApiTest {
     request.baseUri("http://localhost:9119/api/orders/4004");
     request.body(CommonUtil.readFileContent("requestBody/UpdateOrderApi_WhereCustomerIDIsValid_ThenResourceUpdated.json"));
     Response response = request.put();
-    Assert.assertEquals(response.getStatusCode(), HttpStatus.SC_OK);
 
+    Assert.assertEquals(response.getStatusCode(), HttpStatus.SC_OK);
     String responseString = response.body().asString();
     Assert.assertTrue(CommonUtil.compareIgnoreFields(responseString,
       "expected/UpdateOrderApi/UpdateOrderApi_WhereCustomerIDIsValid_ThenResourceUpdated.json"

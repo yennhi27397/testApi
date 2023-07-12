@@ -26,15 +26,34 @@
     </classes>
   </test>
 
-  <test name="GetListOderApiTest">
+  <test name="GetListOrdersApiTest">
     <classes>
-      <class name="automation.api.GetListOderDetailApiTestTest"/>
+      <class name="automation.api.GetListOrdersApiTest"/>
     </classes>
   </test>
+
+  <test name="GetListOderDetailApiTest">
+    <classes>
+      <class name="automation.api.GetListOderDetailApiTest"/>
+    </classes>
+  </test>
+
 
   <test name="UpdateCustomerApiTest">
     <classes>
       <class name="automation.api.UpdateCustomerApiTest"/>
+    </classes>
+  </test>
+
+  <test name="UpdateEmployeeApiTest">
+    <classes>
+      <class name="automation.api.UpdateEmployeeApiTest"/>
+    </classes>
+  </test>
+
+  <test name="UpdateOrderApiTest">
+    <classes>
+      <class name="automation.api.UpdateOrderApiTest"/>
     </classes>
   </test>
 
@@ -59,19 +78,6 @@
   <test name="PartiallyEmployeesApiTest">
     <classes>
       <class name="automation.api.PartiallyEmployeesApiTest"/>
-    </classes>
-  </test>
-
-  <test name="GetListOderDetailApiTestTest">
-    <classes>
-      <class name="automation.api.GetListOderDetailApiTestTest"/>
-    </classes>
-  </test>
-
-
-  <test name="UpdateEmployeeApiTest">
-    <classes>
-      <class name="automation.api.UpdateEmployeeApiTest"/>
     </classes>
   </test>
 

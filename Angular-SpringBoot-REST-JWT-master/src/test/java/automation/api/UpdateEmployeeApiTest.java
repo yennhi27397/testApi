@@ -46,6 +46,22 @@ public class UpdateEmployeeApiTest {
     List<Map<String, Object>> data = databaseUtil.getRecords("SELECT * FROM employees WHERE id = 201");
     Map<String, Object> expectedRecord = data.get(0);
     Assert.assertEquals(expectedRecord.get("id"), 201);
+    Assert.assertEquals(expectedRecord.get("last_name"), "Nhi");
+    Assert.assertEquals(expectedRecord.get("first_name"), "Yen");
+    Assert.assertEquals(expectedRecord.get("email"), "string");
+    Assert.assertEquals(expectedRecord.get("avatar"), "string");
+    Assert.assertEquals(expectedRecord.get("job_title"), "string");
+    Assert.assertEquals(expectedRecord.get("department"), "string");
+    Assert.assertEquals(expectedRecord.get("manager_id"), 0);
+    Assert.assertEquals(expectedRecord.get("phone"), "string");
+    Assert.assertEquals(expectedRecord.get("address1"), "string");
+    Assert.assertEquals(expectedRecord.get("address2"), "string");
+    Assert.assertEquals(expectedRecord.get("city"), "string");
+    Assert.assertEquals(expectedRecord.get("state"), "string");
+    Assert.assertEquals(expectedRecord.get("postal_code"), "string");
+    Assert.assertEquals(expectedRecord.get("country"), "string");
+
+
   }
 
   @Test
@@ -69,7 +85,13 @@ public class UpdateEmployeeApiTest {
     request.baseUri("http://localhost:9119/api/Employees/");
     request.body(CommonUtil.readFileContent("requestBody/UpdateEmployeesApi_WhenEmployeesIdIsEmpty_ThenNotFound.json"));
     Response response = request.put();
+
     Assert.assertEquals(response.getStatusCode(), HttpStatus.SC_NOT_FOUND);
+    String responseString = response.body().asString();
+    Assert.assertTrue(CommonUtil.compareIgnoreFields(responseString,"expected/UpdateEmployeesApi/UpdateEmployeesApi_WhenEmployeesIdIsEmpty_ThenNotFound.json"
+      ,"timestamp","message","path"));
+
+
   }
 
   @Test
@@ -82,8 +104,9 @@ public class UpdateEmployeeApiTest {
     Assert.assertEquals(response.getStatusCode(), HttpStatus.SC_BAD_REQUEST);
 
     String responseString = response.body().asString();
-    Assert.assertTrue(CommonUtil.compare(responseString,
-      "expected/UpdateEmployeesApi/UpdateEmployeesAPI_WhenRequiredBodyRequestIsEmpty_thenBadRequest.json"));
+    Assert.assertTrue(CommonUtil.compareIgnoreFields(responseString,
+      "expected/UpdateEmployeesApi/UpdateEmployeesAPI_WhenRequiredBodyRequestIsEmpty_thenBadRequest.json"
+    ,"message"));
   }
 
   @Test

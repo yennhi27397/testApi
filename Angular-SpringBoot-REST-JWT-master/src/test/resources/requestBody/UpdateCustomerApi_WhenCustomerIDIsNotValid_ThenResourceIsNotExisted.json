@@ -1,13 +1,15 @@
 {
-  "lastName": "Yen",
-  "firstName": "Nhi",
-  "email": "cgray0@rambler.ru",
-  "company": "Jetpulse",
-  "phone": "1-(260)615-5114",
-  "address1": "02937 Merrick Avenue",
-  "address2": null,
-  "city": "Fort Wayne",
-  "state": "Indiana",
-  "postalCode": "46805",
-  "country": "United States"
+  "address1": "string",
+  "address2": "string",
+  "balance": "string",
+  "city": "string",
+  "company": "string",
+  "country": "string",
+  "email": "string",
+  "firstName": "Yen",
+  "id": 4,
+  "lastName": "Nhi",
+  "phone": "string",
+  "postalCode": "string",
+  "state": "string"
 }

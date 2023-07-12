@@ -46,6 +46,17 @@ public class UpdateCustomerApiTest {
     Map<String, Object> expectedRecord = data.get(0);
 
     Assert.assertEquals(expectedRecord.get("id"), 1);
+    Assert.assertEquals(expectedRecord.get("last_name"), "Yen");
+    Assert.assertEquals(expectedRecord.get("first_name"), "Nhi");
+    Assert.assertEquals(expectedRecord.get("email"), "cgray0@rambler.ru");
+    Assert.assertEquals(expectedRecord.get("company"), "Jetpulse");
+    Assert.assertEquals(expectedRecord.get("phone"), "1-(260)615-5114");
+    Assert.assertEquals(expectedRecord.get("address1"), "02937 Merrick Avenue");
+    Assert.assertEquals(expectedRecord.get("city"), "Fort Wayne");
+    Assert.assertEquals(expectedRecord.get("state"), "Indiana");
+    Assert.assertEquals(expectedRecord.get("postal_code"), "46805");
+    Assert.assertEquals(expectedRecord.get("country"), "United States");
+
   }
 
   @Test
@@ -70,7 +81,9 @@ public class UpdateCustomerApiTest {
     Response response = request.put();
     Assert.assertEquals(response.getStatusCode(), HttpStatus.SC_METHOD_NOT_ALLOWED);
 
-
+    String responseString = response.body().asString();
+    Assert.assertTrue(CommonUtil.compareIgnoreFields(responseString, "expected/UpdateCustomerApi/UpdateCustomerApi_WhenCustomerIDIsEmpty_ThenMethodNotAllowed.json"
+    , "timestamp","exception","message","path"));
   }
 
   @Test
@@ -81,6 +94,10 @@ public class UpdateCustomerApiTest {
     request.body(CommonUtil.readFileContent("requestBody/UpdateCustomerAPI_WhenRequiredBodyRequestIsEmpty_thenBadRequest.json"));
     Response response = request.put();
     Assert.assertEquals(response.getStatusCode(), HttpStatus.SC_BAD_REQUEST);
+
+    String responseString = response.body().asString();
+    Assert.assertTrue(CommonUtil.compareIgnoreFields(responseString, "expected/UpdateCustomerApi/UpdateCustomerAPI_WhenRequiredBodyRequestIsEmpty_thenBadRequest.json"
+      , "message"));
   }
 
   @Test
@@ -90,13 +107,12 @@ public class UpdateCustomerApiTest {
     request.baseUri("http://localhost:9119/api/customers/3");
     request.body(CommonUtil.readFileContent("requestBody/UpdateCustomerAPI_WhenRequiredBodyRequestIsMissing_thenBadRequest.json"));
     Response response = request.put();
-    Assert.assertEquals(response.getStatusCode(), HttpStatus.SC_BAD_REQUEST);
 
+    Assert.assertEquals(response.getStatusCode(), HttpStatus.SC_BAD_REQUEST);
     String responseString = response.body().asString();
     Assert.assertTrue(CommonUtil.compareIgnoreFields(responseString,
       "expected/UpdateCustomerApi/UpdateCustomerAPI_WhenRequiredBodyRequestIsMissing_thenBadRequest.json",
-      "message", "path")
-    );
+      "message"));
   }
 }
 
