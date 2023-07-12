@@ -22,7 +22,6 @@ public class UpdateOrderApiTest {
 
   @BeforeMethod
   public void prepareStub() throws Exception {
-    this.databaseUtil = new DatabaseUtil();
     databaseUtil.executeSQL("stubdata/cleanUp.sql");
     databaseUtil.executeSQL("stubdata/insert_orders.sql");
   }
@@ -132,6 +131,6 @@ public class UpdateOrderApiTest {
     String responseString = response.body().asString();
     Assert.assertTrue(CommonUtil.compareIgnoreFields(responseString,
       "expected/UpdateOrderApi/UpdateOrderApi_WhereCustomerIDIsInvalid_ThenConstraintViolationOfResource.json"
-      , "first", "last", "currentPageNumber", "itemsInPage", "pageSize", "totalPages", "totalItems", "sort", "items"));
+      , "message"));
   }
 }

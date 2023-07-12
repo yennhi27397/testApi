@@ -1,5 +1,7 @@
 package com.app.api.order;
 
+import com.app.Common;
+import com.app.exception.BadRequestException;
 import com.app.model.order.*;
 import com.app.model.response.OperationResponse;
 import com.app.repo.OrderInfoRepo;
@@ -45,22 +47,19 @@ public class OrderController {
     @PathVariable("Id") Integer Id,
     @RequestBody Order Order
   ) {
+    if (Common.isEmptyObject(Order)) {
+      throw new BadRequestException("");
+    }
     OrderInfoResponse resp = new OrderInfoResponse();
-    try {
-      if (!this.orderRepo.exists(Id)) {
-        resp.setOperationStatus(ResponseStatusEnum.ERROR);
-        resp.setOperationMessage("Unable to update Resource - Resource is not existed");
-      } else {
-        var updateCus = this.orderRepo.findOne(Id);
-        BeanUtils.copyProperties(Order, updateCus, "id");
-        this.orderRepo.save(updateCus);
-        resp.setOperationStatus(ResponseStatusEnum.SUCCESS);
-        resp.setOperationMessage("Resource Updated");
-      }
-    } catch (Exception e) {
-      System.out.println("========= MRIN GENERIC EXCEPTION ============");
+    if (!this.orderRepo.exists(Id)) {
       resp.setOperationStatus(ResponseStatusEnum.ERROR);
-      resp.setOperationMessage(e.getMessage());
+      resp.setOperationMessage("Unable to update Resource - Resource is not existed");
+    } else {
+      var updateCus = this.orderRepo.findOne(Id);
+      BeanUtils.copyProperties(Order, updateCus, "id");
+      this.orderRepo.save(updateCus);
+      resp.setOperationStatus(ResponseStatusEnum.SUCCESS);
+      resp.setOperationMessage("Resource Updated");
     }
     return resp;
   }

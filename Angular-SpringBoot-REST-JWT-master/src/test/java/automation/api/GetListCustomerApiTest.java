@@ -23,7 +23,6 @@ public class GetListCustomerApiTest {
 
   @BeforeMethod
   public void prepareData() throws Exception {
-    this.databaseUtil = new DatabaseUtil();
     // clean up tables.
     databaseUtil.executeSQL("script/cleanUp.sql");
     // prepare data to test.

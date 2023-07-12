@@ -25,7 +25,6 @@ public class PartiallyCustomerApiTest {
 
   @BeforeMethod
   public void prepareData() throws Exception {
-    this.databaseUtil = new DatabaseUtil();
     databaseUtil.executeSQL("script/cleanUp.sql");
     databaseUtil.executeSQL("script/insert_customers.sql");
   }

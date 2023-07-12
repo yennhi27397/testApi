@@ -3,6 +3,7 @@ package com.app.api;
 import com.app.exception.BadRequestException;
 import com.app.model.response.ErrorResponse;
 import com.app.model.response.OperationResponse;
+import org.hibernate.exception.ConstraintViolationException;
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.http.ResponseEntity;
 import org.springframework.http.converter.HttpMessageNotReadableException;
@@ -21,7 +22,15 @@ Use @ExceptionHandler annotation to define the class of Exception it will catch.
 @RestController
 public class GlobalExceptionHandler {
   @ExceptionHandler(value = DataIntegrityViolationException.class)
-  public OperationResponse handleBaseException(DataIntegrityViolationException e) {
+  public Object handleBaseException(DataIntegrityViolationException e) {
+    if (e.getCause() instanceof ConstraintViolationException) {
+      ErrorResponse resp = ErrorResponse.builder()
+        .status(400)
+        .error("Constraint Violation of Resource")
+        .message(e.getMessage())
+        .build();
+      return ResponseEntity.status(400).body(resp);
+    }
     OperationResponse resp = new OperationResponse();
     resp.setOperationStatus(ResponseStatusEnum.ERROR);
     resp.setOperationMessage(e.getRootCause().getMessage());

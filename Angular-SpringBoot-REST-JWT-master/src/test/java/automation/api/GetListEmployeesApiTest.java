@@ -20,7 +20,6 @@ public class GetListEmployeesApiTest {
 
   @BeforeMethod
   public void prepareData() throws Exception {
-    this.databaseUtil = new DatabaseUtil();
     databaseUtil.executeSQL("script/cleanUp.sql");
     databaseUtil.executeSQL("script/insert_employees.sql");
   }
