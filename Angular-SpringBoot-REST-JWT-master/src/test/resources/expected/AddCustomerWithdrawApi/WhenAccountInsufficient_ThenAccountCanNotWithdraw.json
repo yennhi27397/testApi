@@ -1,8 +1,8 @@
 {
-  "accountId" : "1",
-  "balance" : "1000$",
-  "status" : "FAILED",
-  "transactionId" : "1234567890",
+  "accountId": "2",
+  "balance": "1000$",
+  "transactionId": "1234567890",
+  "status": "FAILED",
   "amount": "900",
-  "errorCode" : "INSUFFICIENT_FUND"
+  "errorCode": "INSUFFICIENT_FUND"
 }

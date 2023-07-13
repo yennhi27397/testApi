@@ -28,7 +28,7 @@ public class AddCustomerWithdrawApiTest {
     this.bankApiStub = new BankApiStub(9090);
   }
 
-    @BeforeMethod
+  @BeforeMethod
   public void prepareData() throws Exception {
     // clean up tables.
     databaseUtil.executeSQL("script/cleanUp.sql");
@@ -60,21 +60,46 @@ public class AddCustomerWithdrawApiTest {
     String responseString = response.body().asString();
     // compare actual and expected response
     Assert.assertTrue(CommonUtil.compare(responseString, "expected/AddCustomerWithdrawApi/WhenCustomerIDIsValid_ThenWithdrawSuccessfully.json"));
-
   }
 
   @Test
-  public void AddCustomerWithdrawApi_WhenAccountInsufficient_ThenAccountCanNotWithdraw() throws Exception {
-    // call API by POST method
+  public void AddCustomerWithdrawApi_WhenAccountInsufficientFund_ThenAccountCanNotWithdraw() throws Exception {
     RequestSpecification request = RestAssured.given();
     request.contentType(ContentType.JSON);
     request.baseUri("http://localhost:9119/api/customers/withdraw");
     request.body(CommonUtil.readFileContent("requestBody/AddCustomerWithdrawApi_WhenAccountInsufficient_ThenAccountCanNotWithdraw.json"));
+
     Response response = request.post();
-    // test status
     Assert.assertEquals(response.getStatusCode(), HttpStatus.SC_OK);
-    // response
     String responseString = response.body().asString();
     Assert.assertTrue(CommonUtil.compare(responseString, "expected/AddCustomerWithdrawApi/WhenAccountInsufficient_ThenAccountCanNotWithdraw.json"));
+  }
+
+  @Test
+  public void AddCustomerIDWithdraw_WhenCustomerIDDoesNotExist_ThenAccountCanNotFound() throws Exception {
+    RequestSpecification request = RestAssured.given();
+    request.contentType(ContentType.JSON);
+    request.baseUri("http://localhost:9119/api/customers/withdraw");
+    request.body(CommonUtil.readFileContent("requestBody/AddCustomerIDWithdraw_WhenCustomerIDDoesNotExist_ThenAccountCanNotFound.json"));
+    Response response = request.post();
+
+    Assert.assertEquals(response.getStatusCode(), HttpStatus.SC_BAD_REQUEST);
+    String responseString = response.body().asString();
+    Assert.assertTrue(CommonUtil.compareIgnoreFields(responseString, "expected/AddCustomerWithdrawApi/WhenCustomerIDDoesNotExist_ThenAccountCanNotFound.json"
+      , "accountId", "balance", "transactionId", "status", "amount"));
+  }
+
+  @Test
+  public void AddCustomerIDWithdraw_WhenInternalServerError_ThenAccountCanNotWithdraw() throws Exception {
+    RequestSpecification request = RestAssured.given();
+    request.contentType(ContentType.JSON);
+    request.baseUri("http://localhost:9119/api/customers/withdraw");
+    request.body(CommonUtil.readFileContent("requestBody/AddCustomerIDWithdraw_WhenInternalServerError_ThenAccountCanNotWithdraw.json"));
+
+    Response response = request.post();
+    Assert.assertEquals(response.getStatusCode(), HttpStatus.SC_INTERNAL_SERVER_ERROR);
+    String responseString = response.body().asString();
+    Assert.assertTrue(CommonUtil.compare(responseString, "expected/AddCustomerWithdrawApi/WhenInternalServerError_ThenAccountCanNotWithdraw.json"));
+
   }
 }
