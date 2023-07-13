@@ -1,6 +1,7 @@
 package com.app.config;
 
 import com.app.exception.BadRequestException;
+import com.app.exception.BankBadRequestException;
 import org.springframework.http.client.ClientHttpResponse;
 import org.springframework.web.client.DefaultResponseErrorHandler;
 
@@ -16,7 +17,7 @@ public class BankApiErrorHandler extends DefaultResponseErrorHandler {
     if (response.getStatusCode().is4xxClientError() || response.getStatusCode().is5xxServerError()) {
       try (BufferedReader reader = new BufferedReader(new InputStreamReader(response.getBody()))) {
         String httpBodyResponse = reader.lines().collect(Collectors.joining());
-        throw BadRequestException.builder().errorMsg(httpBodyResponse).build();
+        throw BankBadRequestException.builder().errorMsg(httpBodyResponse).build();
       }
     }
   }

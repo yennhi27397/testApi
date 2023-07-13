@@ -91,15 +91,19 @@ public class AddCustomerWithdrawApiTest {
 
   @Test
   public void AddCustomerIDWithdraw_WhenInternalServerError_ThenAccountCanNotWithdraw() throws Exception {
+    databaseUtil.executeSQL("script/cleanUp.sql");
+    databaseUtil.executeSQL("script/insert_customer_for_withdraw.sql");
+
     RequestSpecification request = RestAssured.given();
     request.contentType(ContentType.JSON);
     request.baseUri("http://localhost:9119/api/customers/withdraw");
     request.body(CommonUtil.readFileContent("requestBody/AddCustomerIDWithdraw_WhenInternalServerError_ThenAccountCanNotWithdraw.json"));
 
     Response response = request.post();
-    Assert.assertEquals(response.getStatusCode(), HttpStatus.SC_INTERNAL_SERVER_ERROR);
+    Assert.assertEquals(response.getStatusCode(), HttpStatus.SC_BAD_REQUEST);
     String responseString = response.body().asString();
-    Assert.assertTrue(CommonUtil.compare(responseString, "expected/AddCustomerWithdrawApi/WhenInternalServerError_ThenAccountCanNotWithdraw.json"));
+    Assert.assertTrue(CommonUtil.compareIgnoreFields(responseString, "expected/AddCustomerWithdrawApi/WhenInternalServerError_ThenAccountCanNotWithdraw.json"
+      , "message"));
 
   }
 }

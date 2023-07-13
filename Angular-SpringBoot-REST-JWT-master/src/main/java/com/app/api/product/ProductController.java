@@ -11,7 +11,9 @@ import io.swagger.annotations.ApiParam;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.http.MediaType;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.util.ReflectionUtils;
@@ -51,9 +53,13 @@ public class ProductController {
     if (category != null) {
       qry.setCategory(category);
     }
-
+    boolean isDefault = false;
+    if (pageable.getSort() == null) {
+      isDefault = true;
+      pageable = new PageRequest(pageable.getPageNumber(), pageable.getPageSize(), Sort.Direction.ASC, "id");
+    }
     Page<Product> productPage = productRepo.findAll(org.springframework.data.domain.Example.of(qry), pageable);
-    resp.setPageStats(productPage, true);
+    resp.setPageStats(productPage, true, isDefault);
     resp.setItems(productPage.getContent());
     return resp;
   }

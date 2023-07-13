@@ -35,7 +35,7 @@ public class PageResponse extends OperationResponse {
   private Sort sort;
   private List items;
 
-  public void setPageStats(Page pg, boolean setDefaultMessage) {
+  public void setPageStats(Page pg, boolean setDefaultMessage, boolean isDefault) {
     this.first = pg.isFirst();
     this.last = pg.isLast();
     this.currentPageNumber = pg.getNumber();
@@ -45,6 +45,9 @@ public class PageResponse extends OperationResponse {
     this.totalItems = pg.getTotalElements();
     //this.items             = pg.getContent();
     this.sort = pg.getSort();
+    if (isDefault) {
+      this.sort = null;
+    }
     if (setDefaultMessage == true) {
       this.setOperationStatus(ResponseStatusEnum.SUCCESS);
       this.setOperationMessage("Page " + (pg.getNumber() + 1) + " of " + pg.getTotalPages());

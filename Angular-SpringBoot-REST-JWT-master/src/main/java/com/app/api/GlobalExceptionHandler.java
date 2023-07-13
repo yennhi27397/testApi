@@ -1,6 +1,7 @@
 package com.app.api;
 
 import com.app.exception.BadRequestException;
+import com.app.exception.BankBadRequestException;
 import com.app.model.response.ErrorResponse;
 import com.app.model.response.OperationResponse;
 import org.hibernate.exception.ConstraintViolationException;
@@ -43,6 +44,15 @@ public class GlobalExceptionHandler {
       .status(400)
       .error("Bad request data")
       .message("RequestBody is valid")
+      .build();
+    return ResponseEntity.status(400).body(resp);
+  }
+
+  @ExceptionHandler(value = {BankBadRequestException.class})
+  public ResponseEntity handleBankBadRequestException(BankBadRequestException e) {
+    ErrorResponse resp = ErrorResponse.builder()
+      .status(400)
+      .error("BANKING_INTERNAL_ERROR")
       .build();
     return ResponseEntity.status(400).body(resp);
   }

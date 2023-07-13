@@ -2,6 +2,7 @@ package com.app.api.customer;
 
 import com.app.Common;
 import com.app.exception.BadRequestException;
+import com.app.exception.BankBadRequestException;
 import com.app.model.bank.Transaction;
 import com.app.model.customer.Customer;
 import com.app.model.customer.CustomerResponse;
@@ -16,7 +17,9 @@ import io.swagger.annotations.ApiParam;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.http.MediaType;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.transaction.annotation.Transactional;
@@ -66,9 +69,13 @@ public class CustomerController {
     if (country != null) {
       qry.setCountry(country);
     }
-
+    boolean isDefault = false;
+    if (pageable.getSort() == null) {
+      pageable = new PageRequest(pageable.getPageNumber(), pageable.getPageSize(), Sort.Direction.ASC, "id");
+      isDefault = true;
+    }
     Page<Customer> pg = customerRepo.findAll(org.springframework.data.domain.Example.of(qry), pageable);
-    resp.setPageStats(pg, true);
+    resp.setPageStats(pg, true, isDefault);
     resp.setItems(pg.getContent());
     return resp;
   }
@@ -173,15 +180,11 @@ public class CustomerController {
     if (Objects.isNull(withdrawRequest.getAccountId())) {
       throw new BadRequestException();
     }
-    try {
-      if (!this.customerRepo.exists(withdrawRequest.getAccountId())) {
-        resp.setOperationStatus(ResponseStatusEnum.ERROR);
-        resp.setOperationMessage("Unable to Get Resource - Resource is not existed");
-      } else {
-        return bankRepo.withdraw(withdrawRequest.getAccountId().toString(), withdrawRequest.getAmount());
-      }
-    } catch (BadRequestException e) {
-      return new ObjectMapper().readValue(e.getErrorMsg(), Transaction.class);
+    if (!this.customerRepo.exists(withdrawRequest.getAccountId())) {
+      resp.setOperationStatus(ResponseStatusEnum.ERROR);
+      resp.setOperationMessage("Unable to Get Resource - Resource is not existed");
+    } else {
+      return bankRepo.withdraw(withdrawRequest.getAccountId().toString(), withdrawRequest.getAmount());
     }
     return resp;
   }

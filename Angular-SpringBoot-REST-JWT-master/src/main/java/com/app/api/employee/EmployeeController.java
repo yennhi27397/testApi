@@ -12,7 +12,9 @@ import io.swagger.annotations.ApiParam;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.http.MediaType;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.transaction.annotation.Transactional;
@@ -50,9 +52,13 @@ public class EmployeeController {
     if (employeeId != null) {
       qry.setId(employeeId);
     }
-
+    boolean isDefault = false;
+    if (pageable.getSort() == null) {
+      isDefault = true;
+      pageable = new PageRequest(pageable.getPageNumber(), pageable.getPageSize(), Sort.Direction.ASC, "id");
+    }
     Page<Employee> pg = employeeRepo.findAll(org.springframework.data.domain.Example.of(qry), pageable);
-    resp.setPageStats(pg, true);
+    resp.setPageStats(pg, true, isDefault);
     resp.setItems(pg.getContent());
     return resp;
   }
