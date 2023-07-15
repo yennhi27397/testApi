@@ -7,6 +7,8 @@ import io.restassured.http.ContentType;
 import io.restassured.response.Response;
 import io.restassured.specification.RequestSpecification;
 import org.apache.http.HttpStatus;
+import org.skyscreamer.jsonassert.JSONAssert;
+import org.skyscreamer.jsonassert.JSONCompareMode;
 import org.testng.Assert;
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.BeforeTest;
@@ -34,13 +36,13 @@ public class UpdateEmployeeApiTest {
     RequestSpecification request = RestAssured.given();
     request.contentType(ContentType.JSON);
     request.baseUri("http://localhost:9119/api/Employees/201");
-    request.body(CommonUtil.readFileContent("requestBody/UpdateEmployeeApi_WhenEmployeesIDIsValid_ThenUpdateData.json"));
+    request.body(CommonUtil.readContentFile("requestBody/UpdateEmployeeApi_WhenEmployeesIDIsValid_ThenUpdateData.json"));
     Response response = request.put();
     Assert.assertEquals(response.getStatusCode(), HttpStatus.SC_OK);
 
     String responseString = response.body().asString();
-    Assert.assertTrue(CommonUtil.compare(responseString,
-      "expected/UpdateEmployeesApi/UpdateEmployeesApi_WhenEmployeesIdIsValid_ThenEmployeesAdded.json"));
+    String expectedString = CommonUtil.readContentFile("expected/UpdateEmployeesApi/UpdateEmployeesApi_WhenEmployeesIdIsValid_ThenEmployeesAdded.json");
+    JSONAssert.assertEquals(expectedString, responseString, JSONCompareMode.STRICT);
 
     List<Map<String, Object>> data = databaseUtil.getRecords("SELECT * FROM employees WHERE id = 201");
     Map<String, Object> expectedRecord = data.get(0);
@@ -68,13 +70,13 @@ public class UpdateEmployeeApiTest {
     RequestSpecification request = RestAssured.given();
     request.contentType(ContentType.JSON);
     request.baseUri("http://localhost:9119/api/Employees/200");
-    request.body(CommonUtil.readFileContent("requestBody/UpdateEmployeesApi_WhenEmployeesIdIsInvalid_ThenUnableToUpdateResource.json"));
+    request.body(CommonUtil.readContentFile("requestBody/UpdateEmployeesApi_WhenEmployeesIdIsInvalid_ThenUnableToUpdateResource.json"));
     Response response = request.put();
     Assert.assertEquals(response.getStatusCode(), HttpStatus.SC_OK);
 
     String responseString = response.body().asString();
-    Assert.assertTrue(CommonUtil.compare(responseString,
-      "expected/UpdateEmployeesApi/UpdateEmployeesApi_WhenEmployeesIdIsInvalid_ThenUnableToUpdateResource.json"));
+    String expectedString = CommonUtil.readContentFile("expected/UpdateEmployeesApi/UpdateEmployeesApi_WhenEmployeesIdIsInvalid_ThenUnableToUpdateResource.json");
+    JSONAssert.assertEquals(expectedString, responseString, JSONCompareMode.STRICT);
   }
 
   @Test
@@ -82,13 +84,13 @@ public class UpdateEmployeeApiTest {
     RequestSpecification request = RestAssured.given();
     request.contentType(ContentType.JSON);
     request.baseUri("http://localhost:9119/api/Employees/");
-    request.body(CommonUtil.readFileContent("requestBody/UpdateEmployeesApi_WhenEmployeesIdIsEmpty_ThenNotFound.json"));
+    request.body(CommonUtil.readContentFile("requestBody/UpdateEmployeesApi_WhenEmployeesIdIsEmpty_ThenNotFound.json"));
     Response response = request.put();
 
     Assert.assertEquals(response.getStatusCode(), HttpStatus.SC_NOT_FOUND);
     String responseString = response.body().asString();
-    Assert.assertTrue(CommonUtil.compareIgnoreFields(responseString,"expected/UpdateEmployeesApi/UpdateEmployeesApi_WhenEmployeesIdIsEmpty_ThenNotFound.json"
-      ,"timestamp","message","path"));
+    String expectedString = CommonUtil.readContentFile("expected/UpdateEmployeesApi/UpdateEmployeesApi_WhenEmployeesIdIsEmpty_ThenNotFound.json");
+    JSONAssert.assertEquals(expectedString, responseString, JSONCompareMode.LENIENT);
 
 
   }
@@ -98,14 +100,13 @@ public class UpdateEmployeeApiTest {
     RequestSpecification request = RestAssured.given();
     request.contentType(ContentType.JSON);
     request.baseUri("http://localhost:9119/api/Employees/201");
-    request.body(CommonUtil.readFileContent("requestBody/UpdateEmployeesAPI_WhenRequiredBodyRequestIsEmpty_thenBadRequest.json"));
+    request.body(CommonUtil.readContentFile("requestBody/UpdateEmployeesAPI_WhenRequiredBodyRequestIsEmpty_thenBadRequest.json"));
     Response response = request.put();
     Assert.assertEquals(response.getStatusCode(), HttpStatus.SC_BAD_REQUEST);
 
     String responseString = response.body().asString();
-    Assert.assertTrue(CommonUtil.compareIgnoreFields(responseString,
-      "expected/UpdateEmployeesApi/UpdateEmployeesAPI_WhenRequiredBodyRequestIsEmpty_thenBadRequest.json"
-    ,"message"));
+    String expectedString = CommonUtil.readContentFile("expected/UpdateEmployeesApi/UpdateEmployeesAPI_WhenRequiredBodyRequestIsEmpty_thenBadRequest.json");
+    JSONAssert.assertEquals(expectedString, responseString, JSONCompareMode.LENIENT);
   }
 
   @Test
@@ -113,15 +114,13 @@ public class UpdateEmployeeApiTest {
     RequestSpecification request = RestAssured.given();
     request.contentType(ContentType.JSON);
     request.baseUri("http://localhost:9119/api/Employees/201");
-    request.body(CommonUtil.readFileContent("requestBody/UpdateEmployeesAPI_WhenRequiredBodyRequestIsMissing_thenBadRequest.json"));
+    request.body(CommonUtil.readContentFile("requestBody/UpdateEmployeesAPI_WhenRequiredBodyRequestIsMissing_thenBadRequest.json"));
     Response response = request.put();
     Assert.assertEquals(response.getStatusCode(), HttpStatus.SC_BAD_REQUEST);
 
     String responseString = response.body().asString();
-    Assert.assertTrue(CommonUtil.compareIgnoreFields(responseString,
-      "expected/UpdateEmployeesApi/UpdateEmployeesAPI_WhenRequiredBodyRequestIsMissing_thenBadRequest.json"
-      , "message"
-    ));
+    String expectedString = CommonUtil.readContentFile("expected/UpdateEmployeesApi/UpdateEmployeesAPI_WhenRequiredBodyRequestIsMissing_thenBadRequest.json");
+    JSONAssert.assertEquals(expectedString, responseString, JSONCompareMode.LENIENT);
   }
 
 }

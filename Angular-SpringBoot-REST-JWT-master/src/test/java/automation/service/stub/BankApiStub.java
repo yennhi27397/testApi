@@ -30,7 +30,7 @@ public class BankApiStub {
         // json content type
         .withHeader("content-type", "application/json")
         // read response body
-        .withBody(CommonUtil.readFileContent("__files/balance.json"))));
+        .withBody(CommonUtil.readContentFile("__files/balance.json"))));
 
     // GET Balance, 400
     // call path param
@@ -42,7 +42,7 @@ public class BankApiStub {
         // json content type
         .withHeader("content-type", "application/json")
         // read response body
-        .withBody(CommonUtil.readFileContent("__files/NotFoundAccount.json"))));
+        .withBody(CommonUtil.readContentFile("__files/NotFoundAccount.json"))));
 
 
     // GET Balance, 500
@@ -50,43 +50,43 @@ public class BankApiStub {
       .willReturn(WireMock.aResponse()
         .withHeader("content-type", "application/json")
         .withStatus(HttpStatus.SC_INTERNAL_SERVER_ERROR)
-        .withBody(CommonUtil.readFileContent("__files/InternalServerError.json"))));
+        .withBody(CommonUtil.readContentFile("__files/InternalServerError.json"))));
 
 
     ///POST Withdraw,200
     wireMockServer.stubFor(WireMock.post(WireMock.urlEqualTo("/api/1/withdraw"))
       // required requestBody.
-      .withRequestBody(equalToJson(CommonUtil.readFileContent("__files/RequestBodyWithdraw.json")))
+      .withRequestBody(equalToJson(CommonUtil.readContentFile("__files/RequestBodyWithdraw.json")))
       .willReturn(WireMock.aResponse()
         .withHeader("content-type", "application/json")
         .withStatus(HttpStatus.SC_OK)
-        .withBody(CommonUtil.readFileContent("__files/Transaction.json"))));
+        .withBody(CommonUtil.readContentFile("__files/Transaction.json"))));
 
     //POST Withdraw, 400
     wireMockServer.stubFor(WireMock.post(WireMock.urlEqualTo("/api/2/withdraw"))
-      .withRequestBody(equalToJson(CommonUtil.readFileContent("__files/RequestBodyCustomerInsufficientFund.json")))
+      .withRequestBody(equalToJson(CommonUtil.readContentFile("__files/RequestBodyCustomerInsufficientFund.json")))
       .willReturn(WireMock.aResponse()
         .withHeader("content-type", "application/json")
         .withStatus(HttpStatus.SC_BAD_REQUEST)
-        .withBody(CommonUtil.readFileContent("__files/Transaction400_Insufficient_Fund.json"))));
+        .withBody(CommonUtil.readContentFile("__files/Transaction400_Insufficient_Fund.json"))));
 
 
     //POST Withdraw Not Found CustomerID, 400
     wireMockServer.stubFor(WireMock.post(WireMock.urlEqualTo("/api/3/withdraw"))
-      .withRequestBody(equalToJson(CommonUtil.readFileContent("__files/RequestBodyCanNotFindCustomerID.json")))
+      .withRequestBody(equalToJson(CommonUtil.readContentFile("__files/RequestBodyCanNotFindCustomerID.json")))
       .willReturn(WireMock.aResponse()
         .withHeader("content-type", "application/json")
         .withStatus(HttpStatus.SC_BAD_REQUEST)
-        .withBody(CommonUtil.readFileContent("__files/TransactionCanNotFindCustomerID.json"))));
+        .withBody(CommonUtil.readContentFile("__files/TransactionCanNotFindCustomerID.json"))));
 
 
     //POST Withdraw INTERNAL SERVER ERROR, 500
     wireMockServer.stubFor(WireMock.post(WireMock.urlEqualTo("/api/4/withdraw"))
-      .withRequestBody(equalToJson(CommonUtil.readFileContent("__files/RequestBodyWithdraw.json")))
+      .withRequestBody(equalToJson(CommonUtil.readContentFile("__files/RequestBodyWithdraw.json")))
       .willReturn(WireMock.aResponse()
         .withHeader("content-type", "application/json")
         .withStatus(HttpStatus.SC_BAD_REQUEST)
-        .withBody(CommonUtil.readFileContent("__files/TransactionInternalServerError.json"))));
+        .withBody(CommonUtil.readContentFile("__files/TransactionInternalServerError.json"))));
   }
 
 

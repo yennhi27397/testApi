@@ -3,7 +3,8 @@ package automation.api;
 import common.CommonUtil;
 import common.DatabaseUtil;
 import org.apache.http.HttpStatus;
-import org.testng.Assert;
+import org.skyscreamer.jsonassert.JSONAssert;
+import org.skyscreamer.jsonassert.JSONCompareMode;
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.BeforeTest;
 import org.testng.annotations.Test;
@@ -27,7 +28,7 @@ public class GetListOderDetailApiTest {
 
   @Test
   public void GetListOrdersApi_WhenOrderIDIsValid_ThenReturnData() throws Exception {
-    String response =
+    String responseString =
       given()
         .queryParam("orderid", 4005)
         .when().get("http://localhost:9119/api/order-details")
@@ -37,6 +38,7 @@ public class GetListOderDetailApiTest {
         .assertThat()
         .statusCode(HttpStatus.SC_OK)
         .extract().asString();
-    Assert.assertTrue(CommonUtil.compare(response, "expected/GetListOrdersDetailApi/GetListOrdersApi_WhenOrderIDIsValid_ThenReturnData.json"));
+    String expectedString = CommonUtil.readContentFile("expected/GetListOrdersDetailApi/GetListOrdersApi_WhenOrderIDIsValid_ThenReturnData.json");
+    JSONAssert.assertEquals(expectedString, responseString, JSONCompareMode.STRICT);
   }
 }

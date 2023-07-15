@@ -3,7 +3,8 @@ package automation.api;
 import common.CommonUtil;
 import common.DatabaseUtil;
 import org.apache.http.HttpStatus;
-import org.testng.Assert;
+import org.skyscreamer.jsonassert.JSONAssert;
+import org.skyscreamer.jsonassert.JSONCompareMode;
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.BeforeTest;
 import org.testng.annotations.Test;
@@ -26,7 +27,7 @@ public class GetListEmployeesApiTest {
 
   @Test
   public void GetListEmployeesApi_WhenPageIs1AndSizeIs1_ThenReturnData() throws Exception {
-    String response =
+    String responseString =
       given()
         .queryParam("page", 1)
         .queryParam("size", 1)
@@ -37,13 +38,14 @@ public class GetListEmployeesApiTest {
         .statusCode(HttpStatus.SC_OK)
         .extract().asString();
 
-    Assert.assertTrue(CommonUtil.compare(response, "expected/GetListEmployeesApi/GetListEmployeesApi_WhenPageIs1AndSizeIs1_ThenReturnData.json"));
+    String expectedString = CommonUtil.readContentFile("expected/GetListEmployeesApi/GetListEmployeesApi_WhenPageIs1AndSizeIs1_ThenReturnData.json");
+    JSONAssert.assertEquals(expectedString, responseString, JSONCompareMode.STRICT);
 
   }
 
   @Test
   public void GetListEmployeesApi_WhenEmployeeID202_ThenReturnData() throws Exception {
-    String response =
+    String responseString =
       given()
         .queryParam("employeeid", 202)
         .when().get("http://localhost:9119/api/employees")
@@ -52,12 +54,13 @@ public class GetListEmployeesApiTest {
         .assertThat()
         .statusCode(HttpStatus.SC_OK)
         .extract().asString();
-    Assert.assertTrue(CommonUtil.compare(response, "expected/GetListEmployeesApi/GetListEmployeesApi_WhenEmployeeID202_ThenReturnData.json"));
+    String expectedString = CommonUtil.readContentFile("expected/GetListEmployeesApi/GetListEmployeesApi_WhenEmployeeID202_ThenReturnData.json");
+    JSONAssert.assertEquals(expectedString, responseString, JSONCompareMode.STRICT);
   }
 
   @Test
   public void GetListEmployeesApi_WhenEmployeeID204_ThenReturnData() throws Exception {
-    String response =
+    String responseString =
       given()
         .queryParam("employeeid", 204)
         .when().get("http://localhost:9119/api/employees")
@@ -66,12 +69,13 @@ public class GetListEmployeesApiTest {
         .assertThat()
         .statusCode(HttpStatus.SC_OK)
         .extract().asString();
-    Assert.assertTrue(CommonUtil.compare(response, "expected/GetListEmployeesApi/GetListEmployeesApi_WhenEmployeeID204_ThenReturnData.json"));
+    String expectedString = CommonUtil.readContentFile("expected/GetListEmployeesApi/GetListEmployeesApi_WhenEmployeeID204_ThenReturnData.json");
+    JSONAssert.assertEquals(expectedString, responseString, JSONCompareMode.STRICT);
   }
 
   @Test
   public void GetListEmployeesApi_WhenEmployeeIDIsEmpty_ThenReturnData() throws Exception {
-    String response =
+    String responseString =
       given()
         .queryParam("employeeid", "")
         .when().get("http://localhost:9119/api/employees")
@@ -80,6 +84,7 @@ public class GetListEmployeesApiTest {
         .assertThat()
         .statusCode(HttpStatus.SC_OK)
         .extract().asString();
-    Assert.assertTrue(CommonUtil.compare(response, "expected/GetListEmployeesApi/GetListEmployeesApi_WhenEmployeeIDIsEmpty_ThenReturnData.json"));
+    String expectedString = CommonUtil.readContentFile("expected/GetListEmployeesApi/GetListEmployeesApi_WhenEmployeeIDIsEmpty_ThenReturnData.json");
+    JSONAssert.assertEquals(expectedString, responseString, JSONCompareMode.STRICT);
   }
 }

@@ -7,6 +7,8 @@ import io.restassured.http.ContentType;
 import io.restassured.response.Response;
 import io.restassured.specification.RequestSpecification;
 import org.apache.http.HttpStatus;
+import org.skyscreamer.jsonassert.JSONAssert;
+import org.skyscreamer.jsonassert.JSONCompareMode;
 import org.testng.Assert;
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.BeforeTest;
@@ -34,13 +36,14 @@ public class AddEmployeesApiTest {
     RequestSpecification request = RestAssured.given();
     request.contentType(ContentType.JSON);
     request.baseUri("http://localhost:9119/api/employees");
-    request.body(CommonUtil.readFileContent("requestBody/AddEmployeesApi_WhenDataIsValid_ThenEmployeeAdded.json"));
+    request.body(CommonUtil.readContentFile("requestBody/AddEmployeesApi_WhenDataIsValid_ThenEmployeeAdded.json"));
     Response response = request.post();
 
     Assert.assertEquals(response.getStatusCode(), HttpStatus.SC_OK);
 
     String responseString = response.body().asString();
-    Assert.assertTrue(CommonUtil.compare(responseString, "expected/AddEmployeesApi/AddEmployeesApi_WhenDataIsValid_ThenEmployeeAdded.json"));
+    String expectedString = CommonUtil.readContentFile("expected/AddEmployeesApi/AddEmployeesApi_WhenDataIsValid_ThenEmployeeAdded.json");
+    JSONAssert.assertEquals(expectedString, responseString, JSONCompareMode.STRICT);
 
     List<Map<String, Object>> data = databaseUtil.getRecords("SELECT * FROM employees WHERE id = 3");
     Map<String, Object> expectedRecord = data.get(0);
@@ -69,16 +72,17 @@ public class AddEmployeesApiTest {
     RequestSpecification request = RestAssured.given();
     request.contentType(ContentType.JSON);
     request.baseUri("http://localhost:9119/api/employees");
-    request.body(CommonUtil.readFileContent("requestBody/AddEmployeesApi_WhenEmployeeIDExisted_ThenUnableToAddEmployee.json"));
+    request.body(CommonUtil.readContentFile("requestBody/AddEmployeesApi_WhenEmployeeIDExisted_ThenUnableToAddEmployee.json"));
     Response response = request.post();
 
     Assert.assertEquals(response.getStatusCode(), HttpStatus.SC_OK);
 
     String responseString = response.body().asString();
-    Assert.assertTrue(CommonUtil.compare(responseString, "expected/AddEmployeesApi/AddEmployeesApi_WhenEmployeeIDExisted_ThenUnableToAddEmployee.json"));
+    String expectedString = CommonUtil.readContentFile("expected/AddEmployeesApi/AddEmployeesApi_WhenEmployeeIDExisted_ThenUnableToAddEmployee.json");
+    JSONAssert.assertEquals(expectedString, responseString, JSONCompareMode.STRICT);
 
     List<Map<String, Object>> data = databaseUtil.getRecords("SELECT * FROM employees");
-    Assert.assertEquals(data.size(),3);
+    Assert.assertEquals(data.size(), 3);
 
   }
 
@@ -87,18 +91,17 @@ public class AddEmployeesApiTest {
     RequestSpecification request = RestAssured.given();
     request.contentType(ContentType.JSON);
     request.baseUri("http://localhost:9119/api/employees");
-    request.body(CommonUtil.readFileContent("requestBody/AddEmployeesApi_WhenDataMissedIdField_ThenEmployeeDidNotAdd.json"));
+    request.body(CommonUtil.readContentFile("requestBody/AddEmployeesApi_WhenDataMissedIdField_ThenEmployeeDidNotAdd.json"));
     Response response = request.post();
 
     Assert.assertEquals(response.getStatusCode(), HttpStatus.SC_BAD_REQUEST);
 
     String responseString = response.body().asString();
-    Assert.assertTrue(CommonUtil.compareIgnoreFields(responseString
-      , "expected/AddEmployeesApi/AddEmployeesApi_WhenDataMissedIdField_ThenEmployeeDidNotAdd.json"
-      , "message"));
+    String expectedString = CommonUtil.readContentFile("expected/AddEmployeesApi/AddEmployeesApi_WhenDataMissedIdField_ThenEmployeeDidNotAdd.json");
+    JSONAssert.assertEquals(expectedString, responseString, JSONCompareMode.LENIENT);
 
     List<Map<String, Object>> data = databaseUtil.getRecords("SELECT * FROM employees");
-    Assert.assertEquals(data.size(),3);
+    Assert.assertEquals(data.size(), 3);
   }
 
   @Test
@@ -106,12 +109,13 @@ public class AddEmployeesApiTest {
     RequestSpecification request = RestAssured.given();
     request.contentType(ContentType.JSON);
     request.baseUri("http://localhost:9119/api/employees");
-    request.body(CommonUtil.readFileContent("requestBody/AddEmployeesApi_WhenDataMissedLastNameFirstNameField_ThenEmployeeAdded.json"));
+    request.body(CommonUtil.readContentFile("requestBody/AddEmployeesApi_WhenDataMissedLastNameFirstNameField_ThenEmployeeAdded.json"));
     Response response = request.post();
     Assert.assertEquals(response.getStatusCode(), HttpStatus.SC_OK);
 
     String responseString = response.body().asString();
-    Assert.assertTrue(CommonUtil.compare(responseString, "expected/AddEmployeesApi/AddEmployeesApi_WhenDataMissedLastNameFirstNameField_ThenEmployeeAdded.json"));
+    String expectedString = CommonUtil.readContentFile("expected/AddEmployeesApi/AddEmployeesApi_WhenDataMissedLastNameFirstNameField_ThenEmployeeAdded.json");
+    JSONAssert.assertEquals(expectedString, responseString, JSONCompareMode.STRICT);
 
     List<Map<String, Object>> data = databaseUtil.getRecords("SELECT * FROM Employees WHERE id=2");
     Map<String, Object> expectedRecord = data.get(0);
@@ -135,17 +139,16 @@ public class AddEmployeesApiTest {
     RequestSpecification request = RestAssured.given();
     request.contentType(ContentType.JSON);
     request.baseUri("http://localhost:9119/api/employees?employeeid=206");
-    request.body(CommonUtil.readFileContent("requestBody/AddEmployeeAPI_WhenRequiredBodyRequestIsEmpty_thenBadRequest.json"));
+    request.body(CommonUtil.readContentFile("requestBody/AddEmployeeAPI_WhenRequiredBodyRequestIsEmpty_thenBadRequest.json"));
     Response response = request.post();
     Assert.assertEquals(response.getStatusCode(), HttpStatus.SC_BAD_REQUEST);
 
     String responseString = response.body().asString();
-    Assert.assertTrue(CommonUtil.compareIgnoreFields(responseString
-      , "expected/AddEmployeesApi/AddEmployeeAPI_WhenRequiredBodyRequestIsEmpty_thenBadRequest.json"
-      , "message"));
+    String expectedString = CommonUtil.readContentFile("expected/AddEmployeesApi/AddEmployeeAPI_WhenRequiredBodyRequestIsEmpty_thenBadRequest.json");
+    JSONAssert.assertEquals(expectedString, responseString, JSONCompareMode.LENIENT);
 
     List<Map<String, Object>> data = databaseUtil.getRecords("SELECT * FROM employees");
-    Assert.assertEquals(data.size(),3);
+    Assert.assertEquals(data.size(), 3);
 
   }
 
@@ -154,16 +157,15 @@ public class AddEmployeesApiTest {
     RequestSpecification request = RestAssured.given();
     request.contentType(ContentType.JSON);
     request.baseUri("http://localhost:9119/api/employees");
-    request.body(CommonUtil.readFileContent("requestBody/AddEmployeeAPI_WhenRequiredBodyRequestIsMissing_thenBadRequest.json"));
+    request.body(CommonUtil.readContentFile("requestBody/AddEmployeeAPI_WhenRequiredBodyRequestIsMissing_thenBadRequest.json"));
     Response response = request.post();
     Assert.assertEquals(response.getStatusCode(), HttpStatus.SC_BAD_REQUEST);
 
     String responseString = response.body().asString();
-    Assert.assertTrue(CommonUtil.compareIgnoreFields(responseString
-      , "expected/AddEmployeesApi/AddEmployeeAPI_WhenRequiredBodyRequestIsMissing_thenBadRequest.json"
-      , "message"));
+    String expectedString = CommonUtil.readContentFile("expected/AddEmployeesApi/AddEmployeeAPI_WhenRequiredBodyRequestIsMissing_thenBadRequest.json");
+    JSONAssert.assertEquals(expectedString, responseString, JSONCompareMode.LENIENT);
     List<Map<String, Object>> data = databaseUtil.getRecords("SELECT * FROM employees");
-    Assert.assertEquals(data.size(),3);
+    Assert.assertEquals(data.size(), 3);
 
 
   }

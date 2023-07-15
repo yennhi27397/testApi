@@ -3,6 +3,8 @@ package automation.api;
 import common.CommonUtil;
 import common.DatabaseUtil;
 import org.apache.http.HttpStatus;
+import org.skyscreamer.jsonassert.JSONAssert;
+import org.skyscreamer.jsonassert.JSONCompareMode;
 import org.testng.Assert;
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.BeforeTest;
@@ -29,7 +31,7 @@ public class DeleteCustomerApiTest {
 
   @Test
   public void deleteCustomerApi_WhenCustomerIDIsExist_ThenDeleteData() throws Exception {
-    String response =
+    String responseString =
       given()
         .when().delete("http://localhost:9119/api/customers/3")
         .then().log()
@@ -38,16 +40,17 @@ public class DeleteCustomerApiTest {
         .statusCode(HttpStatus.SC_OK)
         .extract().asString();
 
-    Assert.assertTrue(CommonUtil.compare(response, "expected/DeleteCustomerApi/deleteCustomerApi_WhenCustomerIDIsExist_ThenDeleteData.json"));
+    String expectedString = CommonUtil.readContentFile("expected/DeleteCustomerApi/deleteCustomerApi_WhenCustomerIDIsExist_ThenDeleteData.json");
+    JSONAssert.assertEquals(expectedString, responseString, JSONCompareMode.STRICT);
 
     List<Map<String, Object>> data = databaseUtil.getRecords("SELECT * FROM customers");
-    Assert.assertEquals(data.size(),2);
+    Assert.assertEquals(data.size(), 2);
 
   }
 
   @Test
   public void deleteCustomerApi_WhenCustomerIDIsNotExist_ThenRespondNoCustomerExist() throws Exception {
-    String response =
+    String responseString =
       given()
         .when().delete("http://localhost:9119/api/customers/5")
         .then().log()
@@ -56,14 +59,15 @@ public class DeleteCustomerApiTest {
         .statusCode(HttpStatus.SC_OK)
         .extract().asString();
 
-    Assert.assertTrue(CommonUtil.compare(response, "expected/DeleteCustomerApi/deleteCustomerApi_WhenCustomerIDIsNotExist_ThenRespondNoCustomerExist.json"));
+    String expectedString = CommonUtil.readContentFile("expected/DeleteCustomerApi/deleteCustomerApi_WhenCustomerIDIsNotExist_ThenRespondNoCustomerExist.json");
+    JSONAssert.assertEquals(expectedString, responseString, JSONCompareMode.STRICT);
     List<Map<String, Object>> data = databaseUtil.getRecords("SELECT * FROM customers");
-    Assert.assertEquals(data.size(),3);
+    Assert.assertEquals(data.size(), 3);
   }
 
   @Test
   public void deleteCustomerApi_WhenCustomerIDIsEmpty_ThenRespondMethodNotAllowed() throws Exception {
-    String response =
+    String responseString =
       given()
         .when().delete("http://localhost:9119/api/customers/")
         .then().log()
@@ -72,13 +76,9 @@ public class DeleteCustomerApiTest {
         .statusCode(HttpStatus.SC_METHOD_NOT_ALLOWED)
         .extract().asString();
 
-    Assert.assertTrue(CommonUtil.compareIgnoreFields(response,"expected/DeleteCustomerApi/deleteCustomerApi_WhenCustomerIDIsEmpty_ThenRespondMethodNotAllowed.json"
-    ,"timestamp","exception","message","path"));
+    String expectedString = CommonUtil.readContentFile("expected/DeleteCustomerApi/deleteCustomerApi_WhenCustomerIDIsEmpty_ThenRespondMethodNotAllowed.json");
+    JSONAssert.assertEquals(expectedString, responseString, JSONCompareMode.LENIENT);
     List<Map<String, Object>> data = databaseUtil.getRecords("SELECT * FROM customers");
-    Assert.assertEquals(data.size(),3);
-
-
+    Assert.assertEquals(data.size(), 3);
   }
-
-
 }

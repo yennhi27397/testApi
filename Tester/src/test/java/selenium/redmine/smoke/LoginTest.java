@@ -57,10 +57,6 @@ public class LoginTest {
     System.out.println(item);
     // Compare String actual Logged Account and string expected notification
     Assert.assertEquals(item, "Logged in as Admin");
-  }
 
-  @Test
-  void LoginSuccessfully_WhenAbc_ThenAbc_AAAAAAAAAAAAAAAAAAAAAAAAAAAA() throws Exception {
-    Assert.assertEquals("Logged in as Admin", "Logged in as Admin");
   }
 }

@@ -81,4 +81,16 @@
     </classes>
   </test>
 
+  <test name="AddCustomerWithdrawApiTest">
+    <classes>
+      <class name="automation.api.AddCustomerWithdrawApiTest"/>
+    </classes>
+  </test>
+
+  <test name="GetCustomerAndBalanceApiTest">
+    <classes>
+      <class name="automation.api.GetCustomerAndBalanceApiTest"/>
+    </classes>
+  </test>
+
 </suite>

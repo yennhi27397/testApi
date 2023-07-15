@@ -3,6 +3,7 @@ package selenium.redmine.page;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
+import selenium.redmine.Common;
 
 import java.util.List;
 
@@ -28,5 +29,8 @@ public class UserPage {
     return userName.getText();
   }
 
-
+  public void clickDeleteUser(){
+    var clickDelete = Common.getWebElement(driver,"a","Delete");
+    clickDelete.click();
+  }
 }

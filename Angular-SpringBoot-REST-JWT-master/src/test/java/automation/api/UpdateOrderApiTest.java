@@ -7,6 +7,8 @@ import io.restassured.http.ContentType;
 import io.restassured.response.Response;
 import io.restassured.specification.RequestSpecification;
 import org.apache.http.HttpStatus;
+import org.skyscreamer.jsonassert.JSONAssert;
+import org.skyscreamer.jsonassert.JSONCompareMode;
 import org.testng.Assert;
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.BeforeTest;
@@ -31,14 +33,13 @@ public class UpdateOrderApiTest {
     RequestSpecification request = RestAssured.given();
     request.contentType(ContentType.JSON);
     request.baseUri("http://localhost:9119/api/orders/4004");
-    request.body(CommonUtil.readFileContent("requestBody/UpdateOrderApi_WhereOrderIDIsValid_ThenResourceUpdated.json"));
+    request.body(CommonUtil.readContentFile("requestBody/UpdateOrderApi_WhereOrderIDIsValid_ThenResourceUpdated.json"));
     Response response = request.put();
     Assert.assertEquals(response.getStatusCode(), HttpStatus.SC_OK);
 
     String responseString = response.body().asString();
-    Assert.assertTrue(CommonUtil.compareIgnoreFields(responseString,
-      "expected/UpdateOrderApi/UpdateOrderApi_WhereOrderIDIsValid_ThenResourceUpdated.json"
-      , "first", "last", "currentPageNumber", "itemsInPage", "pageSize", "totalPages", "totalItems", "sort", "items"));
+    String expectedString = CommonUtil.readContentFile("expected/UpdateOrderApi/UpdateOrderApi_WhereOrderIDIsValid_ThenResourceUpdated.json");
+    JSONAssert.assertEquals(expectedString, responseString, JSONCompareMode.LENIENT);
 
   }
 
@@ -47,14 +48,13 @@ public class UpdateOrderApiTest {
     RequestSpecification request = RestAssured.given();
     request.contentType(ContentType.JSON);
     request.baseUri("http://localhost:9119/api/orders/4006");
-    request.body(CommonUtil.readFileContent("requestBody/UpdateOrderApi_WhereOrderIDIsInvalid_ThenResourceUpdated.json"));
+    request.body(CommonUtil.readContentFile("requestBody/UpdateOrderApi_WhereOrderIDIsInvalid_ThenResourceUpdated.json"));
     Response response = request.put();
     Assert.assertEquals(response.getStatusCode(), HttpStatus.SC_OK);
 
     String responseString = response.body().asString();
-    Assert.assertTrue(CommonUtil.compareIgnoreFields(responseString,
-      "expected/UpdateOrderApi/UpdateOrderApi_WhereOrderIDIsInvalid_ThenResourceUpdated.json"
-      , "first", "last", "currentPageNumber", "itemsInPage", "pageSize", "totalPages", "totalItems", "sort", "items"));
+    String expectedString = CommonUtil.readContentFile("expected/UpdateOrderApi/UpdateOrderApi_WhereOrderIDIsInvalid_ThenResourceUpdated.json");
+    JSONAssert.assertEquals(expectedString, responseString, JSONCompareMode.LENIENT);
 
   }
 
@@ -63,14 +63,13 @@ public class UpdateOrderApiTest {
     RequestSpecification request = RestAssured.given();
     request.contentType(ContentType.JSON);
     request.baseUri("http://localhost:9119/api/orders/");
-    request.body(CommonUtil.readFileContent("requestBody/UpdateOrderApi_WhereOrderIDIsEmpty_ThenMethodNotAllowed.json"));
+    request.body(CommonUtil.readContentFile("requestBody/UpdateOrderApi_WhereOrderIDIsEmpty_ThenMethodNotAllowed.json"));
     Response response = request.put();
 
     Assert.assertEquals(response.getStatusCode(), HttpStatus.SC_METHOD_NOT_ALLOWED);
     String responseString = response.body().asString();
-    Assert.assertTrue(CommonUtil.compareIgnoreFields(responseString,
-      "expected/UpdateOrderApi/UpdateOrderApi_WhereOrderIDIsEmpty_ThenMethodNotAllowed.json"
-      , "timestamp", "exception", "message", "path"));
+    String expectedString = CommonUtil.readContentFile("expected/UpdateOrderApi/UpdateOrderApi_WhereOrderIDIsEmpty_ThenMethodNotAllowed.json");
+    JSONAssert.assertEquals(expectedString, responseString, JSONCompareMode.LENIENT);
   }
 
   @Test
@@ -78,14 +77,13 @@ public class UpdateOrderApiTest {
     RequestSpecification request = RestAssured.given();
     request.contentType(ContentType.JSON);
     request.baseUri("http://localhost:9119/api/orders/4005");
-    request.body(CommonUtil.readFileContent("requestBody/UpdateOrderApi_WhereRequiredBodyRequestIsEmpty_ThenBadRequestData.json"));
+    request.body(CommonUtil.readContentFile("requestBody/UpdateOrderApi_WhereRequiredBodyRequestIsEmpty_ThenBadRequestData.json"));
     Response response = request.put();
 
     Assert.assertEquals(response.getStatusCode(), HttpStatus.SC_BAD_REQUEST);
     String responseString = response.body().asString();
-    Assert.assertTrue(CommonUtil.compareIgnoreFields(responseString,
-      "expected/UpdateOrderApi/UpdateOrderApi_WhereRequiredBodyRequestIsEmpty_ThenBadRequestData.json"
-      , "message"));
+    String expectedString = CommonUtil.readContentFile("expected/UpdateOrderApi/UpdateOrderApi_WhereRequiredBodyRequestIsEmpty_ThenBadRequestData.json");
+    JSONAssert.assertEquals(expectedString, responseString, JSONCompareMode.LENIENT);
   }
 
   @Test
@@ -93,14 +91,13 @@ public class UpdateOrderApiTest {
     RequestSpecification request = RestAssured.given();
     request.contentType(ContentType.JSON);
     request.baseUri("http://localhost:9119/api/orders/4005");
-    request.body(CommonUtil.readFileContent("requestBody/UpdateOrderApi_WhereRequiredBodyRequestIsMissing_ThenBadRequestData.json"));
+    request.body(CommonUtil.readContentFile("requestBody/UpdateOrderApi_WhereRequiredBodyRequestIsMissing_ThenBadRequestData.json"));
     Response response = request.put();
 
     Assert.assertEquals(response.getStatusCode(), HttpStatus.SC_BAD_REQUEST);
     String responseString = response.body().asString();
-    Assert.assertTrue(CommonUtil.compareIgnoreFields(responseString,
-      "expected/UpdateOrderApi/UpdateOrderApi_WhereRequiredBodyRequestIsMissing_ThenBadRequestData.json"
-      , "message"));
+    String expectedString = CommonUtil.readContentFile("expected/UpdateOrderApi/UpdateOrderApi_WhereRequiredBodyRequestIsMissing_ThenBadRequestData.json");
+    JSONAssert.assertEquals(expectedString, responseString, JSONCompareMode.LENIENT);
 
   }
 
@@ -109,14 +106,13 @@ public class UpdateOrderApiTest {
     RequestSpecification request = RestAssured.given();
     request.contentType(ContentType.JSON);
     request.baseUri("http://localhost:9119/api/orders/4004");
-    request.body(CommonUtil.readFileContent("requestBody/UpdateOrderApi_WhereCustomerIDIsValid_ThenResourceUpdated.json"));
+    request.body(CommonUtil.readContentFile("requestBody/UpdateOrderApi_WhereCustomerIDIsValid_ThenResourceUpdated.json"));
     Response response = request.put();
 
     Assert.assertEquals(response.getStatusCode(), HttpStatus.SC_OK);
     String responseString = response.body().asString();
-    Assert.assertTrue(CommonUtil.compareIgnoreFields(responseString,
-      "expected/UpdateOrderApi/UpdateOrderApi_WhereCustomerIDIsValid_ThenResourceUpdated.json"
-      , "first", "last", "currentPageNumber", "itemsInPage", "pageSize", "totalPages", "totalItems", "sort", "items"));
+    String expectedString = CommonUtil.readContentFile("expected/UpdateOrderApi/UpdateOrderApi_WhereCustomerIDIsValid_ThenResourceUpdated.json");
+    JSONAssert.assertEquals(expectedString, responseString, JSONCompareMode.LENIENT);
   }
 
   @Test
@@ -124,13 +120,12 @@ public class UpdateOrderApiTest {
     RequestSpecification request = RestAssured.given();
     request.contentType(ContentType.JSON);
     request.baseUri("http://localhost:9119/api/orders/4004");
-    request.body(CommonUtil.readFileContent("requestBody/UpdateOrderApi_WhereCustomerIDIsInvalid_ThenConstraintViolationOfResource.json"));
+    request.body(CommonUtil.readContentFile("requestBody/UpdateOrderApi_WhereCustomerIDIsInvalid_ThenConstraintViolationOfResource.json"));
     Response response = request.put();
     Assert.assertEquals(response.getStatusCode(), HttpStatus.SC_BAD_REQUEST);
 
     String responseString = response.body().asString();
-    Assert.assertTrue(CommonUtil.compareIgnoreFields(responseString,
-      "expected/UpdateOrderApi/UpdateOrderApi_WhereCustomerIDIsInvalid_ThenConstraintViolationOfResource.json"
-      , "message"));
+    String expectedString = CommonUtil.readContentFile("expected/UpdateOrderApi/UpdateOrderApi_WhereCustomerIDIsInvalid_ThenConstraintViolationOfResource.json");
+    JSONAssert.assertEquals(expectedString, responseString, JSONCompareMode.LENIENT);
   }
 }

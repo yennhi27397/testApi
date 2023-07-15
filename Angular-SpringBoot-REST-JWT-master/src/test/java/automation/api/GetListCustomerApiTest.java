@@ -3,7 +3,8 @@ package automation.api;
 import common.CommonUtil;
 import common.DatabaseUtil;
 import org.apache.http.HttpStatus;
-import org.testng.Assert;
+import org.skyscreamer.jsonassert.JSONAssert;
+import org.skyscreamer.jsonassert.JSONCompareMode;
 import org.testng.annotations.AfterTest;
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.BeforeTest;
@@ -41,7 +42,7 @@ public class GetListCustomerApiTest {
     // prepare data to test.
     databaseUtil.executeSQL("script/insert_customers_001.sql");
     // call string response body
-    String response =
+    String responseString =
       given()
         // pass query param to search infor
         .queryParam("page", "0")
@@ -57,7 +58,8 @@ public class GetListCustomerApiTest {
         // string body
         .extract().asString();
     // compare String actual response with expected response
-    Assert.assertTrue(CommonUtil.compare(response, "expected/GetListCustomerApi/GetListCustomerApi_WhenPageIs0AndSizeIs1.json"));
+    String expectedString = CommonUtil.readContentFile("expected/GetListCustomerApi/GetListCustomerApi_WhenPageIs0AndSizeIs1.json");
+    JSONAssert.assertEquals(expectedString, responseString, JSONCompareMode.STRICT);
   }
 
   @Test
@@ -67,7 +69,7 @@ public class GetListCustomerApiTest {
     // prepare data to test.
     databaseUtil.executeSQL("script/insert_customers_001.sql");
     // call string response body
-    String response =
+    String responseString =
       given()
         // pass query param to search infor
         .queryParam("page", "1")
@@ -83,12 +85,13 @@ public class GetListCustomerApiTest {
         // string body
         .extract().asString();
     // compare String actual response with expected response
-    Assert.assertTrue(CommonUtil.compare(response, "expected/GetListCustomerApi/GetListCustomerApi_WhenPageIs1AndSizeIs1.json"));
+    String expectedString = CommonUtil.readContentFile("expected/GetListCustomerApi/GetListCustomerApi_WhenPageIs1AndSizeIs1.json");
+    JSONAssert.assertEquals(expectedString, responseString, JSONCompareMode.STRICT);
   }
 
   @Test
   public void GetListCustomerApi_WhenCustomerID2_ThenReturnData() throws Exception {
-    String response =
+    String responseString =
       given()
         .queryParam("customerid", "2")
         .when().get("http://localhost:9119/api/customers")
@@ -98,12 +101,13 @@ public class GetListCustomerApiTest {
         .statusCode(HttpStatus.SC_OK)
         .extract().asString();
 
-    Assert.assertTrue(CommonUtil.compare(response, "expected/GetListCustomerApi/GetListCustomerApi_WhenCustomerID2.json"));
+    String expectedString = CommonUtil.readContentFile("expected/GetListCustomerApi/GetListCustomerApi_WhenCustomerID2.json");
+    JSONAssert.assertEquals(expectedString, responseString, JSONCompareMode.STRICT);
   }
 
   @Test
   public void GetListCustomerApi_WhenCustomerID3_ThenReturnData() throws IOException {
-    String response =
+    String responseString =
       given()
         .queryParam("customerid", "3")
         .when().get("http://localhost:9119/api/customers")
@@ -113,12 +117,13 @@ public class GetListCustomerApiTest {
         .statusCode(HttpStatus.SC_OK)
         .extract().asString();
 
-    Assert.assertTrue(CommonUtil.compare(response, "expected/GetListCustomerApi/GetListCustomerApi_WhenCustomerID3.json"));
+    String expectedString = CommonUtil.readContentFile("expected/GetListCustomerApi/GetListCustomerApi_WhenCustomerID3.json");
+    JSONAssert.assertEquals(expectedString, responseString, JSONCompareMode.STRICT);
   }
 
   @Test
   public void GetListCustomerApi_WhenCustomerID4_ThenReturnEmpty() throws IOException {
-    String response =
+    String responseString =
       given()
         .queryParam("customerid", "4")
         .when().get("http://localhost:9119/api/customers")
@@ -128,12 +133,13 @@ public class GetListCustomerApiTest {
         .statusCode(HttpStatus.SC_OK)
         .extract().asString();
 
-    Assert.assertTrue(CommonUtil.compare(response, "expected/GetListCustomerApi/GetListCustomerApi_WhenCustomerID4.json"));
+    String expectedString = CommonUtil.readContentFile("expected/GetListCustomerApi/GetListCustomerApi_WhenCustomerID4.json");
+    JSONAssert.assertEquals(expectedString, responseString, JSONCompareMode.STRICT);
   }
 
   @Test
   public void GetListCustomerApi_WhenCompanyIsJetpulse_ThenReturnData() throws IOException {
-    String response =
+    String responseString =
       given()
         .queryParam("company", "Jetpulse")
         .when().get("http://localhost:9119/api/customers")
@@ -143,12 +149,13 @@ public class GetListCustomerApiTest {
         .statusCode(HttpStatus.SC_OK)
         .extract().asString();
 
-    Assert.assertTrue(CommonUtil.compare(response, "expected/GetListCustomerApi/GetListCustomerApi_WhenCompanyIsJetpulse.json"));
+    String expectedString = CommonUtil.readContentFile("expected/GetListCustomerApi/GetListCustomerApi_WhenCompanyIsJetpulse.json");
+    JSONAssert.assertEquals(expectedString, responseString, JSONCompareMode.STRICT);
   }
 
   @Test
   public void GetListCustomerApi_WhenCompanyIsAlfredsFutterkiste_ThenReturnEmpty() throws IOException {
-    String response =
+    String responseString =
       given()
         .queryParam("company", "Alfreds Futterkiste")
         .when().get("http://localhost:9119/api/customers")
@@ -158,12 +165,13 @@ public class GetListCustomerApiTest {
         .statusCode(HttpStatus.SC_OK)
         .extract().asString();
 
-    Assert.assertTrue(CommonUtil.compare(response, "expected/GetListCustomerApi/GetListCustomerApi_WhenCompanyIsAlfredsFutterkiste.json"));
+    String expectedString = CommonUtil.readContentFile("expected/GetListCustomerApi/GetListCustomerApi_WhenCompanyIsAlfredsFutterkiste.json");
+    JSONAssert.assertEquals(expectedString, responseString, JSONCompareMode.STRICT);
   }
 
   @Test
   public void GetListCustomerApi_WhenCountryIsUnitedStates_ThenReturnData() throws IOException {
-    String response =
+    String responseString =
       given()
         .queryParam("country", "United States")
         .when().get("http://localhost:9119/api/customers")
@@ -173,12 +181,13 @@ public class GetListCustomerApiTest {
         .statusCode(HttpStatus.SC_OK)
         .extract().asString();
 
-    Assert.assertTrue(CommonUtil.compare(response, "expected/GetListCustomerApi/GetListCustomerApi_WhenCountryIsUnitesStates.json"));
+    String expectedString = CommonUtil.readContentFile("expected/GetListCustomerApi/GetListCustomerApi_WhenCountryIsUnitesStates.json");
+    JSONAssert.assertEquals(expectedString, responseString, JSONCompareMode.STRICT);
   }
 
   @Test
   public void GetListCustomerApi_WhenCountryIsABC_ThenReturnEmpty() throws IOException {
-    String response =
+    String responseString =
       given()
         .queryParam("country", "ABC")
         .when().get("http://localhost:9119/api/customers")
@@ -188,12 +197,13 @@ public class GetListCustomerApiTest {
         .statusCode(HttpStatus.SC_OK)
         .extract().asString();
 
-    Assert.assertTrue(CommonUtil.compare(response, "expected/GetListCustomerApi/GetListCustomerApi_WhenCountryIsABC.json"));
+    String expectedString = CommonUtil.readContentFile("expected/GetListCustomerApi/GetListCustomerApi_WhenCountryIsABC.json");
+    JSONAssert.assertEquals(expectedString, responseString, JSONCompareMode.STRICT);
   }
 
   @Test
   public void GetListCustomerApi_WhenCustomerIDIsEmpty_ThenReturnData() throws IOException {
-    String response =
+    String responseString =
       given()
         .queryParam("customerid", "")
         .when().get("http://localhost:9119/api/customers")
@@ -202,7 +212,8 @@ public class GetListCustomerApiTest {
         .assertThat()
         .statusCode(HttpStatus.SC_OK)
         .extract().asString();
-    Assert.assertTrue(CommonUtil.compare(response, "expected/GetListCustomerApi/GetListCustomerApi_WhenCustomerIDIsEmpty_ThenReturnEmpty.json"));
+    String expectedString = CommonUtil.readContentFile("expected/GetListCustomerApi/GetListCustomerApi_WhenCustomerIDIsEmpty_ThenReturnEmpty.json");
+    JSONAssert.assertEquals(expectedString, responseString, JSONCompareMode.STRICT);
 
   }
 }

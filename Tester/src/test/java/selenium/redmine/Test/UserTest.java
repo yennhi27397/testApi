@@ -5,6 +5,7 @@ import org.openqa.selenium.WebElement;
 import org.openqa.selenium.chrome.ChromeDriver;
 import org.testng.Assert;
 import org.testng.annotations.AfterTest;
+import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.BeforeTest;
 import org.testng.annotations.Test;
 import selenium.redmine.page.*;
@@ -22,6 +23,7 @@ public class UserTest {
 
   private UserPage userPage = null;
   private NewUserPage newUserPage = null;
+  private DeleteUserPage deleteUserPage = null;
 
   @BeforeTest
   void prepareStub() {
@@ -35,6 +37,11 @@ public class UserTest {
     this.newRolePage = new NewRolePage(driver);
     this.userPage = new UserPage(driver);
     this.newUserPage = new NewUserPage(driver);
+    this.deleteUserPage = new DeleteUserPage(driver);
+  }
+  @BeforeMethod
+  void cleanBrowser() {
+    driver.manage().deleteAllCookies();
   }
 
   @AfterTest
@@ -42,7 +49,7 @@ public class UserTest {
     driver.close();
   }
 
-  @Test
+  @Test(priority = 1)
   void createNewUser_WhenWithAbc_ThenAbc() throws Exception {
     this.redmineHomePage.navigate();
     this.redmineHomePage.clickSignInButton();
@@ -65,7 +72,7 @@ public class UserTest {
 
     this.newUserPage.clickAdministrationTab();
     this.administrationPage.clickUserTab();
-    
+
     List<WebElement> listUser = this.userPage.getUserAccountFromUsersTable();
     System.out.println("Total of user account are " + listUser.size());
     Assert.assertEquals(listUser.size(), 5);
@@ -83,5 +90,34 @@ public class UserTest {
     Assert.assertListContainsObject(user, "ABC", "");
 
   }
+
+  @Test(priority = 2)
+  void deleteUser_WhenWithAbc_ThenAbc() throws Exception {
+    this.redmineHomePage.navigate();
+    this.redmineHomePage.clickSignInButton();
+    this.loginPage.enterLoginTextBox("admin");
+    this.loginPage.enterPassWordTextBox("123456789");
+    this.loginPage.clickLoginButton();
+    this.redmineHomePage.clickAdministrationTab();
+    this.administrationPage.clickUserTab();
+    this.userPage.clickDeleteUser();
+    this.deleteUserPage.enterConfirmLoginTextBox("ABC");
+    this.deleteUserPage.clickDeleteButton();
+
+    List<WebElement> item = this.userPage.getUserAccountFromUsersTable();
+    System.out.println("Total of user account are " + item.size());
+    Assert.assertEquals(item.size(), 4);
+
+    List<String> name = new ArrayList<>();
+    for (WebElement user : item) {
+      String userName = this.userPage.getUserNameFromUserTable(user);
+      System.out.println(userName);
+      name.add(userName);
+
+    }
+
+
+  }
 }
+
 

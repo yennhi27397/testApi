@@ -7,6 +7,8 @@ import io.restassured.http.ContentType;
 import io.restassured.response.Response;
 import io.restassured.specification.RequestSpecification;
 import org.apache.http.HttpStatus;
+import org.skyscreamer.jsonassert.JSONAssert;
+import org.skyscreamer.jsonassert.JSONCompareMode;
 import org.testng.Assert;
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.BeforeTest;
@@ -40,7 +42,7 @@ public class AddCustomerApiTest {
     // Call URL
     request.baseUri("http://localhost:9119/api/customers");
     // read request body
-    request.body(CommonUtil.readFileContent("requestBody/AddCustomerApi_WhenDataIsValid_ThenAddedCustomer.json"));
+    request.body(CommonUtil.readContentFile("requestBody/AddCustomerApi_WhenDataIsValid_ThenAddedCustomer.json"));
     // Call POST method
     Response response = request.post();
 
@@ -48,8 +50,9 @@ public class AddCustomerApiTest {
     Assert.assertEquals(response.getStatusCode(), HttpStatus.SC_OK);
     // get response body
     String responseString = response.body().asString();
+    String expectedString = CommonUtil.readContentFile("expected/AddCustomerApi/AddCustomerApi_WhenDataIsValid_ThenAddedCustomer.json");
     // compare String actual response and String expected response
-    Assert.assertTrue(CommonUtil.compare(responseString, "expected/AddCustomerApi/AddCustomerApi_WhenDataIsValid_ThenAddedCustomer.json"));
+    JSONAssert.assertEquals(expectedString, responseString, JSONCompareMode.STRICT);
     // pass string query to get list record
     List<Map<String, Object>> data = databaseUtil.getRecords(
       "SELECT * FROM customers WHERE first_name='Doan' and last_name='Pham'"
@@ -79,7 +82,7 @@ public class AddCustomerApiTest {
     // Call URL
     request.baseUri("http://localhost:9119/api/customers");
     // read request body
-    request.body(CommonUtil.readFileContent("requestBody/AddCustomerApi_WhenDataIsInvalid_ThenCantAddCustomer.json"));
+    request.body(CommonUtil.readContentFile("requestBody/AddCustomerApi_WhenDataIsInvalid_ThenCantAddCustomer.json"));
     // Call POST method
     Response response = request.post();
 
@@ -87,11 +90,12 @@ public class AddCustomerApiTest {
     Assert.assertEquals(response.getStatusCode(), HttpStatus.SC_OK);
     // get response body
     String responseString = response.body().asString();
+    String expectedString = CommonUtil.readContentFile("expected/AddCustomerApi/AddCustomerApi_WhenDataIsInvalid_ThenCantAddCustomer.json");
     // compare String actual response and String expected response
-    Assert.assertTrue(CommonUtil.compare(responseString, "expected/AddCustomerApi/AddCustomerApi_WhenDataIsInvalid_ThenCantAddCustomer.json"));
+    JSONAssert.assertEquals(expectedString, responseString, JSONCompareMode.STRICT);
     // test database = 3 records.
     List<Map<String, Object>> data = databaseUtil.getRecords("SELECT * FROM customers");
-    Assert.assertEquals(data.size(),3);
+    Assert.assertEquals(data.size(), 3);
   }
 
   @Test
@@ -103,7 +107,7 @@ public class AddCustomerApiTest {
     // Call URL
     request.baseUri("http://localhost:9119/api/customers");
     // read request body
-    request.body(CommonUtil.readFileContent("requestBody/AddCustomerApi_WhenDataMissedIDField_ThenCantAddCustomer.json"));
+    request.body(CommonUtil.readContentFile("requestBody/AddCustomerApi_WhenDataMissedIDField_ThenCantAddCustomer.json"));
     // Call POST method
     Response response = request.post();
 
@@ -112,11 +116,10 @@ public class AddCustomerApiTest {
     // get response body
     String responseString = response.body().asString();
     // compare String actual response and String expected response but ignore some field unnecessary
-    Assert.assertTrue(CommonUtil.compareIgnoreFields(responseString
-      , "expected/AddCustomerApi/AddCustomerApi_WhenDataMissedIDField_ThenCantAddCustomer.json"
-      , "message"));
+    String expectedString = CommonUtil.readContentFile("expected/AddCustomerApi/AddCustomerApi_WhenDataMissedIDField_ThenCantAddCustomer.json");
+    JSONAssert.assertEquals(expectedString, responseString, JSONCompareMode.LENIENT);
     List<Map<String, Object>> data = databaseUtil.getRecords("SELECT * FROM customers");
-    Assert.assertEquals(data.size(),3);
+    Assert.assertEquals(data.size(), 3);
   }
 
   @Test
@@ -124,15 +127,16 @@ public class AddCustomerApiTest {
     RequestSpecification request = RestAssured.given();
     request.contentType(ContentType.JSON);
     request.baseUri("http://localhost:9119/api/customers");
-    request.body(CommonUtil.readFileContent("requestBody/AddCustomerApi_WhenDataMissedFirstNameLastNameField_ThenCustomerAdded.json"));
+    request.body(CommonUtil.readContentFile("requestBody/AddCustomerApi_WhenDataMissedFirstNameLastNameField_ThenCustomerAdded.json"));
     Response response = request.post();
     Assert.assertEquals(response.getStatusCode(), HttpStatus.SC_OK);
 
     String responseString = response.body().asString();
-    Assert.assertTrue(CommonUtil.compare(responseString, "expected/AddCustomerApi/AddCustomerApi_WhenDataIsValid_ThenAddedCustomer.json"));
+    String expectedString = CommonUtil.readContentFile("expected/AddCustomerApi/AddCustomerApi_WhenDataIsValid_ThenAddedCustomer.json");
+    JSONAssert.assertEquals(expectedString, responseString, JSONCompareMode.STRICT);
 
     List<Map<String, Object>> data = databaseUtil.getRecords("SELECT * FROM customers");
-    Assert.assertEquals(data.size(),4);
+    Assert.assertEquals(data.size(), 4);
   }
 
   @Test
@@ -144,9 +148,8 @@ public class AddCustomerApiTest {
     Assert.assertEquals(response.getStatusCode(), HttpStatus.SC_BAD_REQUEST);
 
     String responseString = response.body().asString();
-    Assert.assertTrue(CommonUtil.compareIgnoreFields(responseString,
-      "expected/AddCustomerApi/AddCustomerApi_WhenRequiredRequestBodyIsMissing_ThenBadRequest.json"
-      , "message"));
+    String expectedString = CommonUtil.readContentFile("expected/AddCustomerApi/AddCustomerApi_WhenRequiredRequestBodyIsMissing_ThenBadRequest.json");
+    JSONAssert.assertEquals(expectedString, responseString, JSONCompareMode.LENIENT);
 
   }
 
@@ -155,20 +158,15 @@ public class AddCustomerApiTest {
     RequestSpecification request = RestAssured.given();
     request.contentType(ContentType.JSON);
     request.baseUri("http://localhost:9119/api/customers");
-    request.body(CommonUtil.readFileContent("requestBody/AddCustomerApi_WhenRequiredRequestBodyIsEmpty_ThenBadRequestData.json"));
+    request.body(CommonUtil.readContentFile("requestBody/AddCustomerApi_WhenRequiredRequestBodyIsEmpty_ThenBadRequestData.json"));
     Response response = request.post();
 
     Assert.assertEquals(response.getStatusCode(), HttpStatus.SC_BAD_REQUEST);
     String responseString = response.body().asString();
-    Assert.assertTrue(CommonUtil.compareIgnoreFields(responseString,
-      "expected/AddCustomerApi/AddCustomerApi_WhenRequiredRequestBodyIsEmpty_ThenBadRequestData.json"
-      , "message"));
+    String expectedString = CommonUtil.readContentFile("expected/AddCustomerApi/AddCustomerApi_WhenRequiredRequestBodyIsEmpty_ThenBadRequestData.json");
+    JSONAssert.assertEquals(expectedString, responseString, JSONCompareMode.LENIENT);
 
     List<Map<String, Object>> data = databaseUtil.getRecords("SELECT * FROM customers");
-    Assert.assertEquals(data.size(),3);
-
-
+    Assert.assertEquals(data.size(), 3);
   }
-
-
 }

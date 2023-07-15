@@ -4,7 +4,8 @@ import automation.service.stub.BankApiStub;
 import common.CommonUtil;
 import common.DatabaseUtil;
 import org.apache.http.HttpStatus;
-import org.testng.Assert;
+import org.skyscreamer.jsonassert.JSONAssert;
+import org.skyscreamer.jsonassert.JSONCompareMode;
 import org.testng.annotations.AfterTest;
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.BeforeTest;
@@ -41,7 +42,7 @@ public class GetCustomerAndBalanceApiTest {
 
   @Test
   public void GetCustomerAndBalanceApi_WhenCustomerIs1_ThenReturnDataAndBalance() throws IOException {
-    String response =
+    String responseString =
       given()
         .when().get("http://localhost:9119/api/customers/1")
         .then().log()
@@ -50,14 +51,15 @@ public class GetCustomerAndBalanceApiTest {
         .statusCode(HttpStatus.SC_OK)
         .extract().asString();
 
-    Assert.assertTrue(CommonUtil.compare(response, "expected/GetCustomerAndBalanceApi/GetCustomerAndBalanceApi_WhenCustomerIs1_ThenReturnDataAndBalance.json"));
+    String expectedString = CommonUtil.readContentFile("expected/GetCustomerAndBalanceApi/GetCustomerAndBalanceApi_WhenCustomerIs1_ThenReturnDataAndBalance.json");
+    JSONAssert.assertEquals(expectedString, responseString, JSONCompareMode.STRICT);
 
   }
 
   @Test
   public void GetCustomerAndBalanceApi_WhenCustomerIdBankingIsNotFound_ThenReturnInfoAndBalanceIsUnknown() throws IOException {
 
-    String response =
+    String responseString =
       given()
         .when().get("http://localhost:9119/api/customers/2")
         .then().log()
@@ -66,14 +68,15 @@ public class GetCustomerAndBalanceApiTest {
         .statusCode(HttpStatus.SC_OK)
         .extract().asString();
 
-    Assert.assertTrue(CommonUtil.compare(response,
-      "expected/GetCustomerAndBalanceApi/GetCustomerAndBalanceApi_WhenCustomerIdBankingIsNotFound_ThenReturnInfoAndBalanceIsUnknown.json"));
+    String expectedString = CommonUtil.readContentFile("expected/GetCustomerAndBalanceApi/GetCustomerAndBalanceApi_WhenCustomerIdBankingIsNotFound_ThenReturnInfoAndBalanceIsUnknown.json");
+    JSONAssert.assertEquals(expectedString, responseString, JSONCompareMode.STRICT);
 
 
   }
+
   @Test
-  public void GetCustomerAndBalanceApi_WhenBankingReturn500_ThenReturnInfoAndBalanceUnknown() throws IOException{
-    String response=
+  public void GetCustomerAndBalanceApi_WhenBankingReturn500_ThenReturnInfoAndBalanceUnknown() throws IOException {
+    String responseString =
       given()
         .when().get("http://localhost:9119/api/customers/3")
         .then().log()
@@ -81,7 +84,8 @@ public class GetCustomerAndBalanceApiTest {
         .statusCode(HttpStatus.SC_OK)
         .extract().asString();
 
-    Assert.assertTrue(CommonUtil.compare(response,"expected/GetCustomerAndBalanceApi/GetCustomerAndBalanceApi_WhenBankingReturn500_ThenReturnInfoAndBalanceUnknown.json"));
+    String expectedString = CommonUtil.readContentFile("expected/GetCustomerAndBalanceApi/GetCustomerAndBalanceApi_WhenBankingReturn500_ThenReturnInfoAndBalanceUnknown.json");
+    JSONAssert.assertEquals(expectedString, responseString, JSONCompareMode.STRICT);
 
   }
 }

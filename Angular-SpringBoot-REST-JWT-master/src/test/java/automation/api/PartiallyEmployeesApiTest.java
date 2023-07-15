@@ -7,6 +7,8 @@ import io.restassured.http.ContentType;
 import io.restassured.response.Response;
 import io.restassured.specification.RequestSpecification;
 import org.apache.http.HttpStatus;
+import org.skyscreamer.jsonassert.JSONAssert;
+import org.skyscreamer.jsonassert.JSONCompareMode;
 import org.testng.Assert;
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.BeforeTest;
@@ -34,12 +36,13 @@ public class PartiallyEmployeesApiTest {
     RequestSpecification request = RestAssured.given();
     request.contentType(ContentType.JSON);
     request.baseUri("http://localhost:9119/api/Employee/202");
-    request.body(CommonUtil.readFileContent("requestBody/PartiallyEmployeesAPI_WhenEmployeesIDIsValid_thenReturnData.json"));
+    request.body(CommonUtil.readContentFile("requestBody/PartiallyEmployeesAPI_WhenEmployeesIDIsValid_thenReturnData.json"));
     Response response = request.patch();
     Assert.assertEquals(response.getStatusCode(), HttpStatus.SC_OK);
 
     String responseString = response.body().asString();
-    Assert.assertTrue(CommonUtil.compare(responseString, "expected/PartiallyEmployeesApi/PartiallyEmployeesAPI_WhenEmployeesIDIsValid_thenReturnData.json"));
+    String expectedString = CommonUtil.readContentFile("expected/PartiallyEmployeesApi/PartiallyEmployeesAPI_WhenEmployeesIDIsValid_thenReturnData.json");
+    JSONAssert.assertEquals(expectedString, responseString, JSONCompareMode.STRICT);
 
     List<Map<String, Object>> data = databaseUtil.getRecords("SELECT * FROM employees WHERE id = 202");
     Map<String, Object> expectedRecord = data.get(0);
@@ -52,12 +55,13 @@ public class PartiallyEmployeesApiTest {
     RequestSpecification request = RestAssured.given();
     request.contentType(ContentType.JSON);
     request.baseUri("http://localhost:9119/api/Employee/205");
-    request.body(CommonUtil.readFileContent("requestBody/PartiallyEmployeesAPI_WhenEmployeesIDIsNotValid_thenUnableToUpdateResource.json"));
+    request.body(CommonUtil.readContentFile("requestBody/PartiallyEmployeesAPI_WhenEmployeesIDIsNotValid_thenUnableToUpdateResource.json"));
     Response response = request.patch();
     Assert.assertEquals(response.getStatusCode(), HttpStatus.SC_OK);
 
     String responseString = response.body().asString();
-    Assert.assertTrue(CommonUtil.compare(responseString, "expected/PartiallyEmployeesApi/PartiallyEmployeesAPI_WhenEmployeesIDIsNotValid_thenReturnData.json"));
+    String expectedString = CommonUtil.readContentFile("expected/PartiallyEmployeesApi/PartiallyEmployeesAPI_WhenEmployeesIDIsNotValid_thenReturnData.json");
+    JSONAssert.assertEquals(expectedString, responseString, JSONCompareMode.STRICT);
 
   }
 
@@ -66,7 +70,7 @@ public class PartiallyEmployeesApiTest {
     RequestSpecification request = RestAssured.given();
     request.contentType(ContentType.JSON);
     request.baseUri("http://localhost:9119/api/Employee/");
-    request.body(CommonUtil.readFileContent("requestBody/PartiallyEmployeesAPI_WhenEmployeesIDIsEmpty_thenNotFound.json"));
+    request.body(CommonUtil.readContentFile("requestBody/PartiallyEmployeesAPI_WhenEmployeesIDIsEmpty_thenNotFound.json"));
     Response response = request.patch();
     Assert.assertEquals(response.getStatusCode(), HttpStatus.SC_NOT_FOUND);
   }
@@ -76,12 +80,13 @@ public class PartiallyEmployeesApiTest {
     RequestSpecification request = RestAssured.given();
     request.contentType(ContentType.JSON);
     request.baseUri("http://localhost:9119/api/Employee/201");
-    request.body(CommonUtil.readFileContent("requestBody/PartiallyEmployeesAPI_WhenRequiredBodyRequestIsEmpty_thenBadRequest.json"));
+    request.body(CommonUtil.readContentFile("requestBody/PartiallyEmployeesAPI_WhenRequiredBodyRequestIsEmpty_thenBadRequest.json"));
     Response response = request.patch();
     Assert.assertEquals(response.getStatusCode(), HttpStatus.SC_BAD_REQUEST);
 
     String responseString = response.body().asString();
-    Assert.assertTrue(CommonUtil.compare(responseString, "expected/PartiallyEmployeesApi/PartiallyEmployeesAPI_WhenRequiredBodyRequestIsEmpty_thenBadRequest.json"));
+    String expectedString = CommonUtil.readContentFile("expected/PartiallyEmployeesApi/PartiallyEmployeesAPI_WhenRequiredBodyRequestIsEmpty_thenBadRequest.json");
+    JSONAssert.assertEquals(expectedString, responseString, JSONCompareMode.STRICT);
 
   }
 
@@ -90,14 +95,13 @@ public class PartiallyEmployeesApiTest {
     RequestSpecification request = RestAssured.given();
     request.contentType(ContentType.JSON);
     request.baseUri("http://localhost:9119/api/Employee/201");
-    request.body(CommonUtil.readFileContent("requestBody/PartiallyEmployeesAPI_WhenRequiredBodyRequestIsMissing_thenBadRequest.json"));
+    request.body(CommonUtil.readContentFile("requestBody/PartiallyEmployeesAPI_WhenRequiredBodyRequestIsMissing_thenBadRequest.json"));
     Response response = request.patch();
     Assert.assertEquals(response.getStatusCode(), HttpStatus.SC_BAD_REQUEST);
 
     String responseString = response.body().asString();
-    Assert.assertTrue(CommonUtil.compareIgnoreFields(responseString
-      , "expected/PartiallyEmployeesApi/PartiallyEmployeesAPI_WhenRequiredBodyRequestIsMissing_thenBadRequest.json"
-      , "message"));
+    String expectedString = CommonUtil.readContentFile("expected/PartiallyEmployeesApi/PartiallyEmployeesAPI_WhenRequiredBodyRequestIsMissing_thenBadRequest.json");
+    JSONAssert.assertEquals(expectedString, responseString, JSONCompareMode.LENIENT);
 
 
   }
