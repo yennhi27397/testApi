@@ -1,0 +1,18 @@
+{
+  "operationStatus": "SUCCESS",
+  "operationMessage": "Orders by  payment_type ",
+  "items": [
+    {
+      "name": "Card",
+      "value": 7
+    },
+    {
+      "name": "Cash",
+      "value": 7
+    },
+    {
+      "name": "Check",
+      "value": 6
+    }
+  ]
+}

@@ -1,0 +1,54 @@
+{
+  "operationStatus": "SUCCESS",
+  "operationMessage": "Orders by  ship_country ",
+  "items": [
+    {
+      "name": "Ukraine",
+      "value": 1
+    },
+    {
+      "name": "Argentina",
+      "value": 1
+    },
+    {
+      "name": "Brazil",
+      "value": 3
+    },
+    {
+      "name": "Indonesia",
+      "value": 2
+    },
+    {
+      "name": "Poland",
+      "value": 1
+    },
+    {
+      "name": "Canada",
+      "value": 1
+    },
+    {
+      "name": "China",
+      "value": 4
+    },
+    {
+      "name": "Philippines",
+      "value": 1
+    },
+    {
+      "name": "India",
+      "value": 2
+    },
+    {
+      "name": "Portugal",
+      "value": 1
+    },
+    {
+      "name": "France",
+      "value": 1
+    },
+    {
+      "name": "United States",
+      "value": 2
+    }
+  ]
+}

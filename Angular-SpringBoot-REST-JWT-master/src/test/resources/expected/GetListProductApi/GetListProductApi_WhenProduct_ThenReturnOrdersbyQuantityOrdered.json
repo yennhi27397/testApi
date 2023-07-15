@@ -1,0 +1,86 @@
+{
+  "operationStatus": "SUCCESS",
+  "operationMessage": "Orders by Quantity Ordered",
+  "items": [
+    {
+      "name": "Dell XPS 13",
+      "value": 10.0000
+    },
+    {
+      "name": "Nikon D810",
+      "value": 7.0000
+    },
+    {
+      "name": "Asus Zenbook Ux305",
+      "value": 2.0000
+    },
+    {
+      "name": "HP Envy m7-n109dx 17.3",
+      "value": 2.0000
+    },
+    {
+      "name": "Samasung Note",
+      "value": 7.0000
+    },
+    {
+      "name": "Chromebook 11.6",
+      "value": 4.0000
+    },
+    {
+      "name": "iPad Air",
+      "value": 20.0000
+    },
+    {
+      "name": "Nikon D500",
+      "value": 16.0000
+    },
+    {
+      "name": "Moto Z",
+      "value": 4.0000
+    },
+    {
+      "name": "Acer Aspire S 13",
+      "value": 12.0000
+    },
+    {
+      "name": "Google Pixel",
+      "value": 2.0000
+    },
+    {
+      "name": "HTC 10",
+      "value": 8.0000
+    },
+    {
+      "name": "Samsung Galaxy S7",
+      "value": 3.0000
+    },
+    {
+      "name": "MacBook Pro 13.3",
+      "value": 25.0000
+    },
+    {
+      "name": "Apple iPhone 7",
+      "value": 4.0000
+    },
+    {
+      "name": "Microsft Surface Book",
+      "value": 37.0000
+    },
+    {
+      "name": "ThinkPad T365",
+      "value": 1.0000
+    },
+    {
+      "name": "Nexus 6",
+      "value": 10.0000
+    },
+    {
+      "name": "Canon EOS 5D Mark IV",
+      "value": 1.0000
+    },
+    {
+      "name": "Pentax K-1",
+      "value": 17.0000
+    }
+  ]
+}
