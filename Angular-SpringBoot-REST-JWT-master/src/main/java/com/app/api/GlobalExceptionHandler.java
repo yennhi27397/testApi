@@ -52,7 +52,8 @@ public class GlobalExceptionHandler {
   public ResponseEntity handleBankBadRequestException(BankBadRequestException e) {
     ErrorResponse resp = ErrorResponse.builder()
       .status(400)
-      .error("BANKING_INTERNAL_ERROR")
+      .error("INTERNAL_SERVER_ERROR".equals(e.getErrorCode()) ? "BANKING_INTERNAL_ERROR" : e.getErrorCode())
+      .message(e.getErrorMsg())
       .build();
     return ResponseEntity.status(400).body(resp);
   }

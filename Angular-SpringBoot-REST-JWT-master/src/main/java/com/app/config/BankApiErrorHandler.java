@@ -2,6 +2,8 @@ package com.app.config;
 
 import com.app.exception.BadRequestException;
 import com.app.exception.BankBadRequestException;
+import com.app.model.bank.Transaction;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import org.springframework.http.client.ClientHttpResponse;
 import org.springframework.web.client.DefaultResponseErrorHandler;
 

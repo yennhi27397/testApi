@@ -11,4 +11,5 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 public class BankBadRequestException extends RuntimeException {
   private String errorMsg;
+  private String errorCode;
 }

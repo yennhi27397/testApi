@@ -180,12 +180,22 @@ public class CustomerController {
     if (Objects.isNull(withdrawRequest.getAccountId())) {
       throw new BadRequestException();
     }
-    if (!this.customerRepo.exists(withdrawRequest.getAccountId())) {
-      resp.setOperationStatus(ResponseStatusEnum.ERROR);
-      resp.setOperationMessage("Unable to Get Resource - Resource is not existed");
-    } else {
-      return bankRepo.withdraw(withdrawRequest.getAccountId().toString(), withdrawRequest.getAmount());
+    try {
+      if (!this.customerRepo.exists(withdrawRequest.getAccountId())) {
+        resp.setOperationStatus(ResponseStatusEnum.ERROR);
+        resp.setOperationMessage("Unable to Get Resource - Resource is not existed");
+      } else {
+        return bankRepo.withdraw(withdrawRequest.getAccountId().toString(), withdrawRequest.getAmount());
+      }
+    } catch (BankBadRequestException e) {
+      Transaction transaction = new ObjectMapper().readValue(e.getErrorMsg(), Transaction.class);
+      if (("FAILED").equals(transaction.getStatus())) {
+        return transaction;
+      }
+      e.setErrorCode(transaction.getErrorCode());
+      throw e;
     }
+
     return resp;
   }
 

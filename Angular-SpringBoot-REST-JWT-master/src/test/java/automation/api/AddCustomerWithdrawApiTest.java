@@ -73,8 +73,8 @@ public class AddCustomerWithdrawApiTest {
     request.body(CommonUtil.readContentFile("requestBody/AddCustomerWithdrawApi_WhenAccountInsufficient_ThenAccountCanNotWithdraw.json"));
 
     Response response = request.post();
-    Assert.assertEquals(response.getStatusCode(), HttpStatus.SC_OK);
     String responseString = response.body().asString();
+    Assert.assertEquals(response.getStatusCode(), HttpStatus.SC_OK);
     String expectedString = CommonUtil.readContentFile("expected/AddCustomerWithdrawApi/WhenAccountInsufficient_ThenAccountCanNotWithdraw.json");
     JSONAssert.assertEquals(expectedString, responseString, JSONCompareMode.STRICT);
   }
@@ -86,9 +86,9 @@ public class AddCustomerWithdrawApiTest {
     request.baseUri("http://localhost:9119/api/customers/withdraw");
     request.body(CommonUtil.readContentFile("requestBody/AddCustomerIDWithdraw_WhenCustomerIDDoesNotExist_ThenAccountCanNotFound.json"));
     Response response = request.post();
+    String responseString = response.body().asString();
 
     Assert.assertEquals(response.getStatusCode(), HttpStatus.SC_BAD_REQUEST);
-    String responseString = response.body().asString();
     String expectedString = CommonUtil.readContentFile("expected/AddCustomerWithdrawApi/WhenCustomerIDDoesNotExist_ThenAccountCanNotFound.json");
     JSONAssert.assertEquals(expectedString, responseString, JSONCompareMode.LENIENT);
   }
