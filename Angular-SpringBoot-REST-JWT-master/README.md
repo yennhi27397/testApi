@@ -271,5 +271,6 @@ Support this project by becoming a sponsor. Your logo will show up here with a l
 website. [[Become a sponsor](https://opencollective.com/angular-springboot-rest-jwt#sponsor)]
 
 
-aaa
+## Run test report.
+mvn clean test -Dsurefire.suiteXmlFiles=./src/test/resources/testng.xml
 
