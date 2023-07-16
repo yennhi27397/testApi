@@ -7,7 +7,6 @@
     </classes>
   </test>
 
-
   <test name="AddEmployeesApiTest">
     <classes>
       <class name="automation.api.AddEmployeesApiTest"/>
