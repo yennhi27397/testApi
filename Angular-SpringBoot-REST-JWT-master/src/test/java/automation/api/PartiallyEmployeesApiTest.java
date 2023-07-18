@@ -102,7 +102,5 @@ public class PartiallyEmployeesApiTest {
     String responseString = response.body().asString();
     String expectedString = CommonUtil.readContentFile("expected/PartiallyEmployeesApi/PartiallyEmployeesAPI_WhenRequiredBodyRequestIsMissing_thenBadRequest.json");
     JSONAssert.assertEquals(expectedString, responseString, JSONCompareMode.LENIENT);
-
-
   }
 }

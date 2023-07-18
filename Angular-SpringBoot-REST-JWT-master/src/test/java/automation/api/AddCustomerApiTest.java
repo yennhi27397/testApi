@@ -53,6 +53,7 @@ public class AddCustomerApiTest {
     String expectedString = CommonUtil.readContentFile("expected/AddCustomerApi/AddCustomerApi_WhenDataIsValid_ThenAddedCustomer.json");
     // compare String actual response and String expected response
     JSONAssert.assertEquals(expectedString, responseString, JSONCompareMode.STRICT);
+
     // pass string query to get list record
     List<Map<String, Object>> data = databaseUtil.getRecords(
       "SELECT * FROM customers WHERE first_name='Doan' and last_name='Pham'"

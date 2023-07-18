@@ -272,5 +272,5 @@ website. [[Become a sponsor](https://opencollective.com/angular-springboot-rest-
 
 
 ## Run test report.
-mvn clean test -Dsurefire.suiteXmlFiles=./src/test/resources/testng.xml
+mvn clean test -DtestNGFile=./src/test/resources/testng.xml
 

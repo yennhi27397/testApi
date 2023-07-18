@@ -10,6 +10,7 @@
     <springfox-version>2.7.0</springfox-version>
     <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
     <java.version>11</java.version>
+    <testNGFile></testNGFile>
   </properties>
   <parent>
     <groupId>org.springframework.boot</groupId>
@@ -24,6 +25,15 @@
     -->
     <!-- <pluginManagement> -->
     <plugins>
+      <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-surefire-plugin</artifactId>
+        <configuration>
+          <suiteXmlFiles>
+            <suiteXmlFile>${testNGFile}</suiteXmlFile>
+          </suiteXmlFiles>
+        </configuration>
+      </plugin>
       <plugin>
         <groupId>org.springframework.boot</groupId>
         <artifactId>spring-boot-maven-plugin</artifactId>

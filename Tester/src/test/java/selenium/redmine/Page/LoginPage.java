@@ -25,5 +25,11 @@ public class LoginPage {
     var loginButton = driver.findElement(By.cssSelector("input#login-submit[type='submit']"));
     loginButton.click();
   }
+
+  public String InvalidUserOrPasswordInformation() {
+    var errorInformation = driver.findElement(By.cssSelector("div#flash_error"));
+    return errorInformation.getText();
+
+  }
 }
 

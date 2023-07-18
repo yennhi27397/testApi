@@ -1,14 +1,14 @@
-package automation.cucumber;
+package selenium.cucumber;
 
 import io.cucumber.testng.AbstractTestNGCucumberTests;
 import io.cucumber.testng.CucumberOptions;
 
 @CucumberOptions(
   features = {
-    "src/test/resources/features/AddCustomerApi.feature",
-    "src/test/resources/features/AddCustomerWithdrawApi.feature"
+      "src/test/resources/features/Login.feature",
+
   },
-  glue = {"automation.cucumber.definitions"}
+  glue = {"selenium.cucumber.definitions"}
 )
 
 public class CucumberRunner extends AbstractTestNGCucumberTests {

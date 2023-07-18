@@ -6,6 +6,7 @@
       <class name="selenium.redmine.test.RoleAndPermissionTest"/>
     </classes>
   </test>
+
   <test name="LoginTest">
     <classes>
       <class name="selenium.redmine.test.LoginTest"/>

@@ -43,11 +43,13 @@ public class AddCustomerDefinitions {
 
   @Given("User is not existed on system")
   public void userIsNotExistedOnSystem() throws Exception {
+    // User is not existed on system
     System.out.println("should do to make user not existed on system");
   }
 
   @Given("User is existed on system")
   public void userIsExistedOnSystem() throws Exception {
+    // User is existed on system
     System.out.println("should do to make user is existed on system");
   }
 

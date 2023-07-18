@@ -2,6 +2,7 @@ package selenium.redmine.page;
 
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
+import selenium.redmine.Common;
 
 public class RedmineHomePage {
   // call attribute WebDriver
@@ -21,7 +22,7 @@ public class RedmineHomePage {
   // call attribute click Sign in button
   public void clickSignInButton() {
     // get tag ='a', class='login'
-    var signIn = driver.findElement(By.cssSelector("a.login"));
+    var signIn = Common.getWebElement(driver,"a","Sign in");
     // click Sign in button
     signIn.click();
   }
