@@ -105,4 +105,18 @@ public class LoginDefinitions {
     // Compare String actual Logged Account and string expected notification
     Assert.assertEquals(item, "Invalid user or password");
   }
+
+  @When("Enter as {string} and as {string}")
+  public void enterAsAndAs(String userName, String password) {
+    // navigate to redmineHomePage
+    redmineHomePage.navigate();
+    // click sign in button
+    redmineHomePage.clickSignInButton();
+    // enter "admin" in Login text box
+    loginPage.enterLoginTextBox(userName);
+    // enter "123456789" in Password text box
+    loginPage.enterPassWordTextBox(password);
+    // click Login button
+    loginPage.clickLoginButton();
+  }
 }

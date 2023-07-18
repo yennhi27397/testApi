@@ -6,7 +6,12 @@ Feature: Admin Login Page
     Then User login successfully
 
 
-  Scenario: User can not log in successfully with blank username and valid password
+  Scenario Outline: User can not log in successfully as <username> and as <password>
     Given The account has been successfully registered
-    When Enter blank username and valid password
+    When Enter as "<username>" and as "<password>"
     Then User can not login successfully
+    Examples:
+      | username | password |
+      | A | 123456789 |
+      | Admin |  |
+      | Admin123 | 123456789 |
