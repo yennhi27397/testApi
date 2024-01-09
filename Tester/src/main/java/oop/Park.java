@@ -7,6 +7,10 @@ public class Park {
     System.out.println(Park.name + " can go to walk");
   }
 
+  public static void allowPeopleToWalk(Human human) {
+    System.out.println(human.name + " can go to walk");
+  }
+
   public static void allowPeopleToPlayBadminton() {
     System.out.println(Park.name + " can play badminton");
   }

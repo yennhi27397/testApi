@@ -31,7 +31,7 @@ public class ProjectTest {
     driver = new ChromeDriver();
     // Zoom to man hinh
     driver.manage().window().maximize();
-    // call Object loginPage, redmineHomePage, projectPage, newProject, administrationPage and pass to driver
+    // call Student loginPage, redmineHomePage, projectPage, newProject, administrationPage and pass to driver
     this.redmineHomePage = new RedmineHomePage(driver);
     this.loginPage = new LoginPage(driver);
     this.administrationPage = new AdministrationPage(driver);
@@ -96,7 +96,7 @@ public class ProjectTest {
     this.loginPage.clickLoginButton();
     this.redmineHomePage.clickAdministrationTab();
     this.administrationPage.clickProjectsTab();
-    this.projectPage.clickDeleteButton();
+    this.projectPage.clickDeleteClound360Button();
     this.deleteProjectPage.enterIdentifierTextBox("clound360");
     this.deleteProjectPage.clickDeleteButton();
 

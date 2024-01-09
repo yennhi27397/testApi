@@ -2,6 +2,7 @@ package automation.api;
 
 import common.CommonUtil;
 import common.DatabaseUtil;
+import io.restassured.http.Header;
 import org.apache.http.HttpStatus;
 import org.skyscreamer.jsonassert.JSONAssert;
 import org.skyscreamer.jsonassert.JSONCompareMode;
@@ -13,6 +14,8 @@ import static io.restassured.RestAssured.given;
 
 public class GetListEmployeesApiTest {
   private DatabaseUtil databaseUtil;
+  private Header header;
+
 
   @BeforeTest
   public void beforeTest() throws Exception {
@@ -23,12 +26,15 @@ public class GetListEmployeesApiTest {
   public void prepareData() throws Exception {
     databaseUtil.executeSQL("script/cleanUp.sql");
     databaseUtil.executeSQL("script/insert_employees.sql");
+    header = new Header("Authorization", "Bearer " + CommonUtil.getAccessToken());
+
   }
 
   @Test
   public void GetListEmployeesApi_WhenPageIs1AndSizeIs1_ThenReturnData() throws Exception {
     String responseString =
       given()
+        .header(header)
         .queryParam("page", 1)
         .queryParam("size", 1)
         .when().get("http://localhost:9119/api/employees")
@@ -47,6 +53,7 @@ public class GetListEmployeesApiTest {
   public void GetListEmployeesApi_WhenEmployeeID202_ThenReturnData() throws Exception {
     String responseString =
       given()
+        .header(header)
         .queryParam("employeeid", 202)
         .when().get("http://localhost:9119/api/employees")
         .then().log()
@@ -62,6 +69,7 @@ public class GetListEmployeesApiTest {
   public void GetListEmployeesApi_WhenEmployeeID204_ThenReturnData() throws Exception {
     String responseString =
       given()
+        .header(header)
         .queryParam("employeeid", 204)
         .when().get("http://localhost:9119/api/employees")
         .then().log()
@@ -77,6 +85,7 @@ public class GetListEmployeesApiTest {
   public void GetListEmployeesApi_WhenEmployeeIDIsEmpty_ThenReturnData() throws Exception {
     String responseString =
       given()
+        .header(header)
         .queryParam("employeeid", "")
         .when().get("http://localhost:9119/api/employees")
         .then().log()

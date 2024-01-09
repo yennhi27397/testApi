@@ -4,6 +4,7 @@ import common.CommonUtil;
 import common.DatabaseUtil;
 import io.restassured.RestAssured;
 import io.restassured.http.ContentType;
+import io.restassured.http.Header;
 import io.restassured.response.Response;
 import io.restassured.specification.RequestSpecification;
 import org.apache.http.HttpStatus;
@@ -19,6 +20,8 @@ import java.util.Map;
 
 public class PartiallyCustomerApiTest {
   private DatabaseUtil databaseUtil;
+  private Header header;
+
 
   @BeforeTest
   public void beforeTest() throws Exception {
@@ -29,12 +32,14 @@ public class PartiallyCustomerApiTest {
   public void prepareData() throws Exception {
     databaseUtil.executeSQL("script/cleanUp.sql");
     databaseUtil.executeSQL("script/insert_customers.sql");
+    header = new Header("Authorization", "Bearer " + CommonUtil.getAccessToken());
   }
 
   @Test
   public void PartiallyCustomerAPI_WhenCustomerIDIsValid_thenReturnData() throws Exception {
     RequestSpecification request = RestAssured.given();
     request.contentType(ContentType.JSON);
+    request.header(header);
     request.baseUri("http://localhost:9119/api/customers/3");
     request.body(CommonUtil.readContentFile("requestBody/PartiallyCustomerAPI_WhenCustomerIDIsValid_thenReturnData.json"));
     Response response = request.patch();
@@ -53,6 +58,7 @@ public class PartiallyCustomerApiTest {
   public void PartiallyCustomerAPI_WhenCustomerIDIsNotValid_thenUnableToUpdateResource() throws Exception {
     RequestSpecification request = RestAssured.given();
     request.contentType(ContentType.JSON);
+    request.header(header);
     request.baseUri("http://localhost:9119/api/customers/5");
     request.body(CommonUtil.readContentFile("requestBody/PartiallyEmployeesAPI_WhenEmployeesIDIsNotValid_thenUnableToUpdateResource.json"));
     Response response = request.patch();
@@ -68,6 +74,7 @@ public class PartiallyCustomerApiTest {
   public void PartiallyCustomerAPI_WhenCustomerIDIsEmpty_thenMethodNotAllowed() throws Exception {
     RequestSpecification request = RestAssured.given();
     request.contentType(ContentType.JSON);
+    request.header(header);
     request.baseUri("http://localhost:9119/api/customers/");
     request.body(CommonUtil.readContentFile("requestBody/PartiallyCustomerAPI_WhenCustomerIDIsEmpty_thenMethodNotAllowed.json"));
     Response response = request.patch();
@@ -80,6 +87,7 @@ public class PartiallyCustomerApiTest {
   public void PartiallyCustomerAPI_WhenRequiredBodyRequestIsEmpty_thenBadRequest() throws Exception {
     RequestSpecification request = RestAssured.given();
     request.contentType(ContentType.JSON);
+    request.header(header);
     request.baseUri("http://localhost:9119/api/customers/3");
     request.body(CommonUtil.readContentFile("requestBody/PartiallyCustomerAPI_WhenRequiredBodyRequestIsEmpty_thenBadRequest.json"));
     Response response = request.patch();
@@ -91,6 +99,7 @@ public class PartiallyCustomerApiTest {
   public void PartiallyCustomerAPI_WhenRequiredBodyRequestIsMissing_thenBadRequest() throws Exception {
     RequestSpecification request = RestAssured.given();
     request.contentType(ContentType.JSON);
+    request.header(header);
     request.baseUri("http://localhost:9119/api/customers/3");
     request.body(CommonUtil.readContentFile("requestBody/PartiallyCustomerAPI_WhenRequiredBodyRequestIsMissing_thenBadRequest.json"));
     Response response = request.patch();

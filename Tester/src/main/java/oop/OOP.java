@@ -65,6 +65,9 @@ public class OOP {
     } else {
       System.out.println(foundStudent.getName());
     }
+    Park.allowPeopleToWalk(vinh);
+    Park.allowPeopleToWalk(doan);
+
   }
 }
 

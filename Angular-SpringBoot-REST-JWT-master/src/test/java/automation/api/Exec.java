@@ -31,7 +31,7 @@ public class Exec {
     String actual = "{id:1,friends:[{id:2},{id:3}]}";
     String expected = "{friends:[{id:3},{id:2}], id:1}";
 
-    // phâỉ đủ 100% các fields của 2 bên.
+    // phải đủ 100% các fields của 2 bên.
     // thứ tự của các field ko quan tâm.
     // thứ tự của array thì ko quan tâm.
     JSONAssert.assertEquals(expected, actual, JSONCompareMode.NON_EXTENSIBLE);

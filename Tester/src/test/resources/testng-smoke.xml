@@ -1,6 +1,5 @@
 <!DOCTYPE suite SYSTEM "http://testng.org/testng-1.0.dtd" >
-<suite name="NorthWindAPI-Smoke" parallel="false">
-
+<suite name="Name of test-suite" parallel="false">
   <test name="LoginTest">
     <classes>
       <class name="selenium.redmine.smoke.LoginTest"/>

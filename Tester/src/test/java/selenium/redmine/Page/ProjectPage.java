@@ -21,8 +21,13 @@ public class ProjectPage {
     project.click();
   }
 
-  public void clickDeleteButton() {
+  public void clickDeleteClound360Button() {
     var clickDelete = driver.findElement(By.cssSelector("a.icon.icon-del[data-method='delete'][href='/projects/clound360']"));
+    clickDelete.click();
+  }
+
+  public void clickDeleteRedmineButton() {
+    var clickDelete = driver.findElement(By.cssSelector("a.icon.icon-del[data-method='delete'][href='/projects/redmine']"));
     clickDelete.click();
   }
 

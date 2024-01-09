@@ -3,6 +3,7 @@ package automation.api;
 import automation.service.stub.BankApiStub;
 import common.CommonUtil;
 import common.DatabaseUtil;
+import io.restassured.http.Header;
 import org.apache.http.HttpStatus;
 import org.skyscreamer.jsonassert.JSONAssert;
 import org.skyscreamer.jsonassert.JSONCompareMode;
@@ -19,6 +20,8 @@ import static io.restassured.RestAssured.given;
 public class GetCustomerAndBalanceApiTest {
   private DatabaseUtil databaseUtil;
   private BankApiStub bankApiStub;
+  private Header header;
+
 
   @BeforeTest
   public void beforeTest() throws Exception {
@@ -31,6 +34,8 @@ public class GetCustomerAndBalanceApiTest {
   public void prepareStub() throws Exception {
     databaseUtil.executeSQL("script/cleanUp.sql");
     databaseUtil.executeSQL("script/insert_customers.sql");
+    header = new Header("Authorization", "Bearer " + CommonUtil.getAccessToken());
+
   }
 
   @AfterTest
@@ -44,6 +49,7 @@ public class GetCustomerAndBalanceApiTest {
   public void GetCustomerAndBalanceApi_WhenCustomerIs1_ThenReturnDataAndBalance() throws IOException {
     String responseString =
       given()
+        .header(header)
         .when().get("http://localhost:9119/api/customers/1")
         .then().log()
         .body()
@@ -61,6 +67,7 @@ public class GetCustomerAndBalanceApiTest {
 
     String responseString =
       given()
+        .header(header)
         .when().get("http://localhost:9119/api/customers/2")
         .then().log()
         .body()
@@ -78,6 +85,7 @@ public class GetCustomerAndBalanceApiTest {
   public void GetCustomerAndBalanceApi_WhenBankingReturn500_ThenReturnInfoAndBalanceUnknown() throws IOException {
     String responseString =
       given()
+        .header(header)
         .when().get("http://localhost:9119/api/customers/3")
         .then().log()
         .body()

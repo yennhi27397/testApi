@@ -5,6 +5,7 @@ import common.CommonUtil;
 import common.DatabaseUtil;
 import io.restassured.RestAssured;
 import io.restassured.http.ContentType;
+import io.restassured.http.Header;
 import io.restassured.response.Response;
 import io.restassured.specification.RequestSpecification;
 import org.apache.http.HttpStatus;
@@ -22,6 +23,7 @@ public class AddCustomerWithdrawApiTest {
   private DatabaseUtil databaseUtil;
 
   private BankApiStub bankApiStub;
+  private Header header;
 
   @BeforeTest
   public void beforeTest() throws Exception {
@@ -36,6 +38,8 @@ public class AddCustomerWithdrawApiTest {
     databaseUtil.executeSQL("script/cleanUp.sql");
     // prepare data to test.
     databaseUtil.executeSQL("script/insert_customers.sql");
+    header = new Header("Authorization", "Bearer " + CommonUtil.getAccessToken());
+
   }
 
   @AfterTest
@@ -50,6 +54,7 @@ public class AddCustomerWithdrawApiTest {
     RequestSpecification request = RestAssured.given();
     // call header
     request.contentType(ContentType.JSON);
+    request.header(header);
     // call URL
     request.baseUri("http://localhost:9119/api/customers/withdraw");
     // read request body
@@ -69,6 +74,7 @@ public class AddCustomerWithdrawApiTest {
   public void AddCustomerWithdrawApi_WhenAccountInsufficientFund_ThenAccountCanNotWithdraw() throws Exception {
     RequestSpecification request = RestAssured.given();
     request.contentType(ContentType.JSON);
+    request.header(header);
     request.baseUri("http://localhost:9119/api/customers/withdraw");
     request.body(CommonUtil.readContentFile("requestBody/AddCustomerWithdrawApi_WhenAccountInsufficient_ThenAccountCanNotWithdraw.json"));
 
@@ -83,6 +89,7 @@ public class AddCustomerWithdrawApiTest {
   public void AddCustomerIDWithdraw_WhenCustomerIDDoesNotExist_ThenAccountCanNotFound() throws Exception {
     RequestSpecification request = RestAssured.given();
     request.contentType(ContentType.JSON);
+    request.header(header);
     request.baseUri("http://localhost:9119/api/customers/withdraw");
     request.body(CommonUtil.readContentFile("requestBody/AddCustomerIDWithdraw_WhenCustomerIDDoesNotExist_ThenAccountCanNotFound.json"));
     Response response = request.post();
@@ -100,6 +107,7 @@ public class AddCustomerWithdrawApiTest {
 
     RequestSpecification request = RestAssured.given();
     request.contentType(ContentType.JSON);
+    request.header(header);
     request.baseUri("http://localhost:9119/api/customers/withdraw");
     request.body(CommonUtil.readContentFile("requestBody/AddCustomerIDWithdraw_WhenInternalServerError_ThenAccountCanNotWithdraw.json"));
 

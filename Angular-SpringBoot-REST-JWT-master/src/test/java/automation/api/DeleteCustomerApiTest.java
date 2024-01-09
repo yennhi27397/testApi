@@ -2,6 +2,7 @@ package automation.api;
 
 import common.CommonUtil;
 import common.DatabaseUtil;
+import io.restassured.http.Header;
 import org.apache.http.HttpStatus;
 import org.skyscreamer.jsonassert.JSONAssert;
 import org.skyscreamer.jsonassert.JSONCompareMode;
@@ -17,6 +18,8 @@ import static io.restassured.RestAssured.given;
 
 public class DeleteCustomerApiTest {
   private DatabaseUtil databaseUtil;
+  private Header header;
+
 
   @BeforeTest
   public void beforeTest() throws Exception {
@@ -27,12 +30,14 @@ public class DeleteCustomerApiTest {
   public void prepareData() throws Exception {
     databaseUtil.executeSQL("script/cleanUp.sql");
     databaseUtil.executeSQL("script/insert_customers.sql");
+    header = new Header("Authorization", "Bearer " + CommonUtil.getAccessToken());
   }
 
   @Test
   public void deleteCustomerApi_WhenCustomerIDIsExist_ThenDeleteData() throws Exception {
     String responseString =
       given()
+        .header(header)
         .when().delete("http://localhost:9119/api/customers/3")
         .then().log()
         .body()
@@ -52,6 +57,7 @@ public class DeleteCustomerApiTest {
   public void deleteCustomerApi_WhenCustomerIDIsNotExist_ThenRespondNoCustomerExist() throws Exception {
     String responseString =
       given()
+        .header(header)
         .when().delete("http://localhost:9119/api/customers/5")
         .then().log()
         .body()
@@ -69,6 +75,7 @@ public class DeleteCustomerApiTest {
   public void deleteCustomerApi_WhenCustomerIDIsEmpty_ThenRespondMethodNotAllowed() throws Exception {
     String responseString =
       given()
+        .header(header)
         .when().delete("http://localhost:9119/api/customers/")
         .then().log()
         .body()

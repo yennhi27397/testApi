@@ -4,6 +4,7 @@ import common.CommonUtil;
 import common.DatabaseUtil;
 import io.restassured.RestAssured;
 import io.restassured.http.ContentType;
+import io.restassured.http.Header;
 import io.restassured.response.Response;
 import io.restassured.specification.RequestSpecification;
 import org.apache.http.HttpStatus;
@@ -19,6 +20,7 @@ import java.util.Map;
 
 public class AddEmployeesApiTest {
   private DatabaseUtil databaseUtil;
+  private Header header;
 
   @BeforeTest
   public void beforeTest() throws Exception {
@@ -29,12 +31,14 @@ public class AddEmployeesApiTest {
   public void prepareData() throws Exception {
     databaseUtil.executeSQL("script/cleanUp.sql");
     databaseUtil.executeSQL("script/insert_employees.sql");
+    header = new Header("Authorization", "Bearer " + CommonUtil.getAccessToken());
   }
 
   @Test
   public void AddEmployeesApi_WhenDataIsValid_ThenEmployeeAdded() throws Exception {
     RequestSpecification request = RestAssured.given();
     request.contentType(ContentType.JSON);
+    request.header(header);
     request.baseUri("http://localhost:9119/api/employees");
     request.body(CommonUtil.readContentFile("requestBody/AddEmployeesApi_WhenDataIsValid_ThenEmployeeAdded.json"));
     Response response = request.post();
@@ -71,6 +75,7 @@ public class AddEmployeesApiTest {
   public void AddEmployeesApi_WhenEmployeeIDExisted_ThenUnableToAddEmployee() throws Exception {
     RequestSpecification request = RestAssured.given();
     request.contentType(ContentType.JSON);
+    request.header(header);
     request.baseUri("http://localhost:9119/api/employees");
     request.body(CommonUtil.readContentFile("requestBody/AddEmployeesApi_WhenEmployeeIDExisted_ThenUnableToAddEmployee.json"));
     Response response = request.post();
@@ -90,6 +95,7 @@ public class AddEmployeesApiTest {
   public void AddEmployeesApi_WhenDataMissedIdField_ThenEmployeeDidNotAdd() throws Exception {
     RequestSpecification request = RestAssured.given();
     request.contentType(ContentType.JSON);
+    request.header(header);
     request.baseUri("http://localhost:9119/api/employees");
     request.body(CommonUtil.readContentFile("requestBody/AddEmployeesApi_WhenDataMissedIdField_ThenEmployeeDidNotAdd.json"));
     Response response = request.post();
@@ -108,6 +114,7 @@ public class AddEmployeesApiTest {
   public void AddEmployeesApi_WhenDataMissedLastNameFirstNameField_ThenEmployeeAdded() throws Exception {
     RequestSpecification request = RestAssured.given();
     request.contentType(ContentType.JSON);
+    request.header(header);
     request.baseUri("http://localhost:9119/api/employees");
     request.body(CommonUtil.readContentFile("requestBody/AddEmployeesApi_WhenDataMissedLastNameFirstNameField_ThenEmployeeAdded.json"));
     Response response = request.post();
@@ -138,6 +145,7 @@ public class AddEmployeesApiTest {
   public void AddEmployeeAPI_WhenRequiredBodyRequestIsEmpty_thenBadRequest() throws Exception {
     RequestSpecification request = RestAssured.given();
     request.contentType(ContentType.JSON);
+    request.header(header);
     request.baseUri("http://localhost:9119/api/employees?employeeid=206");
     request.body(CommonUtil.readContentFile("requestBody/AddEmployeeAPI_WhenRequiredBodyRequestIsEmpty_thenBadRequest.json"));
     Response response = request.post();
@@ -156,6 +164,7 @@ public class AddEmployeesApiTest {
   public void AddEmployeeAPI_WhenRequiredBodyRequestIsMissing_thenBadRequest() throws Exception {
     RequestSpecification request = RestAssured.given();
     request.contentType(ContentType.JSON);
+    request.header(header);
     request.baseUri("http://localhost:9119/api/employees");
     request.body(CommonUtil.readContentFile("requestBody/AddEmployeeAPI_WhenRequiredBodyRequestIsMissing_thenBadRequest.json"));
     Response response = request.post();

@@ -17,7 +17,7 @@ public class TikiHomePage {
   }
 
   public void clickTaiKhoanTab() {
-    var taiKhoanTab = driver.findElement(By.cssSelector("#main-header > div > div.Middle__Wrap-sc-vop1h1-0.edlkEo.revamp > div.Userstyle__RootRevamp-sc-6e6am-15.hkQlMw > div:nth-child(3) > span"));
+    var taiKhoanTab = driver.findElement(By.cssSelector("#Main-header > div > div.Middle__Wrap-sc-vop1h1-0.edlkEo.revamp > div.Userstyle__RootRevamp-sc-6e6am-15.hkQlMw > div:nth-child(3) > span"));
     taiKhoanTab.click();
   }
 
@@ -42,12 +42,12 @@ public class TikiHomePage {
   }
 
   public void enterTimKiemTextBox(String key) {
-    var timKiemTextBox = driver.findElement(By.cssSelector("#main-header > div > div.Middle__Wrap-sc-vop1h1-0.edlkEo.revamp > div.Middle__LeftContainer-sc-vop1h1-1.hBRVdJ > div.FormSearchStyle__Root-sc-1idbenb-0.crtTgy > div > input"));
+    var timKiemTextBox = driver.findElement(By.cssSelector("#Main-header > div > div.Middle__Wrap-sc-vop1h1-0.edlkEo.revamp > div.Middle__LeftContainer-sc-vop1h1-1.hBRVdJ > div.FormSearchStyle__Root-sc-1idbenb-0.crtTgy > div > input"));
     timKiemTextBox.sendKeys(key);
   }
 
   public void pressEnter() {
-    var timKiemTextBox = driver.findElement(By.cssSelector("#main-header > div > div.Middle__Wrap-sc-vop1h1-0.edlkEo.revamp > div.Middle__LeftContainer-sc-vop1h1-1.hBRVdJ > div.FormSearchStyle__Root-sc-1idbenb-0.crtTgy > div > input"));
+    var timKiemTextBox = driver.findElement(By.cssSelector("#Main-header > div > div.Middle__Wrap-sc-vop1h1-0.edlkEo.revamp > div.Middle__LeftContainer-sc-vop1h1-1.hBRVdJ > div.FormSearchStyle__Root-sc-1idbenb-0.crtTgy > div > input"));
     timKiemTextBox.sendKeys(Keys.ENTER);
   }
 }
