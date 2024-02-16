@@ -99,7 +99,7 @@
   });
 
     function login(){
-    	var userName = document.getElementById("sonic_username").value;
+    	var userEmail = document.getElementById("sonic_username").value;
     	var pwd = document.getElementById("sonic_password").value;
 
     	var authEndPoint = swaggerUi.options.url.substring(0,swaggerUi.options.url.indexOf(api_root)) + "/session";
@@ -125,7 +125,7 @@
        	xhr.open("POST", authEndPoint, true);
        	xhr.setRequestHeader('Content-Type', 'application/json');
     	xhr.setRequestHeader('Accept', 'application/json');
-    	jsonStr = '{"username":"'+ userName +'", "password":"'+ pwd +'"}';
+    	jsonStr = '{"username":"'+ userEmail +'", "password":"'+ pwd +'"}';
     	console.log(jsonStr);
        	xhr.send(jsonStr);
     }

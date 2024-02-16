@@ -2,7 +2,7 @@
 <suite name="NorthWindAPI" parallel="false">
   <test name="CucumberTest">
     <classes>
-      <class name="automation.cucumber.CucumberRunner"/>
+      <class name="automation.cucumber.cucumberOption.CucumberRunner"/>
     </classes>
   </test>
 </suite>

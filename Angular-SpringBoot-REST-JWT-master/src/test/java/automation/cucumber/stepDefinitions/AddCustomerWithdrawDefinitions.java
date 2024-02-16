@@ -1,4 +1,4 @@
-package automation.cucumber.definitions;
+package automation.cucumber.stepDefinitions;
 
 import automation.service.stub.BankApiStub;
 import common.CommonUtil;

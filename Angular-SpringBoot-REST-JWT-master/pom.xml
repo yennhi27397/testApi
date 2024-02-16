@@ -301,6 +301,13 @@
       <artifactId>jackson-datatype-jdk8</artifactId>
       <version>2.16.0</version>
     </dependency>
+
+    <!-- https://mvnrepository.com/artifact/junit/junit -->
+    <dependency>
+      <groupId>junit</groupId>
+      <artifactId>junit</artifactId>
+      <version>4.13.2</version>
+    </dependency>
     <!-- TESTING -->
   </dependencies>
 </project>

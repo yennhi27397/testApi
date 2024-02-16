@@ -39,7 +39,7 @@ export class HomeComponent   {
 
     public selectedHeaderItemIndex:number=0;
     public selectedSubNavItemIndex:number=1;
-    public userName: string="";
+    public userEmail: string="";
 
     constructor(
         private router:Router,
@@ -61,7 +61,7 @@ export class HomeComponent   {
             this.selectedHeaderItemIndex = data[0]?data[0].selectedHeaderItemIndex:-1;
             this.selectedSubNavItemIndex = data[0]?data[0].selectedSubNavItemIndex:-1;
         });
-        this.userName = this.userInfoService.getUserName();
+        this.userEmail = this.userInfoService.getUserName();
 
     }
 
