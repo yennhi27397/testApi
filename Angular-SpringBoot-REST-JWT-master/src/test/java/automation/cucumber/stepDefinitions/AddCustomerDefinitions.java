@@ -1,4 +1,4 @@
-package automation.cucumber.definitions;
+package automation.cucumber.stepDefinitions;
 
 import common.CommonUtil;
 import common.DatabaseUtil;
@@ -16,7 +16,6 @@ import org.apache.http.HttpStatus;
 import org.skyscreamer.jsonassert.JSONAssert;
 import org.skyscreamer.jsonassert.JSONCompareMode;
 import org.testng.Assert;
-import org.testng.annotations.BeforeTest;
 
 import java.io.IOException;
 import java.util.List;

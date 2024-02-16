@@ -30,7 +30,7 @@ public class RoleAndPermissionTest {
     driver = new ChromeDriver();
     // Zoom to man hinh
     driver.manage().window().maximize();
-    // call Object loginPage, redmineHomePage, projectPage, administrationPage, newRolePage and pass to driver
+    // call Student loginPage, redmineHomePage, projectPage, administrationPage, newRolePage and pass to driver
     this.redmineHomePage = new RedmineHomePage(driver);
     this.loginPage = new LoginPage(driver);
     this.administrationPage = new AdministrationPage(driver);

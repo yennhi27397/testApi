@@ -4,12 +4,12 @@ import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.chrome.ChromeDriver;
 import org.testng.Assert;
-import org.testng.annotations.AfterTest;
-import org.testng.annotations.BeforeMethod;
-import org.testng.annotations.BeforeTest;
-import org.testng.annotations.Test;
+import org.testng.ITestResult;
+import org.testng.annotations.*;
+import selenium.redmine.Common;
 import selenium.redmine.page.*;
 
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -47,6 +47,11 @@ public class UserTest {
   @AfterTest
   void clearStub() {
     driver.close();
+  }
+
+  @AfterMethod
+  void captureResult(ITestResult result) throws IOException {
+    Common.screenshot(this.driver, result, ITestResult.SUCCESS, ITestResult.FAILURE);
   }
 
   @Test(priority = 1)

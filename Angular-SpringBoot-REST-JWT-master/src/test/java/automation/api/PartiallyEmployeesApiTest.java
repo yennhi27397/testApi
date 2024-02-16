@@ -4,6 +4,7 @@ import common.CommonUtil;
 import common.DatabaseUtil;
 import io.restassured.RestAssured;
 import io.restassured.http.ContentType;
+import io.restassured.http.Header;
 import io.restassured.response.Response;
 import io.restassured.specification.RequestSpecification;
 import org.apache.http.HttpStatus;
@@ -19,6 +20,7 @@ import java.util.Map;
 
 public class PartiallyEmployeesApiTest {
   private DatabaseUtil databaseUtil;
+  private Header header;
 
   @BeforeTest
   public void beforeTest() throws Exception {
@@ -29,12 +31,14 @@ public class PartiallyEmployeesApiTest {
   public void prepareData() throws Exception {
     databaseUtil.executeSQL("script/cleanUp.sql");
     databaseUtil.executeSQL("script/insert_employees.sql");
+    header = new Header("Authorization", "Bearer " + CommonUtil.getAccessToken());
   }
 
   @Test
   public void PartiallyEmployeesAPI_WhenEmployeesIDIsValid_thenReturnData() throws Exception {
     RequestSpecification request = RestAssured.given();
     request.contentType(ContentType.JSON);
+    request.header(header);
     request.baseUri("http://localhost:9119/api/Employee/202");
     request.body(CommonUtil.readContentFile("requestBody/PartiallyEmployeesAPI_WhenEmployeesIDIsValid_thenReturnData.json"));
     Response response = request.patch();
@@ -54,6 +58,7 @@ public class PartiallyEmployeesApiTest {
   public void PartiallyEmployeesAPI_WhenEmployeesIDIsNotValid_thenUnableToUpdateResource() throws Exception {
     RequestSpecification request = RestAssured.given();
     request.contentType(ContentType.JSON);
+    request.header(header);
     request.baseUri("http://localhost:9119/api/Employee/205");
     request.body(CommonUtil.readContentFile("requestBody/PartiallyEmployeesAPI_WhenEmployeesIDIsNotValid_thenUnableToUpdateResource.json"));
     Response response = request.patch();
@@ -69,6 +74,7 @@ public class PartiallyEmployeesApiTest {
   public void PartiallyEmployeesAPI_WhenEmployeesIDIsEmpty_thenNotFound() throws Exception {
     RequestSpecification request = RestAssured.given();
     request.contentType(ContentType.JSON);
+    request.header(header);
     request.baseUri("http://localhost:9119/api/Employee/");
     request.body(CommonUtil.readContentFile("requestBody/PartiallyEmployeesAPI_WhenEmployeesIDIsEmpty_thenNotFound.json"));
     Response response = request.patch();
@@ -79,6 +85,7 @@ public class PartiallyEmployeesApiTest {
   public void PartiallyEmployeesAPI_WhenRequiredBodyRequestIsEmpty_thenBadRequest() throws Exception {
     RequestSpecification request = RestAssured.given();
     request.contentType(ContentType.JSON);
+    request.header(header);
     request.baseUri("http://localhost:9119/api/Employee/201");
     request.body(CommonUtil.readContentFile("requestBody/PartiallyEmployeesAPI_WhenRequiredBodyRequestIsEmpty_thenBadRequest.json"));
     Response response = request.patch();
@@ -94,6 +101,7 @@ public class PartiallyEmployeesApiTest {
   public void PartiallyEmployeesAPI_WhenRequiredBodyRequestIsMissing_thenBadRequest() throws Exception {
     RequestSpecification request = RestAssured.given();
     request.contentType(ContentType.JSON);
+    request.header(header);
     request.baseUri("http://localhost:9119/api/Employee/201");
     request.body(CommonUtil.readContentFile("requestBody/PartiallyEmployeesAPI_WhenRequiredBodyRequestIsMissing_thenBadRequest.json"));
     Response response = request.patch();

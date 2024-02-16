@@ -5,12 +5,12 @@ import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.chrome.ChromeDriver;
 import org.testng.Assert;
-import org.testng.annotations.AfterTest;
-import org.testng.annotations.BeforeMethod;
-import org.testng.annotations.BeforeTest;
-import org.testng.annotations.Test;
+import org.testng.ITestResult;
+import org.testng.annotations.*;
+import selenium.redmine.Common;
 import selenium.redmine.page.*;
 
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -30,7 +30,7 @@ public class RoleAndPermissionTest {
     driver = new ChromeDriver();
     // Zoom to man hinh
     driver.manage().window().maximize();
-    // call Object loginPage, redmineHomePage, projectPage, administrationPage, newRolePage and pass to driver
+    // call Student loginPage, redmineHomePage, projectPage, administrationPage, newRolePage and pass to driver
     this.redmineHomePage = new RedmineHomePage(driver);
     this.loginPage = new LoginPage(driver);
     this.administrationPage = new AdministrationPage(driver);
@@ -48,6 +48,11 @@ public class RoleAndPermissionTest {
   void cleanBrowser() {
     // clean data on browser.
     driver.manage().deleteAllCookies();
+  }
+
+  @AfterMethod
+  void captureResult(ITestResult result) throws IOException {
+    Common.screenshot(this.driver, result, ITestResult.SUCCESS, ITestResult.FAILURE);
   }
 
   // thu tu uu chay truoc.

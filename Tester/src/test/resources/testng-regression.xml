@@ -24,4 +24,5 @@
       <class name="selenium.redmine.test.UserTest"/>
     </classes>
   </test>
+
 </suite>

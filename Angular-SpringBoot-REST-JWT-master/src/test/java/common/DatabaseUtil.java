@@ -51,4 +51,5 @@ public class DatabaseUtil {
     // stop connecting to db
     connection.close();
   }
+
 }

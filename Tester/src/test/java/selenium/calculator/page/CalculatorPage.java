@@ -6,7 +6,7 @@ import org.openqa.selenium.WebDriver;
 public class CalculatorPage {
   private WebDriver driver = null;
 
-  private String URL = "file:///C:/Users/Admin/Downloads/Telegram%20Desktop/calculator.html";
+  private String URL = "file:///loaiC:/Users/Admin/Downloads/Telegram%20Desktop/totalOrderByID.html";
 
 
   public CalculatorPage(WebDriver driver) {

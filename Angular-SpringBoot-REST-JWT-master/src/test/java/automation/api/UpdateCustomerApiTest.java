@@ -4,6 +4,7 @@ import common.CommonUtil;
 import common.DatabaseUtil;
 import io.restassured.RestAssured;
 import io.restassured.http.ContentType;
+import io.restassured.http.Header;
 import io.restassured.response.Response;
 import io.restassured.specification.RequestSpecification;
 import org.apache.http.HttpStatus;
@@ -19,6 +20,7 @@ import java.util.Map;
 
 public class UpdateCustomerApiTest {
   private DatabaseUtil databaseUtil;
+  private Header header;
 
   @BeforeTest
   public void beforeTest() throws Exception {
@@ -29,12 +31,14 @@ public class UpdateCustomerApiTest {
   public void prepareData() throws Exception {
     databaseUtil.executeSQL("script/cleanUp.sql");
     databaseUtil.executeSQL("script/insert_customers.sql");
+    header = new Header("Authorization", "Bearer " + CommonUtil.getAccessToken());
   }
 
   @Test
   public void UpdateCustomerApi_WhenCustomerIDIsValid_ThenResultData() throws Exception {
     RequestSpecification request = RestAssured.given();
     request.contentType(ContentType.JSON);
+    request.header(header);
     request.baseUri("http://localhost:9119/api/customers/1");
     request.body(CommonUtil.readContentFile("requestBody/UpdateCustomerApi_WhenCustomerIDIsValid_ThenEditData.json"));
     Response response = request.put();
@@ -65,6 +69,7 @@ public class UpdateCustomerApiTest {
   public void UpdateCustomerApi_WhenCustomerIDIsNotValid_ThenResourceIsNotExisted() throws Exception {
     RequestSpecification request = RestAssured.given();
     request.contentType(ContentType.JSON);
+    request.header(header);
     request.baseUri("http://localhost:9119/api/customers/4");
     request.body(CommonUtil.readContentFile("requestBody/UpdateCustomerApi_WhenCustomerIDIsNotValid_ThenResourceIsNotExisted.json"));
     Response response = request.put();
@@ -79,6 +84,7 @@ public class UpdateCustomerApiTest {
   public void UpdateCustomerApi_WhenCustomerIDIsEmpty_ThenMethodNotAllowed() throws Exception {
     RequestSpecification request = RestAssured.given();
     request.contentType(ContentType.JSON);
+    request.header(header);
     request.baseUri("http://localhost:9119/api/customers/");
     request.body(CommonUtil.readContentFile("requestBody/UpdateCustomerApi_WhenCustomerIDIsEmpty_ThenMethodNotAllowed.json"));
     Response response = request.put();
@@ -93,6 +99,7 @@ public class UpdateCustomerApiTest {
   public void UpdateCustomerAPI_WhenRequiredBodyRequestIsEmpty_thenBadRequest() throws Exception {
     RequestSpecification request = RestAssured.given();
     request.contentType(ContentType.JSON);
+    request.header(header);
     request.baseUri("http://localhost:9119/api/customers/3");
     request.body(CommonUtil.readContentFile("requestBody/UpdateCustomerAPI_WhenRequiredBodyRequestIsEmpty_thenBadRequest.json"));
     Response response = request.put();
@@ -107,6 +114,7 @@ public class UpdateCustomerApiTest {
   public void UpdateCustomerAPI_WhenRequiredBodyRequestIsMissing_thenBadRequest() throws Exception {
     RequestSpecification request = RestAssured.given();
     request.contentType(ContentType.JSON);
+    request.header(header);
     request.baseUri("http://localhost:9119/api/customers/3");
     request.body(CommonUtil.readContentFile("requestBody/UpdateCustomerAPI_WhenRequiredBodyRequestIsMissing_thenBadRequest.json"));
     Response response = request.put();

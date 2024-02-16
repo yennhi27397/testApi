@@ -2,6 +2,7 @@ package automation.api;
 
 import common.CommonUtil;
 import common.DatabaseUtil;
+import io.restassured.http.Header;
 import org.apache.http.HttpStatus;
 import org.skyscreamer.jsonassert.JSONAssert;
 import org.skyscreamer.jsonassert.JSONCompareMode;
@@ -15,6 +16,7 @@ import static io.restassured.RestAssured.given;
 
 public class GetProductApiTest {
   private DatabaseUtil databaseUtil;
+  private Header header;
 
   @BeforeTest
   public void beforeTest() throws Exception {
@@ -25,11 +27,13 @@ public class GetProductApiTest {
   public void prepareData() throws Exception {
     databaseUtil.executeSQL("script/cleanUpProduct.sql");
     databaseUtil.executeSQL("script/insert_product.sql");
+    header = new Header("Authorization", "Bearer " + CommonUtil.getAccessToken());
   }
   @Test
   public void getOrderStatusApi_WhenOrderStatus_ThenReturnData() throws IOException {
     String responseString =
       given()
+        .header(header)
         .when().get("http://localhost:9119/api/product-stats-by-quantity")
         .then().log()
         .body()

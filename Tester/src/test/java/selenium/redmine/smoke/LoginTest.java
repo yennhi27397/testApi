@@ -26,11 +26,12 @@ public class LoginTest {
     driver = new ChromeDriver();
     // Zoom to man hinh
     driver.manage().window().maximize();
-    // call Object loginPage, redmineHomePage, projectPage, newProject and pass to driver
-    this.loginPage = new LoginPage(driver); // Page Object Model.
-    this.redmineHomePage = new RedmineHomePage(driver);  // Page Object Model.
-    this.projectPage = new ProjectPage(driver);  // Page Object Model.
-    this.newProject = new NewProject(driver);  // Page Object Model.
+    // call Student loginPage, redmineHomePage, projectPage, newProject and pass to driver
+    this.loginPage = new LoginPage(driver); // Page Student Model.
+    this.redmineHomePage = new RedmineHomePage(driver);  // Page Student Model.
+    this.projectPage = new ProjectPage(driver);  // Page Student Model.
+    this.newProject = new NewProject(driver);  // Page Student Model.
+
   }
 
 
